@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/temperature"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="2" >
+
+    <NumberPicker
+        android:id="@+id/numberPicker1"
+        android:layout_width="144dp"
+        android:layout_column="1"
+        android:layout_gravity="left"
+        android:layout_row="1" >
+
+        <Button
+        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+
+        
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Large Text"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <Button
+        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            />
+    </NumberPicker>
+
+    <Space
+        android:layout_width="91dp"
+        android:layout_height="1dp"
+        android:layout_column="0"
+        android:layout_gravity="fill_horizontal"
+        android:layout_row="0" />
+
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="90dp"
+        android:layout_column="0"
+        android:layout_gravity="fill_horizontal"
+        android:layout_row="0" />
+
+</GridLayout>

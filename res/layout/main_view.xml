@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/thermostat"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+	
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="265dp"
+        android:layout_height="wrap_content"
+        android:text="Current temperature"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="fill_parent"
+            android:layout_height="230dp"
+            android:layout_column="0"
+            android:layout_columnSpan="3"
+            android:layout_gravity="left"
+            android:layout_row="0"
+            android:layout_rowSpan="3"
+            android:src="@drawable/moon" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_column="1"
+            android:layout_row="1"
+            android:text="30"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="50dp"
+            android:textStyle="italic" />
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="132dp"
+            android:layout_column="0"
+            android:layout_gravity="fill_horizontal"
+            android:layout_row="0" />
+
+        <Space
+            android:layout_width="21dp"
+            android:layout_height="1dp"
+            android:layout_column="0"
+            android:layout_row="0" />
+
+        <Space
+            android:layout_width="134dp"
+            android:layout_height="1dp"
+            android:layout_column="1"
+            android:layout_gravity="fill_horizontal"
+            android:layout_row="0" />
+
+        <Space
+            android:layout_width="1dp"
+            android:layout_height="100dp"
+            android:layout_column="0"
+            android:layout_gravity="fill_horizontal"
+            android:layout_row="1" />
+    </GridLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="100" >
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="0px"
+            android:layout_weight="33"
+            android:layout_height="fill_parent"
+            android:src="@drawable/little_moon_2_5" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="0px"
+            android:layout_weight="33"
+            android:layout_height="fill_parent"
+            android:src="@drawable/little_sun_2_5" />
+ 
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="0px"
+            android:layout_weight="33"
+            android:layout_height="fill_parent"
+            android:src="@drawable/little_sun_2_5" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">хуйпизда</string>
+    <string name="app_name">хуйпиздаджигурда</string>
+    <string name="temp_label">Current temperature</string>
+    <string name="set_temperature_label">Set new temperature</string>
+
+</resources>
