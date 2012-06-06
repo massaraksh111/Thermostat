@@ -5,5 +5,6 @@
     <string name="app_name">хуйпиздаджигурда</string>
     <string name="temp_label">Current temperature</string>
     <string name="set_temperature_label">Set new temperature</string>
+    <string name="temperature">21:10</string>
 
 </resources>

@@ -19,21 +19,21 @@
         
         <Button
             android:id="@+id/button1"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="7dp"
             android:layout_marginLeft="20dp"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:text="Monday" />
         <Button
             android:id="@+id/button2"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="7dp"
             android:layout_marginLeft="20dp"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:text="Tuesday" />
         <Button
             android:id="@+id/button3"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="7dp"
             android:layout_marginLeft="20dp"
             android:layout_width="150dp"
             android:layout_height="40dp"
@@ -41,21 +41,21 @@
 
         <Button
             android:id="@+id/button4"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="7dp"
             android:layout_marginLeft="20dp"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:text="Thursday" />
         <Button
             android:id="@+id/button5"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="7dp"
             android:layout_marginLeft="20dp"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:text="Friday" />
         <Button
             android:id="@+id/button6"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="7dp"
             android:layout_marginLeft="20dp"
             android:layout_width="150dp"
             android:layout_height="40dp"

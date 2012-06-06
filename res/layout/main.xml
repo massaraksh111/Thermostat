@@ -17,15 +17,16 @@
             android:padding="5dp"
             android:layout_weight="1">
             
-            <include
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    layout="@layout/main_view" />
+
+	        <include
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            layout="@layout/main_view" />
             
             <include
                 android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    layout="@layout/set_temperature" />
+                    layout="@layout/day_night_mode" />
             
             <include
 					android:layout_width="fill_parent"

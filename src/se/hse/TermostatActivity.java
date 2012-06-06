@@ -20,7 +20,7 @@ public class TermostatActivity extends Activity {
         spec1.setIndicator("Termostat");
         
         TabSpec spec2 = tabHost.newTabSpec("Set mode");
-        spec2.setContent(R.id.temperature);
+        spec2.setContent(R.id.day_night_mode);
         spec2.setIndicator("Set mode");
         
         TabSpec spec3 = tabHost.newTabSpec("7 days");
