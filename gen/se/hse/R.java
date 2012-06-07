@@ -20,6 +20,8 @@ public final class R {
         public static final int moon=0x7f020006;
         public static final int sun=0x7f020007;
         public static final int temperature_picker=0x7f020008;
+        public static final int vacation=0x7f020009;
+        public static final int vacation_alt=0x7f02000a;
     }
     public static final class id {
         public static final int changeCurrTempClick=0x7f050019;
