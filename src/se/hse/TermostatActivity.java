@@ -158,6 +158,8 @@ public class TermostatActivity extends Activity {
         tabHost = (TabHost)findViewById(R.id.tabhost);
         tabHost.setup();
         
+        currentView = 0;
+        
         spec1 = tabHost.newTabSpec("Termostat");
         spec1.setContent(R.id.thermostat);
         spec1.setIndicator("Termostat");
