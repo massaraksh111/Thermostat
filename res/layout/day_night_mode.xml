@@ -6,7 +6,7 @@
     android:columnCount="4" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/day_night_mode_night_label"
         android:layout_column="1"
         android:layout_columnSpan="2"
         android:layout_gravity="left"
@@ -15,7 +15,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/day_night_mode_night_img"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_column="1"
@@ -24,7 +24,7 @@
         android:src="@drawable/little_moon_2_5" />
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/day_night_mode_night_edit"
         android:layout_width="195dp"
         android:layout_column="2"
         android:layout_columnSpan="2"
@@ -36,7 +36,7 @@
     </EditText>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/day_night_mode_day_label"
         android:layout_column="1"
         android:layout_columnSpan="2"
         android:layout_gravity="left"
@@ -45,7 +45,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/day_night_mode_day_img"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_column="1"
@@ -55,7 +55,7 @@
         android:src="@drawable/little_sun_2_5" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/day_night_mode_day_edit"
         android:layout_column="2"
         android:layout_width="195dp"
         android:layout_row="8"

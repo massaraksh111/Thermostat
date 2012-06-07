@@ -6,5 +6,15 @@
     <string name="temp_label">Current temperature</string>
     <string name="set_temperature_label">Set new temperature</string>
     <string name="temperature">21:10</string>
-
+    <string name="day_view_label">Set mode swichers</string>
+    <string name="set_temperature_vacation_label">Vacation</string>
+    <string name="week_view_label">Select day</string>
+    <string name="monday_label">Monday</string>
+    <string name="tuesday_label">Tuesday</string>
+	<string name="wednesday_label">Wednesday</string>
+    <string name="thursday_label">Thursday</string>
+    <string name="friday_label">Friday</string>
+    <string name="saturday_label">Saturday</string>
+    <string name="sunday_label">Sunday</string>
+    
 </resources>

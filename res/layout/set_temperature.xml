@@ -3,49 +3,53 @@
     android:id="@+id/set_temperature"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:columnCount="6" >
+    android:columnCount="8" >
 
     <TextView
         android:id="@+id/textView1"
         android:layout_column="1"
-        android:layout_gravity="right"
+        android:layout_columnSpan="3"
         android:layout_row="1"
-        android:text="Setect temperature"
+        android:text="@string/set_temperature_label"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <NumberPicker
         android:id="@+id/temperature_big_setter"
         android:layout_width="140dp"
-        android:layout_column="1"
+        android:layout_column="2"
+        android:layout_columnSpan="2"
         android:layout_row="3"
         android:background="@drawable/temperature_picker" />
 
     <NumberPicker
         android:id="@+id/temperature_small_setter"
         android:layout_width="70dp"
-        android:layout_column="2"
+        android:layout_column="4"
         android:layout_row="3"
         android:background="@drawable/temperature_picker" />
-
-    <ImageView
-        android:id="@+id/set_temperature_image"
-        android:layout_width="82dp"
-        android:layout_height="82dp"
-        android:layout_column="1"
-        android:layout_gravity="right"
-        android:layout_row="5"
-        android:src="@drawable/little_moon_2_5" />
 
     <Space
-        android:layout_width="45dp"
+        android:layout_width="21dp"
         android:layout_height="1dp"
         android:layout_column="0"
         android:layout_row="0" />
 
     <Space
-        android:layout_width="154dp"
+        android:layout_width="24dp"
         android:layout_height="1dp"
         android:layout_column="1"
+        android:layout_row="0" />
+
+    <Space
+        android:layout_width="48dp"
+        android:layout_height="1dp"
+        android:layout_column="2"
+        android:layout_row="0" />
+
+    <Space
+        android:layout_width="106dp"
+        android:layout_height="1dp"
+        android:layout_column="3"
         android:layout_row="0" />
 
     <Space
@@ -66,14 +70,23 @@
         android:layout_column="0"
         android:layout_row="4" />
 
-    <CheckBox
-        android:id="@+id/checkBox1"
-        android:layout_column="0"
-        android:layout_columnSpan="6"
-        android:layout_gravity="center_horizontal"
+    <ImageView
+        android:id="@+id/set_temperature_image"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:layout_column="3"
+        android:layout_gravity="right"
         android:layout_row="7"
+        android:src="@drawable/little_moon_2_5" />
+
+    <CheckBox
+        android:id="@+id/set_temperature_vacation_button"
+        android:layout_column="0"
+        android:layout_columnSpan="8"
+        android:layout_gravity="center_horizontal"
+        android:layout_row="5"
         android:layout_rowSpan="2"
-        android:text="Vacation" />
+        android:text="@string/set_temperature_vacation_label" />
 
     <Space
         android:layout_width="1dp"
@@ -85,7 +98,7 @@
     <Space
         android:layout_width="100dp"
         android:layout_height="1dp"
-        android:layout_column="2"
+        android:layout_column="4"
         android:layout_gravity="fill_horizontal"
         android:layout_row="0" />
 

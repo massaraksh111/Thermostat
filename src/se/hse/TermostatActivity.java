@@ -2,18 +2,13 @@ package se.hse;
 
 import android.app.Activity;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
-=======
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageButton;
->>>>>>> e0dfc8aabace6f846e163fa7c1ff73bc48ec9136
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -39,7 +34,7 @@ public class TermostatActivity extends Activity {
         spec2.setIndicator("Set mode");
         
         TabSpec spec3 = tabHost.newTabSpec("7 days");
-        spec3.setContent(R.id.week);
+        spec3.setContent(R.id.week_view);
         spec3.setIndicator("7 days");
         
         TabSpec spec4 = tabHost.newTabSpec("24h");
@@ -50,8 +45,6 @@ public class TermostatActivity extends Activity {
         tabHost.addTab(spec2);
         tabHost.addTab(spec3);
         tabHost.addTab(spec4);
-        
-<<<<<<< HEAD
         /*NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
         np1.setMaxValue(40);
         np1.setMinValue(5);
@@ -71,17 +64,15 @@ public class TermostatActivity extends Activity {
         	
         }
 			
-        );*/
-=======
+        );
         final ImageButton changeCurrTempB = (ImageButton) findViewById(R.id.changeCurrTempClick);
-        currTempListener = new OnClickListener(){
+        View.OnClickListener currTempListener = new OnClickListener(){
 
             public void onClick(View v) {
             	setContentView(R.layout.set_temperature);
             }
         };
-        changeCurrTempB.setOnClickListener(currTempListener);
->>>>>>> e0dfc8aabace6f846e163fa7c1ff73bc48ec9136
+        changeCurrTempB.setOnClickListener(currTempListener);*/
     }
 
 	protected void setTemp(boolean b) {

@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/day"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:columnCount="2" >
+    android:columnCount="3" >
 
     <TextView
         android:id="@+id/textView1"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="3"
         android:layout_gravity="bottom"
         android:layout_row="0"
-        android:text="Medium Text"
+        android:text="@string/day_view_label"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="3"
         android:layout_gravity="center_horizontal"
         android:layout_row="1"
         android:weightSum="100" >
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/day_view_first_edit"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="70"
             android:inputType="time" />
 
         <ToggleButton
-            android:id="@+id/toggleButton1"
+            android:id="@+id/day_view_first_button"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="30" />
@@ -39,20 +39,20 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="3"
         android:layout_gravity="center_horizontal"
         android:layout_row="2"
         android:weightSum="100" >
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/day_view_second_edit"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="70"
             android:inputType="time" />
 
         <ToggleButton
-            android:id="@+id/toggleButton1"
+            android:id="@+id/day_view_second_button"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="30" />
@@ -61,20 +61,20 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="3"
         android:layout_gravity="center_horizontal"
         android:layout_row="3"
         android:weightSum="100" >
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/day_view_third_edit"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="70"
             android:inputType="time" />
 
         <ToggleButton
-            android:id="@+id/toggleButton1"
+            android:id="@+id/day_view_third_button"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="30" />
@@ -83,20 +83,20 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="3"
         android:layout_gravity="center_horizontal"
         android:layout_row="4"
         android:weightSum="100" >
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/day_view_fourth_edit"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="70"
             android:inputType="time" />
 
         <ToggleButton
-            android:id="@+id/toggleButton1"
+            android:id="@+id/day_view_fourth_button"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="30" />
@@ -105,33 +105,32 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="3"
         android:layout_gravity="center_horizontal"
         android:layout_row="5"
         android:weightSum="100" >
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/day_view_fifth_edit"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="70"
             android:inputType="time" />
 
         <ToggleButton
-            android:id="@+id/toggleButton1"
+            android:id="@+id/day_view_fifth_button"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="30" />
     </LinearLayout>
-
+
     <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_column="0"
-        android:layout_columnSpan="2"
-        android:layout_gravity="center_horizontal"
+        android:id="@+id/day_view_img"
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:layout_column="2"
         android:layout_row="6"
+        android:layout_rowSpan="2"
         android:src="@drawable/little_moon_2_5" />
 
     <Space
@@ -166,9 +165,21 @@
 
     <Space
         android:layout_width="1dp"
-        android:layout_height="97dp"
+        android:layout_height="75dp"
+        android:layout_column="0"
+        android:layout_row="5" />
+
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="22dp"
         android:layout_column="0"
         android:layout_gravity="fill_horizontal"
-        android:layout_row="5" />
+        android:layout_row="6" />
+
+    <Space
+        android:layout_width="117dp"
+        android:layout_height="1dp"
+        android:layout_column="1"
+        android:layout_row="0" />
 
 </GridLayout> 
