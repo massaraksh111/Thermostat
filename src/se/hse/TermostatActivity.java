@@ -2,11 +2,17 @@ package se.hse;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
 public class TermostatActivity extends Activity {
-    /** Called when the activity is first created. */
+
+	OnClickListener currTempListener;
+	
+	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,5 +41,18 @@ public class TermostatActivity extends Activity {
         tabHost.addTab(spec2);
         tabHost.addTab(spec3);
         tabHost.addTab(spec4);
+        
+        final ImageButton changeCurrTempB = (ImageButton) findViewById(R.id.changeCurrTempClick);
+        currTempListener = new OnClickListener(){
+
+            public void onClick(View v) {
+            	setContentView(R.layout.set_temperature);
+            }
+        };
+        changeCurrTempB.setOnClickListener(currTempListener);
     }
+
+	protected void setTemp(boolean b) {
+		setContentView(R.layout.set_temperature);
+	}
 }
