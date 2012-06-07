@@ -2,6 +2,12 @@ package se.hse;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -35,5 +41,26 @@ public class TermostatActivity extends Activity {
         tabHost.addTab(spec2);
         tabHost.addTab(spec3);
         tabHost.addTab(spec4);
+        
+        /*NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
+        np1.setMaxValue(40);
+        np1.setMinValue(5);
+        
+        NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
+        np2.setMaxValue(9);
+        np2.setMinValue(0);
+        
+        ImageView im = (ImageView) findViewById(R.id.set_temperature_image);
+        im.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				v.setBackgroundResource(R.drawable.little_sun_2_5);
+				Log.println(0, "dfddf", "hererrerererererer");
+			}
+        	
+        }
+			
+        );*/
     }
 }
