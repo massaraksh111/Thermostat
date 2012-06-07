@@ -124,14 +124,14 @@
             android:layout_weight="30" />
     </LinearLayout>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/day_view_img"
         android:layout_width="82dp"
         android:layout_height="82dp"
         android:layout_column="2"
         android:layout_row="6"
         android:layout_rowSpan="2"
-        android:src="@drawable/little_moon_2_5" />
+        android:background="@drawable/little_moon_2_5" />
 
     <Space
         android:layout_width="1dp"
