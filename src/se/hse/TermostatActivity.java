@@ -2,11 +2,15 @@ package se.hse;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
 public class TermostatActivity extends Activity {
-    /** Called when the activity is first created. */
+   
+	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,7 +24,7 @@ public class TermostatActivity extends Activity {
         spec1.setIndicator("Termostat");
         
         TabSpec spec2 = tabHost.newTabSpec("Set mode");
-        spec2.setContent(R.id.temperature);
+        spec2.setContent(R.id.day_night_mode);
         spec2.setIndicator("Set mode");
         
         TabSpec spec3 = tabHost.newTabSpec("7 days");
@@ -35,5 +39,26 @@ public class TermostatActivity extends Activity {
         tabHost.addTab(spec2);
         tabHost.addTab(spec3);
         tabHost.addTab(spec4);
+        
+        final Button changeTempAccept = (Button) findViewById(R.id.setTempAccept);
+        changeTempAccept.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                changeTemp(false);
+            }
+        });
+        
+        final ImageButton changeTmpTempButton = (ImageButton) findViewById(R.id.changeTmpTemp);
+        changeTmpTempButton.setOnClickListener(new ImageButton.OnClickListener() {
+            public void onClick(View v) {
+                changeTemp(true);
+            }
+        });
+
     }
+
+	protected void changeTemp(boolean vacation) {
+		//setContentView(R.layout.set_temperature);
+	}
+    
+    
 }

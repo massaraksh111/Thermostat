@@ -18,54 +18,58 @@
         android:orientation="vertical" >
         
         <Button
-            android:id="@+id/button1"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
+            android:id="@+id/mondaySelect"
             android:layout_width="150dp"
             android:layout_height="40dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="20dp"
             android:text="Monday" />
+
         <Button
-            android:id="@+id/button2"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
+            android:id="@+id/tuesdaySelect"
             android:layout_width="150dp"
             android:layout_height="40dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="20dp"
             android:text="Tuesday" />
+
         <Button
-            android:id="@+id/button3"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
+            android:id="@+id/wednesdaySelect"
             android:layout_width="150dp"
             android:layout_height="40dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="20dp"
             android:text="Wednesday" />
-
+
         <Button
-            android:id="@+id/button4"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
+            android:id="@+id/thursdaySelect"
             android:layout_width="150dp"
             android:layout_height="40dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="20dp"
             android:text="Thursday" />
+
         <Button
-            android:id="@+id/button5"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
+            android:id="@+id/fridaySelect"
             android:layout_width="150dp"
             android:layout_height="40dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="20dp"
             android:text="Friday" />
+
         <Button
-            android:id="@+id/button6"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
+            android:id="@+id/saturdaySelect"
             android:layout_width="150dp"
             android:layout_height="40dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="20dp"
             android:text="Saturday" />
-        
+        
         <Button
-            android:id="@+id/button7"
-            android:layout_marginLeft="20dp"
+            android:id="@+id/sundaySelect"
             android:layout_width="150dp"
             android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
             android:text="Sunday" />
             
     </LinearLayout>
