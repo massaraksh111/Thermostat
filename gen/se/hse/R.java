@@ -22,10 +22,6 @@ public final class R {
         public static final int temperature_picker=0x7f020008;
     }
     public static final class id {
-<<<<<<< HEAD
-        public static final int button1=0x7f050020;
-=======
->>>>>>> 444ac8f351df4b487df4cbdc3ab9d7a6a9bf374f
         public static final int changeCurrTempClick=0x7f050016;
         public static final int day=0x7f050007;
         public static final int day_night_mode=0x7f050000;
@@ -46,29 +42,6 @@ public final class R {
         public static final int day_view_second_edit=0x7f05000b;
         public static final int day_view_third_button=0x7f05000e;
         public static final int day_view_third_edit=0x7f05000d;
-<<<<<<< HEAD
-        public static final int friday_button=0x7f050027;
-        public static final int imageView2=0x7f050018;
-        public static final int monday_button=0x7f050023;
-        public static final int saturday_button=0x7f050028;
-        public static final int set_temperature=0x7f05001a;
-        public static final int set_temperature_image=0x7f05001d;
-        public static final int set_temperature_vacation_button=0x7f05001e;
-        public static final int sunday_button=0x7f050029;
-        public static final int tabhost=0x7f050014;
-        public static final int temperature_big_setter=0x7f05001b;
-        public static final int temperature_small_setter=0x7f05001c;
-        public static final int textView1=0x7f050008;
-        public static final int textView2=0x7f050017;
-        public static final int textView3=0x7f050019;
-        public static final int thermostat=0x7f050015;
-        public static final int thursday_button=0x7f050026;
-        public static final int timePicker1=0x7f05001f;
-        public static final int tuesday_button=0x7f050024;
-        public static final int wednesday_button=0x7f050025;
-        public static final int week_view=0x7f050021;
-        public static final int week_view_label=0x7f050022;
-=======
         public static final int friday_button=0x7f05002e;
         public static final int main_view_first_image=0x7f050018;
         public static final int main_view_first_time=0x7f050019;
@@ -98,7 +71,6 @@ public final class R {
         public static final int wednesday_button=0x7f05002c;
         public static final int week_view=0x7f050028;
         public static final int week_view_label=0x7f050029;
->>>>>>> 444ac8f351df4b487df4cbdc3ab9d7a6a9bf374f
     }
     public static final class layout {
         public static final int day_night_mode=0x7f030000;
@@ -118,11 +90,8 @@ public final class R {
         public static final int saturday_label=0x7f04000d;
         public static final int set_temperature_label=0x7f040003;
         public static final int set_temperature_vacation_label=0x7f040006;
-<<<<<<< HEAD
-=======
         public static final int set_time_button_cancel_label=0x7f04000f;
         public static final int set_time_ok_button_label=0x7f040010;
->>>>>>> 444ac8f351df4b487df4cbdc3ab9d7a6a9bf374f
         public static final int sunday_label=0x7f04000e;
         public static final int temp_label=0x7f040002;
         public static final int temperature=0x7f040004;
