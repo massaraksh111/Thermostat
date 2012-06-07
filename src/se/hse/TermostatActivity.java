@@ -7,6 +7,7 @@ import java.util.TimerTask;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
@@ -15,6 +16,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.ImageButton;
@@ -182,13 +185,50 @@ public class TermostatActivity extends Activity {
 
             public void onClick(View v) {
             	setContentView(R.layout.set_temperature);
-             	NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
+             	
+            	TextView tv = (TextView) findViewById(R.id.setTempText);
+            	tv.setText("Temporary Temperature");
+            	
+            	ImageButton ib = (ImageButton) findViewById(R.id.set_temperature_image);
+            	ib.setVisibility(ImageButton.INVISIBLE);
+            	
+            	NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
              	np1.setMaxValue(40);
              	np1.setMinValue(5);
-             
+             	np1.setValue((int)currTemperature);
+             	np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+					
+					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+						currTemperature += (newVal - oldVal);
+						settingsEditor.putFloat("currTemperature", currTemperature);
+						settingsEditor.apply();
+					}
+				});
+             	
              	NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
              	np2.setMaxValue(9);
              	np2.setMinValue(0);
+             	np2.setValue((int)(currTemperature * 10 % 10));
+             	np2.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+					
+					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+						float tmp = newVal * 0.1f;
+						currTemperature = (int)currTemperature + tmp;
+						settingsEditor.putFloat("currTemperature", currTemperature);
+						settingsEditor.apply();
+					}
+				});
+             	
+             	
+             	CheckBox cb = (CheckBox) findViewById(R.id.set_temperature_vacation_button);
+             	cb.setChecked(vacation);
+             	cb.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
+					
+					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+						vacation = !vacation;
+					}
+				});
+             	
              	currentView = 1;
             }
         };
