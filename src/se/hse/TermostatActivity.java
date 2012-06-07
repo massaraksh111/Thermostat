@@ -189,8 +189,8 @@ public class TermostatActivity extends Activity {
             	TextView tv = (TextView) findViewById(R.id.setTempText);
             	tv.setText("Temporary Temperature");
             	
-            	ImageButton ib = (ImageButton) findViewById(R.id.set_temperature_image);
-            	ib.setVisibility(ImageButton.INVISIBLE);
+            	/*ImageButton ib = (ImageButton) findViewById(R.id.set_temperature_image);
+            	ib.setVisibility(ImageButton.INVISIBLE);*/
             	
             	NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
              	np1.setMaxValue(40);

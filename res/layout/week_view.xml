@@ -19,53 +19,60 @@
         
         <Button
             android:id="@+id/monday_button"
-            android:layout_width="150dp"
+            android:layout_width="200dp"
             android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="7dp"
-            android:layout_marginLeft="20dp"
+            
             android:text="Monday" />
 
         <Button
             android:id="@+id/tuesday_button"
             android:layout_marginBottom="7dp"
-            android:layout_marginLeft="20dp"
-            android:layout_width="150dp"
+            
+            android:layout_gravity="center_horizontal"
+            android:layout_width="200dp"
             android:layout_height="40dp"
             android:text="Tuesday" />
         <Button
             android:id="@+id/wednesday_button"
             android:layout_marginBottom="7dp"
-            android:layout_marginLeft="20dp"
-            android:layout_width="150dp"
+            
+            android:layout_gravity="center_horizontal"
+            android:layout_width="200dp"
             android:layout_height="40dp"
             android:text="Wednesday" />
 
         <Button
             android:id="@+id/thursday_button"
             android:layout_marginBottom="7dp"
-            android:layout_marginLeft="20dp"
-            android:layout_width="150dp"
+            
+            android:layout_gravity="center_horizontal"
+            android:layout_width="200dp"
             android:layout_height="40dp"
             android:text="Thursday" />
         <Button
             android:id="@+id/friday_button"
             android:layout_marginBottom="7dp"
-            android:layout_marginLeft="20dp"
-            android:layout_width="150dp"
+            
+            android:layout_gravity="center_horizontal"
+            android:layout_width="200dp"
             android:layout_height="40dp"
             android:text="Friday" />
         <Button
             android:id="@+id/saturday_button"
             android:layout_marginBottom="7dp"
-            android:layout_marginLeft="20dp"
-            android:layout_width="150dp"
+            
+            android:layout_gravity="center_horizontal"
+            android:layout_width="200dp"
             android:layout_height="40dp"
             android:text="Saturday" />
         
         <Button
             android:id="@+id/sunday_button"
-            android:layout_marginLeft="20dp"
-            android:layout_width="150dp"
+            
+            android:layout_gravity="center_horizontal"
+            android:layout_width="200dp"
             android:layout_height="40dp"
             android:text="Sunday" />
             
