@@ -70,14 +70,14 @@
         android:layout_column="0"
         android:layout_row="4" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/set_temperature_image"
         android:layout_width="82dp"
         android:layout_height="82dp"
         android:layout_column="3"
         android:layout_gravity="right"
         android:layout_row="7"
-        android:src="@drawable/little_moon_2_5" />
+        android:background="@drawable/little_moon_2_5" />
 
     <CheckBox
         android:id="@+id/set_temperature_vacation_button"
