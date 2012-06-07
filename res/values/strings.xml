@@ -16,5 +16,7 @@
     <string name="friday_label">Friday</string>
     <string name="saturday_label">Saturday</string>
     <string name="sunday_label">Sunday</string>
+    <string name="set_time_button_cancel_label">Cancel</string>
+    <string name="set_time_ok_button_label">Ok</string>
     
 </resources>

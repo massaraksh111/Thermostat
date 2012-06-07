@@ -15,6 +15,16 @@ import android.widget.TabHost.TabSpec;
 public class TermostatActivity extends Activity {
 
 	OnClickListener currTempListener;
+	TabHost tabHost; // tabwidget
+	TabSpec spec1; // main tab
+	TabSpec spec2; // day/night mode
+	TabSpec spec3; // week view
+	TabSpec spec4; // 24h
+	
+	NumberPicker bigNumberPicker; // полные градусы от 5 до 40
+	NumberPicker smallNumberPicker; // десятые части градусов
+	
+	
 	
 	/** Called when the activity is first created. */
     @Override
@@ -22,22 +32,22 @@ public class TermostatActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        TabHost tabHost = (TabHost)findViewById(R.id.tabhost);
+        tabHost = (TabHost)findViewById(R.id.tabhost);
         tabHost.setup();
         
-        TabSpec spec1 = tabHost.newTabSpec("Termostat");
+        spec1 = tabHost.newTabSpec("Termostat");
         spec1.setContent(R.id.thermostat);
         spec1.setIndicator("Termostat");
         
-        TabSpec spec2 = tabHost.newTabSpec("Set mode");
+        spec2 = tabHost.newTabSpec("Set mode");
         spec2.setContent(R.id.day_night_mode);
         spec2.setIndicator("Set mode");
         
-        TabSpec spec3 = tabHost.newTabSpec("7 days");
+        spec3 = tabHost.newTabSpec("7 days");
         spec3.setContent(R.id.week_view);
         spec3.setIndicator("7 days");
         
-        TabSpec spec4 = tabHost.newTabSpec("24h");
+        spec4 = tabHost.newTabSpec("24h");
         spec4.setContent(R.id.day);
         spec4.setIndicator("24h");
         
@@ -45,13 +55,13 @@ public class TermostatActivity extends Activity {
         tabHost.addTab(spec2);
         tabHost.addTab(spec3);
         tabHost.addTab(spec4);
-        /*NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
-        np1.setMaxValue(40);
-        np1.setMinValue(5);
+        /*bigNumberPicker = (NumberPicker) findViewById(R.id.temperature_big_setter);
+        bigNumberPicker.setMaxValue(40);
+        bigNumberPicker.setMinValue(5);
         
-        NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
-        np2.setMaxValue(9);
-        np2.setMinValue(0);
+        smallNumberPicker= (NumberPicker) findViewById(R.id.temperature_small_setter);
+        smallNumberPicker.setMaxValue(9);
+        smallNumberPicker.setMinValue(0);
         
         ImageView im = (ImageView) findViewById(R.id.set_temperature_image);
         im.setOnClickListener(new OnClickListener(){
