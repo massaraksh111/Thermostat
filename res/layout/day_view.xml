@@ -123,9 +123,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="30" />
     </LinearLayout>
-
+
     <ImageView
-        android:id="@+id/dayViewChange"
+        android:id="@+id/imageView1"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_column="0"

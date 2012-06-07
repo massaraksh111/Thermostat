@@ -15,9 +15,9 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="230dp" >
-
-        <ImageButton
-            android:id="@+id/changeTmpTemp"
+
+        <ImageView
+            android:id="@+id/imageView1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_column="0"
