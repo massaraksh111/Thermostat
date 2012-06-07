@@ -2,12 +2,15 @@ package se.hse;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +27,8 @@ public class TermostatActivity extends Activity {
 	final int NUMBER_OF_MODS = 2;
 	final int NUMBER_OF_TIMES = 5;
 	
+	int currentView;
+	
 	OnClickListener currTempListener;
 	SharedPreferences settings;
 	SharedPreferences.Editor settingsEditor;
@@ -39,7 +44,7 @@ public class TermostatActivity extends Activity {
 	TabSpec spec2; // day/night mode
 	TabSpec spec3; // week view
 	TabSpec spec4; // 24h
-	
+	Timer timer;
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +73,74 @@ public class TermostatActivity extends Activity {
         }
         checkCurrenMode();
         
-        TabHost tabHost = (TabHost)findViewById(R.id.tabhost);
+        initMain();
+        currentView = 0;
+        timer = new Timer();
+        setTimerTask();
+        
+
+    }
+    
+    void setTimerTask() {
+     timer.schedule(new TimerTask() {
+      @Override
+      public void run() { checkCurrenMode(); } }, 45*1000);
+     
+    }
+    
+	protected void setTemp(boolean b) {
+		setContentView(R.layout.set_temperature);
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) { 
+        	if (currentView != 0){
+        		setContentView(R.layout.main);
+        		initMain();
+        		return true;
+        	} else {
+        		return super.onKeyDown(keyCode, event);
+        	}
+        }
+        return false;
+     }
+	
+	protected void checkCurrenMode() {
+		Calendar c = Calendar.getInstance(); 
+	    int day = c.get(Calendar.DAY_OF_WEEK) - 1;
+	    int hour = c.get(Calendar.HOUR_OF_DAY);
+	    int min = c.get(Calendar.MINUTE);
+	    int sec = c.get(Calendar.SECOND);
+	    int[] LastHour = new int[2];
+	    int[] LastMin = new int[2];
+	    int[] LastSec = new int[2];
+	    for (int m = 0; m < NUMBER_OF_MODS; m++) {
+	    	for (int t = 0; t < NUMBER_OF_TIMES; t++) {
+	    		if (timeAble[day][m][t]) {
+	    			if (timetable[day][m][t].before( new Date(0, 0, 0, hour, min, sec) ) ) {
+	    				LastHour[m] = timetable[day][m][t].getHours();
+	    				LastMin[m] = timetable[day][m][t].getMinutes();
+	    				LastSec[m] = timetable[day][m][t].getSeconds();
+	    			}
+	    		} else {
+	    			continue;
+	    		}
+	    	}
+	    }
+	    //0 - day, 1 - night
+	    if ( (new Date(0, 0, 0, LastHour[0], LastMin[0], LastSec[0])).after(new 
+	    		Date(0, 0, 0, LastHour[1], LastMin[1], LastSec[1]))) {
+	    	night = false;
+	    	settingsEditor.putBoolean("night", false);
+	    } else {
+	    	night = true;
+	    	settingsEditor.putBoolean("night", true);
+	    }
+	}
+	
+	private void initMain() {
+		TabHost tabHost = (TabHost)findViewById(R.id.tabhost);
         tabHost = (TabHost)findViewById(R.id.tabhost);
         tabHost.setup();
         
@@ -106,6 +178,7 @@ public class TermostatActivity extends Activity {
              	NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
              	np2.setMaxValue(9);
              	np2.setMinValue(0);
+             	currentView = 1;
             }
         };
         changeCurrTempB.setOnClickListener(currTempListener);
@@ -116,47 +189,9 @@ public class TermostatActivity extends Activity {
         	public void onClick(View v) {
         		
         		setContentView(R.layout.day_view);
-        		
+        		currentView = 1;
         	}
         });
-
-    }
-
-	protected void setTemp(boolean b) {
-		setContentView(R.layout.set_temperature);
-	}
-	
-	protected void checkCurrenMode() {
-		Calendar c = Calendar.getInstance(); 
-	    int day = c.get(Calendar.DAY_OF_WEEK) - 1;
-	    int hour = c.get(Calendar.HOUR_OF_DAY);
-	    int min = c.get(Calendar.MINUTE);
-	    int sec = c.get(Calendar.SECOND);
-	    int[] LastHour = new int[2];
-	    int[] LastMin = new int[2];
-	    int[] LastSec = new int[2];
-	    for (int m = 0; m < NUMBER_OF_MODS; m++) {
-	    	for (int t = 0; t < NUMBER_OF_TIMES; t++) {
-	    		if (timeAble[day][m][t]) {
-	    			if (timetable[day][m][t].before( new Date(0, 0, 0, hour, min, sec) ) ) {
-	    				LastHour[m] = timetable[day][m][t].getHours();
-	    				LastMin[m] = timetable[day][m][t].getMinutes();
-	    				LastSec[m] = timetable[day][m][t].getSeconds();
-	    			}
-	    		} else {
-	    			continue;
-	    		}
-	    	}
-	    }
-	    //0 - day, 1 - night
-	    if ( (new Date(0, 0, 0, LastHour[0], LastMin[0], LastSec[0])).after(new 
-	    		Date(0, 0, 0, LastHour[1], LastMin[1], LastSec[1]))) {
-	    	night = false;
-	    	settingsEditor.putBoolean("night", false);
-	    } else {
-	    	night = true;
-	    	settingsEditor.putBoolean("night", true);
-	    }
 	}
 	
 }
