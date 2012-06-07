@@ -25,13 +25,14 @@
         android:layout_column="2"
         android:layout_row="3"
         android:orientation="horizontal" >
-
+
         <Button
             android:id="@+id/set_time_ok_button"
             android:layout_width="0dp"
+            
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_weight="1.2"
-            android:text="@string/set_time_ok_button_label" />
+            android:text="@string/apply_text" />
 
         <Button
             android:id="@+id/set_time_cancel_button"

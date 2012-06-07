@@ -19,6 +19,7 @@
 
     <string name="set_time_button_cancel_label">Cancel</string>
     <string name="set_time_ok_button_label">Ok</string>
+    <string name="apply_text">Apply</string>
 
     
 </resources>
