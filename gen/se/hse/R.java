@@ -12,38 +12,58 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
-        public static final int little_moon=0x7f020001;
-        public static final int little_moon_2_5=0x7f020002;
-        public static final int little_sun=0x7f020003;
-        public static final int little_sun_2_5=0x7f020004;
-        public static final int moon=0x7f020005;
-        public static final int sun=0x7f020006;
+        public static final int image_selector=0x7f020001;
+        public static final int little_moon=0x7f020002;
+        public static final int little_moon_2_5=0x7f020003;
+        public static final int little_sun=0x7f020004;
+        public static final int little_sun_2_5=0x7f020005;
+        public static final int moon=0x7f020006;
+        public static final int sun=0x7f020007;
+        public static final int temperature_picker=0x7f020008;
     }
     public static final class id {
-        public static final int button1=0x7f050010;
-        public static final int button2=0x7f050012;
-        public static final int button3=0x7f050013;
-        public static final int button4=0x7f050014;
-        public static final int button5=0x7f050015;
-        public static final int button6=0x7f050016;
-        public static final int button7=0x7f050017;
-        public static final int changeCurrTempClick=0x7f05000b;
+        public static final int button1=0x7f050020;
+        public static final int changeCurrTempClick=0x7f050016;
         public static final int day=0x7f050007;
         public static final int day_night_mode=0x7f050000;
-        public static final int editText1=0x7f050003;
-        public static final int editText2=0x7f050006;
-        public static final int imageView1=0x7f050002;
-        public static final int imageView2=0x7f050005;
-        public static final int numberPicker1=0x7f05000e;
-        public static final int tabhost=0x7f050009;
-        public static final int temperature=0x7f05000d;
-        public static final int textView1=0x7f050001;
-        public static final int textView2=0x7f050004;
-        public static final int textView3=0x7f05000c;
-        public static final int thermostat=0x7f05000a;
-        public static final int timePicker1=0x7f05000f;
-        public static final int toggleButton1=0x7f050008;
-        public static final int week=0x7f050011;
+        public static final int day_night_mode_day_edit=0x7f050006;
+        public static final int day_night_mode_day_img=0x7f050005;
+        public static final int day_night_mode_day_label=0x7f050004;
+        public static final int day_night_mode_night_edit=0x7f050003;
+        public static final int day_night_mode_night_img=0x7f050002;
+        public static final int day_night_mode_night_label=0x7f050001;
+        public static final int day_view_fifth_button=0x7f050012;
+        public static final int day_view_fifth_edit=0x7f050011;
+        public static final int day_view_first_button=0x7f05000a;
+        public static final int day_view_first_edit=0x7f050009;
+        public static final int day_view_fourth_button=0x7f050010;
+        public static final int day_view_fourth_edit=0x7f05000f;
+        public static final int day_view_img=0x7f050013;
+        public static final int day_view_second_button=0x7f05000c;
+        public static final int day_view_second_edit=0x7f05000b;
+        public static final int day_view_third_button=0x7f05000e;
+        public static final int day_view_third_edit=0x7f05000d;
+        public static final int friday_button=0x7f050027;
+        public static final int imageView2=0x7f050018;
+        public static final int monday_button=0x7f050023;
+        public static final int saturday_button=0x7f050028;
+        public static final int set_temperature=0x7f05001a;
+        public static final int set_temperature_image=0x7f05001d;
+        public static final int set_temperature_vacation_button=0x7f05001e;
+        public static final int sunday_button=0x7f050029;
+        public static final int tabhost=0x7f050014;
+        public static final int temperature_big_setter=0x7f05001b;
+        public static final int temperature_small_setter=0x7f05001c;
+        public static final int textView1=0x7f050008;
+        public static final int textView2=0x7f050017;
+        public static final int textView3=0x7f050019;
+        public static final int thermostat=0x7f050015;
+        public static final int thursday_button=0x7f050026;
+        public static final int timePicker1=0x7f05001f;
+        public static final int tuesday_button=0x7f050024;
+        public static final int wednesday_button=0x7f050025;
+        public static final int week_view=0x7f050021;
+        public static final int week_view_label=0x7f050022;
     }
     public static final class layout {
         public static final int day_night_mode=0x7f030000;
@@ -56,9 +76,19 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f040001;
+        public static final int day_view_label=0x7f040005;
+        public static final int friday_label=0x7f04000c;
         public static final int hello=0x7f040000;
+        public static final int monday_label=0x7f040008;
+        public static final int saturday_label=0x7f04000d;
         public static final int set_temperature_label=0x7f040003;
+        public static final int set_temperature_vacation_label=0x7f040006;
+        public static final int sunday_label=0x7f04000e;
         public static final int temp_label=0x7f040002;
         public static final int temperature=0x7f040004;
+        public static final int thursday_label=0x7f04000b;
+        public static final int tuesday_label=0x7f040009;
+        public static final int wednesday_label=0x7f04000a;
+        public static final int week_view_label=0x7f040007;
     }
 }

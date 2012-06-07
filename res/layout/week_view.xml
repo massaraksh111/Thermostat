@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/week"
+    android:id="@+id/week_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/week_view_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select day"
+        android:text="@string/week_view_label"
         android:layout_margin="20dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 	<LinearLayout 
@@ -18,21 +18,22 @@
         android:orientation="vertical" >
         
         <Button
-            android:id="@+id/button1"
-            android:layout_marginBottom="7dp"
-            android:layout_marginLeft="20dp"
+            android:id="@+id/monday_button"
             android:layout_width="150dp"
             android:layout_height="40dp"
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="20dp"
             android:text="Monday" />
+
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/tuesday_button"
             android:layout_marginBottom="7dp"
             android:layout_marginLeft="20dp"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:text="Tuesday" />
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/wednesday_button"
             android:layout_marginBottom="7dp"
             android:layout_marginLeft="20dp"
             android:layout_width="150dp"
@@ -40,21 +41,21 @@
             android:text="Wednesday" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/thursday_button"
             android:layout_marginBottom="7dp"
             android:layout_marginLeft="20dp"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:text="Thursday" />
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/friday_button"
             android:layout_marginBottom="7dp"
             android:layout_marginLeft="20dp"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:text="Friday" />
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/saturday_button"
             android:layout_marginBottom="7dp"
             android:layout_marginLeft="20dp"
             android:layout_width="150dp"
@@ -62,7 +63,7 @@
             android:text="Saturday" />
         
         <Button
-            android:id="@+id/button7"
+            android:id="@+id/sunday_button"
             android:layout_marginLeft="20dp"
             android:layout_width="150dp"
             android:layout_height="40dp"
