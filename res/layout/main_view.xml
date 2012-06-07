@@ -26,9 +26,9 @@
             android:layout_row="0"
             android:layout_rowSpan="3"
             android:src="@drawable/moon" />
-
+
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/main_view_temperature"
             android:layout_column="1"
             android:layout_row="1"
             android:text="30"
@@ -70,6 +70,7 @@
         android:layout_gravity="top"
         android:layout_weight="1"
         android:baselineAligned="false"
+        android:layout_marginTop="20dp"
         android:weightSum="100" >
 
         <LinearLayout
@@ -77,23 +78,24 @@
             android:layout_height="match_parent"
             android:layout_weight="33.33"
             android:orientation="vertical" >
-
+
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/main_view_first_image"
                 android:layout_width="fill_parent"
                 android:layout_height="0px"
                 android:layout_gravity="top"
                 android:layout_weight="1"
                 android:src="@drawable/little_moon_2_5" />
-
+
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/main_view_first_time"
                 android:layout_width="wrap_content"
                 android:layout_height="0px"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:text="@string/temperature"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -101,22 +103,23 @@
             android:layout_height="match_parent"
             android:layout_weight="33.33"
             android:orientation="vertical" >
-
+
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/main_view_second_image"
                 android:layout_width="fill_parent"
                 android:layout_height="0px"
                 android:layout_weight="1"
                 android:src="@drawable/little_moon_2_5" />
-
+
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/main_view_second_time"
                 android:layout_width="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:layout_height="0px"
+                android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:text="21:10"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -124,22 +127,23 @@
             android:layout_height="match_parent"
             android:layout_weight="33.33"
             android:orientation="vertical" >
-
+
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/main_view_third_image"
                 android:layout_width="fill_parent"
                 android:layout_height="0px"
                 android:layout_weight="1"
                 android:src="@drawable/little_moon_2_5" />
-
+
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/main_view_time"
                 android:layout_width="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:layout_height="0px"
+                android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:text="21:10"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
+
         </LinearLayout>
     </LinearLayout>
 

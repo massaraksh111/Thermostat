@@ -19,6 +19,11 @@
         
         <Button
             android:id="@+id/monday_button"
+<<<<<<< HEAD
+=======
+            android:layout_marginBottom="7dp"
+            android:layout_marginLeft="20dp"
+>>>>>>> 444ac8f351df4b487df4cbdc3ab9d7a6a9bf374f
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:layout_marginBottom="7dp"
