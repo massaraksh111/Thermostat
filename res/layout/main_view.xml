@@ -25,7 +25,7 @@
             android:layout_gravity="left"
             android:layout_row="0"
             android:layout_rowSpan="3"
-            android:src="@drawable/moon" />
+            android:src="@drawable/sun" />
 
         <TextView
             android:id="@+id/main_view_temperature"

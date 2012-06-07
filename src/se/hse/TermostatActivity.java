@@ -20,6 +20,7 @@ import android.widget.NumberPicker;
 import android.widget.ImageButton;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
 
 public class TermostatActivity extends Activity {
 
@@ -45,12 +46,22 @@ public class TermostatActivity extends Activity {
 	TabSpec spec3; // week view
 	TabSpec spec4; // 24h
 	Timer timer;
+	String[] weekString = new String[7];
+	
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.main);
+        
+        weekString[0] = "Monday";
+        weekString[1] = "Tuesday";
+        weekString[2] = "Wednesday";
+        weekString[3] = "Thursday";
+        weekString[4] = "Friday";
+        weekString[5] = "Saturday";
+        weekString[6] = "Sunday";
         
         settings = getPreferences(0);
         settingsEditor = settings.edit();
@@ -189,6 +200,74 @@ public class TermostatActivity extends Activity {
         	public void onClick(View v) {
         		
         		setContentView(R.layout.day_view);
+        		TextView tv = (TextView) findViewById(R.id.dayName);
+        		tv.setText("Monday");
+        		currentView = 1;
+        	}
+        });
+        Button tue = (Button) findViewById(R.id.tuesday_button);
+        tue.setOnClickListener(new OnClickListener() {
+   
+        	public void onClick(View v) {
+        		
+        		setContentView(R.layout.day_view);
+        		TextView tv = (TextView) findViewById(R.id.dayName);
+        		tv.setText("Tuesday");
+        		currentView = 1;
+        	}
+        });
+        Button wen = (Button) findViewById(R.id.wednesday_button);
+        wen.setOnClickListener(new OnClickListener() {
+   
+        	public void onClick(View v) {
+        		
+        		setContentView(R.layout.day_view);
+        		TextView tv = (TextView) findViewById(R.id.dayName);
+        		tv.setText("Wednesday");
+        		currentView = 1;
+        	}
+        });
+        Button thu = (Button) findViewById(R.id.thursday_button);
+        thu.setOnClickListener(new OnClickListener() {
+   
+        	public void onClick(View v) {
+        		
+        		setContentView(R.layout.day_view);
+        		TextView tv = (TextView) findViewById(R.id.dayName);
+        		tv.setText("Thursday");
+        		currentView = 1;
+        	}
+        });
+        Button fri = (Button) findViewById(R.id.friday_button);
+        fri.setOnClickListener(new OnClickListener() {
+   
+        	public void onClick(View v) {
+        		
+        		setContentView(R.layout.day_view);
+        		TextView tv = (TextView) findViewById(R.id.dayName);
+        		tv.setText("Friday");
+        		currentView = 1;
+        	}
+        });
+        Button sat = (Button) findViewById(R.id.saturday_button);
+        sat.setOnClickListener(new OnClickListener() {
+   
+        	public void onClick(View v) {
+        		
+        		setContentView(R.layout.day_view);
+        		TextView tv = (TextView) findViewById(R.id.dayName);
+        		tv.setText("Saturday");
+        		currentView = 1;
+        	}
+        });
+        Button sun = (Button) findViewById(R.id.sunday_button);
+        sun.setOnClickListener(new OnClickListener() {
+   
+        	public void onClick(View v) {
+        		
+        		setContentView(R.layout.day_view);
+        		TextView tv = (TextView) findViewById(R.id.dayName);
+        		tv.setText("Sunday");
         		currentView = 1;
         	}
         });
