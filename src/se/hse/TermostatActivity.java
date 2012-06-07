@@ -2,17 +2,26 @@ package se.hse;
 
 import android.app.Activity;
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
+=======
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
+>>>>>>> e0dfc8aabace6f846e163fa7c1ff73bc48ec9136
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
 public class TermostatActivity extends Activity {
-    /** Called when the activity is first created. */
+
+	OnClickListener currTempListener;
+	
+	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +51,7 @@ public class TermostatActivity extends Activity {
         tabHost.addTab(spec3);
         tabHost.addTab(spec4);
         
+<<<<<<< HEAD
         /*NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
         np1.setMaxValue(40);
         np1.setMinValue(5);
@@ -62,5 +72,19 @@ public class TermostatActivity extends Activity {
         }
 			
         );*/
+=======
+        final ImageButton changeCurrTempB = (ImageButton) findViewById(R.id.changeCurrTempClick);
+        currTempListener = new OnClickListener(){
+
+            public void onClick(View v) {
+            	setContentView(R.layout.set_temperature);
+            }
+        };
+        changeCurrTempB.setOnClickListener(currTempListener);
+>>>>>>> e0dfc8aabace6f846e163fa7c1ff73bc48ec9136
     }
+
+	protected void setTemp(boolean b) {
+		setContentView(R.layout.set_temperature);
+	}
 }

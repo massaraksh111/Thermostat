@@ -22,6 +22,7 @@ public final class R {
         public static final int temperature_picker=0x7f020008;
     }
     public static final class id {
+<<<<<<< HEAD
         public static final int button1=0x7f050013;
         public static final int button2=0x7f050015;
         public static final int button3=0x7f050016;
@@ -31,24 +32,46 @@ public final class R {
         public static final int button7=0x7f05001a;
         public static final int changeCurrTempClick=0x7f05000b;
         public static final int checkBox1=0x7f050011;
+=======
+        public static final int button1=0x7f050010;
+        public static final int button2=0x7f050012;
+        public static final int button3=0x7f050013;
+        public static final int button4=0x7f050014;
+        public static final int button5=0x7f050015;
+        public static final int button6=0x7f050016;
+        public static final int button7=0x7f050017;
+        public static final int changeCurrTempClick=0x7f05000b;
+>>>>>>> e0dfc8aabace6f846e163fa7c1ff73bc48ec9136
         public static final int day=0x7f050007;
         public static final int day_night_mode=0x7f050000;
         public static final int editText1=0x7f050003;
         public static final int editText2=0x7f050006;
         public static final int imageView1=0x7f050002;
         public static final int imageView2=0x7f050005;
+<<<<<<< HEAD
         public static final int set_temperature=0x7f05000d;
         public static final int set_temperature_image=0x7f050010;
         public static final int tabhost=0x7f050009;
         public static final int temperature_big_setter=0x7f05000e;
         public static final int temperature_small_setter=0x7f05000f;
+=======
+        public static final int numberPicker1=0x7f05000e;
+        public static final int tabhost=0x7f050009;
+        public static final int temperature=0x7f05000d;
+>>>>>>> e0dfc8aabace6f846e163fa7c1ff73bc48ec9136
         public static final int textView1=0x7f050001;
         public static final int textView2=0x7f050004;
         public static final int textView3=0x7f05000c;
         public static final int thermostat=0x7f05000a;
+<<<<<<< HEAD
         public static final int timePicker1=0x7f050012;
         public static final int toggleButton1=0x7f050008;
         public static final int week=0x7f050014;
+=======
+        public static final int timePicker1=0x7f05000f;
+        public static final int toggleButton1=0x7f050008;
+        public static final int week=0x7f050011;
+>>>>>>> e0dfc8aabace6f846e163fa7c1ff73bc48ec9136
     }
     public static final class layout {
         public static final int day_night_mode=0x7f030000;
