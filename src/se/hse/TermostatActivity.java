@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.ImageButton;
 import android.widget.TabHost;
+import android.widget.TimePicker;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
@@ -463,7 +464,7 @@ public class TermostatActivity extends Activity {
         //Кнопки дней
         setDaysAction();
         
-        
+        //Вывод температуры на глагне
     	TextView mainTemp = (TextView) findViewById(R.id.main_view_temperature);
     	mainTemp.setText(""+currTemperature+"°C");
         
@@ -474,7 +475,7 @@ public class TermostatActivity extends Activity {
     	dayTemperatureChange();
     	
     	//24 часа кнопка 
-    	showTimeTableChange();
+    	showTimeTableChange(-1);
 	}
 	
 	private void dayTemperatureChange() {
@@ -601,6 +602,7 @@ public class TermostatActivity extends Activity {
         		initLabels(0, 0);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Monday");
+        		showTimeTableChange(0);
         		currentView = 1;
         	}
         });
@@ -614,6 +616,7 @@ public class TermostatActivity extends Activity {
         		initLabels(1, 0);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Tuesday");
+        		showTimeTableChange(1);
         		currentView = 1;
         	}
         });
@@ -627,6 +630,7 @@ public class TermostatActivity extends Activity {
         		initLabels(2, 0);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Wednesday");
+        		showTimeTableChange(2);
         		currentView = 1;
         	}
         });
@@ -640,6 +644,7 @@ public class TermostatActivity extends Activity {
         		initLabels(3, 0);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Thursday");
+        		showTimeTableChange(3);
         		currentView = 1;
         	}
         });
@@ -653,6 +658,7 @@ public class TermostatActivity extends Activity {
         		initLabels(4, 0);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Friday");
+        		showTimeTableChange(4);
         		currentView = 1;
         	}
         });
@@ -666,6 +672,7 @@ public class TermostatActivity extends Activity {
         		initLabels(5, 0);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Saturday");
+        		showTimeTableChange(5);
         		currentView = 1;
         	}
         });
@@ -679,6 +686,7 @@ public class TermostatActivity extends Activity {
         		initLabels(6, 0);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Sunday");
+        		showTimeTableChange(6);
         		currentView = 1;
         	}
         });
@@ -838,7 +846,7 @@ public class TermostatActivity extends Activity {
         tabHost.addTab(spec4);
 	}
 
-	private void showTimeTableChange() {
+	private void showTimeTableChange(int dNumber) {
 		//Экран выбора времен
     	TextView day_view_first = (TextView) findViewById(R.id.day_view_first_edit);
     	day_view_first.setOnClickListener(new OnClickListener() {
@@ -846,6 +854,8 @@ public class TermostatActivity extends Activity {
      	public void onClick(View v) {
      		
      		setContentView(R.layout.set_time);
+     		TimePicker setTime = (TimePicker) findViewById(R.id.set_time_time_setter);
+     		setTime.setIs24HourView(true);
      		currentView = 1;
      	}});
     	
@@ -855,6 +865,8 @@ public class TermostatActivity extends Activity {
      	public void onClick(View v) {
      		
      		setContentView(R.layout.set_time);
+     		TimePicker setTime = (TimePicker) findViewById(R.id.set_time_time_setter);
+     		setTime.setIs24HourView(true);
      		currentView = 1;
      	}});
     	
@@ -864,6 +876,8 @@ public class TermostatActivity extends Activity {
      	public void onClick(View v) {
      		
      		setContentView(R.layout.set_time);
+     		TimePicker setTime = (TimePicker) findViewById(R.id.set_time_time_setter);
+     		setTime.setIs24HourView(true);
      		currentView = 1;
      	}});
     	
@@ -873,6 +887,8 @@ public class TermostatActivity extends Activity {
      	public void onClick(View v) {
      		
      		setContentView(R.layout.set_time);
+     		TimePicker setTime = (TimePicker) findViewById(R.id.set_time_time_setter);
+     		setTime.setIs24HourView(true);
      		currentView = 1;
      	}});
     	
@@ -882,6 +898,8 @@ public class TermostatActivity extends Activity {
      	public void onClick(View v) {
      		
      		setContentView(R.layout.set_time);
+     		TimePicker setTime = (TimePicker) findViewById(R.id.set_time_time_setter);
+     		setTime.setIs24HourView(true);
      		currentView = 1;
      	}});
 	}
