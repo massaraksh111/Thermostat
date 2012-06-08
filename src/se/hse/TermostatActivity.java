@@ -7,18 +7,13 @@ import java.util.TimerTask;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.opengl.Visibility;
 import android.os.Bundle;
-import android.text.format.Time;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.ImageButton;
@@ -153,9 +148,11 @@ public class TermostatActivity extends Activity {
 	    		Date(0, 0, 0, LastHour[1], LastMin[1], LastSec[1]))) {
 	    	night = false;
 	    	settingsEditor.putBoolean("night", false);
+	    	settingsEditor.apply();
 	    } else {
 	    	night = true;
 	    	settingsEditor.putBoolean("night", true);
+	    	settingsEditor.apply();
 	    }
 	}
 	
@@ -497,6 +494,7 @@ public class TermostatActivity extends Activity {
                 		vacation = tmpVac;
                 		settingsEditor.putFloat("currTemperature", currTemperature);
                 		settingsEditor.putBoolean("vacation", vacation);
+                		settingsEditor.apply();
                 		setContentView(R.layout.main);
                 		currentView = 0;
                 		initMain();
@@ -554,6 +552,7 @@ public class TermostatActivity extends Activity {
                 		vacation = tmpVac;
                 		settingsEditor.putFloat("currTemperature", currTemperature);
                 		settingsEditor.putBoolean("vacation", vacation);
+                		settingsEditor.apply();
                 		setContentView(R.layout.main);
                 		currentView = 0;
                 		initMain();
@@ -738,6 +737,7 @@ public class TermostatActivity extends Activity {
                 		vacation = tmpVac;
                 		settingsEditor.putFloat("currTemperature", currTemperature);
                 		settingsEditor.putBoolean("vacation", vacation);
+                		settingsEditor.apply();
                 		setContentView(R.layout.main);
                 		currentView = 0;
                 		initMain();
@@ -810,18 +810,39 @@ public class TermostatActivity extends Activity {
         tabHost.addTab(spec4);
 	}
 
-	private void showTimeTableChange(int dNumber) {
+	private void showTimeTableChange(final int dNumber) {
 		//Ёкран выбора времен
+		final int day = 0;
     	TextView day_view_first = (TextView) findViewById(R.id.day_view_first_edit);
     	day_view_first.setOnClickListener(new OnClickListener() {
  		   
-     	public void onClick(View v) {
+    		public void onClick(View v) {
      		
-     		setContentView(R.layout.set_time);
-     		TimePicker setTime = (TimePicker) findViewById(R.id.set_time_time_setter);
-     		setTime.setIs24HourView(true);
-     		currentView = 1;
-     	}});
+    			setContentView(R.layout.set_time);
+    			TimePicker setTime = (TimePicker) findViewById(R.id.set_time_time_setter);
+    			setTime.setIs24HourView(true);
+    			final Date tmpDate = new Date(0, 0, 0, setTime.getCurrentHour(), setTime.getCurrentMinute(), 0);
+    			setTime.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+				
+    				public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+    					tmpDate.setHours(hourOfDay);
+    					tmpDate.setMinutes(minute);
+    				}
+    			});
+    			Button applyTime = (Button) findViewById(R.id.set_time_ok_button);
+    			applyTime.setOnClickListener(new OnClickListener() {
+					
+					public void onClick(View v) {
+						timetable[dNumber][day][0].setHours(tmpDate.getHours());
+						timetable[dNumber][day][0].setHours(tmpDate.getMinutes());
+						settingsEditor.putInt("hour"+dNumber+day+"0", tmpDate.getHours());
+						settingsEditor.putInt("minute"+dNumber+day+"0", tmpDate.getMinutes());
+						settingsEditor.apply();
+					}
+				});
+     		
+    			currentView = 1;
+    		}});
     	
     	TextView day_view_second = (TextView) findViewById(R.id.day_view_second_edit);
     	day_view_second.setOnClickListener(new OnClickListener() {
