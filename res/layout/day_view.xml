@@ -12,6 +12,7 @@
         android:layout_gravity="bottom"
         android:layout_row="0"
         android:text="@string/day_view_label"
+        android:layout_marginLeft="10dp"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <LinearLayout
@@ -19,14 +20,17 @@
         android:layout_column="0"
         android:layout_columnSpan="4"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="40dp"
         android:layout_row="1"
         android:weightSum="100" >
 
-        <EditText
+        <TextView
             android:id="@+id/day_view_first_edit"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="70"
+            android:text="21:10"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:inputType="time" />
 
         <ToggleButton
@@ -34,6 +38,7 @@
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="30" />
+        
     </LinearLayout>
 
     <LinearLayout
@@ -42,13 +47,16 @@
         android:layout_columnSpan="4"
         android:layout_gravity="center_horizontal"
         android:layout_row="2"
+        android:layout_marginLeft="40dp"
         android:weightSum="100" >
 
-        <EditText
+        <TextView
             android:id="@+id/day_view_second_edit"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="70"
+            android:text="21:10"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:inputType="time" />
 
         <ToggleButton
@@ -64,13 +72,16 @@
         android:layout_columnSpan="4"
         android:layout_gravity="center_horizontal"
         android:layout_row="3"
+        android:layout_marginLeft="40dp"
         android:weightSum="100" >
 
-        <EditText
+        <TextView
             android:id="@+id/day_view_third_edit"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="70"
+            android:text="21:10"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:inputType="time" />
 
         <ToggleButton
@@ -86,13 +97,16 @@
         android:layout_columnSpan="4"
         android:layout_gravity="center_horizontal"
         android:layout_row="4"
+        android:layout_marginLeft="40dp"
         android:weightSum="100" >
 
-        <EditText
+        <TextView
             android:id="@+id/day_view_fourth_edit"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="70"
+            android:text="21:10"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:inputType="time" />
 
         <ToggleButton
@@ -108,11 +122,14 @@
         android:layout_columnSpan="4"
         android:layout_gravity="center_horizontal"
         android:layout_row="5"
+        android:layout_marginLeft="40dp"
         android:weightSum="100" >
 
-        <EditText
+        <TextView
             android:id="@+id/day_view_fifth_edit"
             android:layout_width="0px"
+            android:text="21:10"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_height="wrap_content"
             android:layout_weight="70"
             android:inputType="time" />

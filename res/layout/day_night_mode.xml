@@ -3,7 +3,7 @@
     android:id="@+id/day_night_mode"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:columnCount="4" >
+    android:columnCount="5" >
 
     <TextView
         android:id="@+id/day_night_mode_night_label"
@@ -22,18 +22,15 @@
         android:layout_row="3"
         android:layout_rowSpan="2"
         android:src="@drawable/little_moon_2_5" />
-
-    <EditText
+
+    <TextView
         android:id="@+id/day_night_mode_night_edit"
-        android:layout_width="195dp"
+        android:layout_width="161dp"
         android:layout_column="2"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="3"
         android:layout_row="4"
-        android:ems="10"
-        android:inputType="numberDecimal" >
-
-        <requestFocus />
-    </EditText>
+        android:text="21:10"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/day_night_mode_day_label"
@@ -54,13 +51,14 @@
         android:layout_rowSpan="2"
         android:src="@drawable/little_sun_2_5" />
 
-    <EditText
+    <TextView
         android:id="@+id/day_night_mode_day_edit"
-        android:layout_width="195dp"
+        android:layout_width="160dp"
         android:layout_column="2"
+        android:layout_columnSpan="3"
         android:layout_row="8"
-        android:ems="10"
-        android:inputType="numberDecimal" />
+        android:text="21:10"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Space
         android:layout_width="21dp"
@@ -111,35 +109,20 @@
 
     <Space
         android:layout_width="1dp"
-        android:layout_height="76dp"
+        android:layout_height="195dp"
         android:layout_column="0"
         android:layout_gravity="fill_horizontal"
         android:layout_row="8" />
-
-    <Button
-        android:id="@+id/day_night_mode_apply_button"
-        android:layout_column="0"
-        android:layout_columnSpan="4"
-        android:layout_gravity="center_horizontal"
-        android:layout_row="9"
-        android:text="@string/apply_text" />
 
     <Space
-        android:layout_width="1dp"
-        android:layout_height="119dp"
-        android:layout_column="0"
-        android:layout_gravity="fill_horizontal"
-        android:layout_row="9" />
-
-    <Space
-        android:layout_width="84dp"
+        android:layout_width="118dp"
         android:layout_height="1dp"
         android:layout_column="1"
         android:layout_gravity="fill_horizontal"
         android:layout_row="0" />
 
     <Space
-        android:layout_width="182dp"
+        android:layout_width="161dp"
         android:layout_height="1dp"
         android:layout_column="2"
         android:layout_gravity="fill_horizontal"
