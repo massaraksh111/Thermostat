@@ -8,6 +8,8 @@ import java.util.TimerTask;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +23,7 @@ import android.widget.TabHost;
 import android.widget.TimePicker;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 public class TermostatActivity extends Activity {
 
@@ -91,17 +94,9 @@ public class TermostatActivity extends Activity {
         
         initMain();
         currentView = 0;
-        timer = new Timer();
-        setTimerTask();
-        
-
-    }
-    
-    void setTimerTask() {
-     timer.schedule(new TimerTask() {
-      @Override
-      public void run() { checkCurrenMode(); } }, 45*1000);
-     
+        mHandler = new Handler();
+        mHandler.removeCallbacks(timerTask);
+        mHandler.postDelayed(timerTask, 100);
     }
 	
     @Override
@@ -120,7 +115,17 @@ public class TermostatActivity extends Activity {
         }
         return false;
      }
+
+    private Handler mHandler;
     
+    private Runnable timerTask = new Runnable() {
+    	   public void run() {
+    		   checkCurrenMode();
+    		   
+    	       mHandler.postDelayed(this, 45*1000);
+    	   }
+    	};
+    	
 	protected void checkCurrenMode() {
 		Calendar c = Calendar.getInstance(); 
 	    int day = c.get(Calendar.DAY_OF_WEEK) - 1;
@@ -731,7 +736,6 @@ public class TermostatActivity extends Activity {
 
             public void onClick(View v) {
             	setContentView(R.layout.set_temperature);
-             	
             	TextView tv = (TextView) findViewById(R.id.setTempText);
             	tv.setText("Temporary Temperature");
             	
@@ -802,20 +806,30 @@ public class TermostatActivity extends Activity {
 	}
 	
 	private void initLabels(int day_number, int mode) {
-		TextView list[] = new TextView[5];
+		ToggleButton[] buttons = new ToggleButton[NUMBER_OF_TIMES]; 
+		TextView list[] = new TextView[NUMBER_OF_TIMES];
 		list[0] = (TextView) findViewById(R.id.day_view_first_edit);
 		list[1] = (TextView) findViewById(R.id.day_view_second_edit);
 		list[2] = (TextView) findViewById(R.id.day_view_third_edit);
 		list[3] = (TextView) findViewById(R.id.day_view_fourth_edit);
 		list[4] = (TextView) findViewById(R.id.day_view_fifth_edit);
 		
-		for(int i = 0; i < 5; i++)
+		buttons[0] = (ToggleButton) findViewById(R.id.day_view_first_button);
+		buttons[1] = (ToggleButton) findViewById(R.id.day_view_second_button);
+		buttons[2] = (ToggleButton) findViewById(R.id.day_view_third_button);
+		buttons[3] = (ToggleButton) findViewById(R.id.day_view_fourth_button);
+		buttons[4] = (ToggleButton) findViewById(R.id.day_view_fifth_button);
+		
+		for(int i = 0; i < list.length; i++)
 		{
 			Date date = timetable[day_number][mode][i];
+			boolean b = timeAble[day_number][mode][i];
+			
 			int h = date.getHours();
 			int m = date.getMinutes();
 
 			list[i].setText(showFormatter(h, m));
+			buttons[i].setChecked(b);
 		}
 	}
 	
