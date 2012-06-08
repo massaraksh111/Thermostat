@@ -488,6 +488,7 @@ public class TermostatActivity extends Activity {
 		Calendar c = Calendar.getInstance();
 		int day = c.get(Calendar.DAY_OF_WEEK) - 2;
 		showTimeTableChange(day, mode, false);
+		initLabels(day, mode);
 	}
 
 	private void dayTemperatureChange() {
@@ -907,9 +908,10 @@ public class TermostatActivity extends Activity {
 		}
 	}
 
-	private void showTimeTableChange(final int dNumber, int dayType, final boolean flag) {
+	private void showTimeTableChange(final int dNumber, final int day, final boolean flag) {
 		// Ёкран выбора времен
-		final int day = dayType;
+		
+		boolSwitchersActivated(dNumber, day, flag);
 		
 		TextView tv = (TextView) findViewById(R.id.dayName);
 		tv.setText(weekString[dNumber]);
@@ -1218,6 +1220,65 @@ public class TermostatActivity extends Activity {
 
 			}
 		});
+	}
+
+	private void boolSwitchersActivated(final int dNumber, final int day, boolean flag) {
+		
+		ToggleButton tb1 = (ToggleButton) findViewById(R.id.day_view_first_button);
+		tb1.setChecked(timeAble[dNumber][day][0]);
+		
+		tb1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				timeAble[dNumber][day][0] = isChecked;
+				settingsEditor.putBoolean("timeAble"+dNumber+day+"0", isChecked);
+				settingsEditor.apply();
+			}
+		});
+		
+		ToggleButton tb2 = (ToggleButton) findViewById(R.id.day_view_second_button);
+		tb2.setChecked(timeAble[dNumber][day][1]);
+		
+		tb2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				timeAble[dNumber][day][1] = isChecked;
+				settingsEditor.putBoolean("timeAble"+dNumber+day+"1", isChecked);
+				settingsEditor.apply();
+			}
+		});
+		
+		ToggleButton tb3 = (ToggleButton) findViewById(R.id.day_view_third_button);
+		tb3.setChecked(timeAble[dNumber][day][2]);
+		
+		tb3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				timeAble[dNumber][day][2] = isChecked;
+				settingsEditor.putBoolean("timeAble"+dNumber+day+"2", isChecked);
+				settingsEditor.apply();
+			}
+		});
+		
+		ToggleButton tb4 = (ToggleButton) findViewById(R.id.day_view_fourth_button);
+		tb4.setChecked(timeAble[dNumber][day][3]);
+		
+		tb4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				timeAble[dNumber][day][3] = isChecked;
+				settingsEditor.putBoolean("timeAble"+dNumber+day+"3", isChecked);
+				settingsEditor.apply();
+			}
+		});
+		
+		ToggleButton tb5 = (ToggleButton) findViewById(R.id.day_view_fifth_button);
+		tb5.setChecked(timeAble[dNumber][day][4]);
+		
+		tb5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				timeAble[dNumber][day][4] = isChecked;
+				settingsEditor.putBoolean("timeAble"+dNumber+day+"4", isChecked);
+				settingsEditor.apply();
+			}
+		});
+		
 	}
 
 }
