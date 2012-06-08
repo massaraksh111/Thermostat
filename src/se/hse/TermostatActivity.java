@@ -77,6 +77,8 @@ public class TermostatActivity extends Activity {
         currTemperature = settings.getFloat("currTemperature", 20.0f);
     	dayTemperature = settings.getFloat("dayTemperature", 18.0f);
     	nightTemperature = settings.getFloat("nightTemperature", 23.0f);
+    	tmpTemp = currTemperature;
+        tmpVac = vacation;
         for (int d = 0; d < NUMBER_OF_DAYS; d++){
         	for (int m = 0; m < NUMBER_OF_MODS; m++){
         		for (int t = 0; t < NUMBER_OF_TIMES; t++){
@@ -453,33 +455,231 @@ public class TermostatActivity extends Activity {
 	
 	private void initMain() {
 		//Задаем табы
-		TabHost tabHost = (TabHost)findViewById(R.id.tabhost);
-        tabHost = (TabHost)findViewById(R.id.tabhost);
-        tabHost.setup();
-        
-        spec1 = tabHost.newTabSpec("Termostat");
-        spec1.setContent(R.id.thermostat);
-        spec1.setIndicator("Termostat");
-        
-        spec2 = tabHost.newTabSpec("Day night");
-        spec2.setContent(R.id.day_night_mode);
-        spec2.setIndicator("Day night");
-        
-        spec3 = tabHost.newTabSpec("7 days");
-        spec3.setContent(R.id.week_view);
-        spec3.setIndicator("7 days");
-        
-        spec4 = tabHost.newTabSpec("24h");
-        spec4.setContent(R.id.day);
-        spec4.setIndicator("24h");
-        
-        tabHost.addTab(spec1);
-        tabHost.addTab(spec2);
-        tabHost.addTab(spec3);
-        tabHost.addTab(spec4);
+		setTabs();
         
         //Большая главная картинка
-        ImageButton changeCurrTempB;
+        setBigPic();
+		
+        //Кнопки дней
+        setDaysAction();
+        
+        
+    	TextView mainTemp = (TextView) findViewById(R.id.main_view_temperature);
+    	mainTemp.setText(""+currTemperature+"°C");
+        
+    	//Кнопка изменения ночной температуры
+    	nightTemperatureChange();
+    	
+    	//Кнопка изменения дневной температуры
+    	dayTemperatureChange();
+    	
+    	//24 часа кнопка 
+    	showTimeTableChange();
+	}
+	
+	private void dayTemperatureChange() {
+		TextView modes_day_edit = (TextView) findViewById(R.id.day_night_mode_day_edit);
+    	modes_day_edit.setOnClickListener(new OnClickListener() {
+    		   
+    		public void onClick(View v) {
+            	setContentView(R.layout.set_temperature);
+             	
+            	TextView tv = (TextView) findViewById(R.id.setTempText);
+            	tv.setText("Temporary Temperature");
+            	
+            	//Кнопка аплая температуры
+                Button setTemperatureAppl = (Button) findViewById(R.id.set_temperature_apply_button);
+                setTemperatureAppl.setOnClickListener(new Button.OnClickListener() {
+                	
+                	public void onClick(View v) {
+                		currTemperature = tmpTemp;
+                		vacation = tmpVac;
+                		settingsEditor.putFloat("currTemperature", currTemperature);
+                		settingsEditor.putBoolean("vacation", vacation);
+                		setContentView(R.layout.main);
+                		currentView = 0;
+                		initMain();
+                	}
+                });
+            	
+            	NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
+             	np1.setMaxValue(40);
+             	np1.setMinValue(5);
+             	np1.setValue((int)currTemperature);
+             	np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+					
+					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+						tmpTemp = newVal + tmpTemp*10 % 10*0.1f;
+					}
+				});
+             	
+             	NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
+             	np2.setMaxValue(9);
+             	np2.setMinValue(0);
+             	np2.setValue((int)(currTemperature * 10 % 10));
+             	np2.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+					
+					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+						float tmp = newVal * 0.1f;
+						tmpTemp = (int)tmpTemp + tmp;
+					}
+				});
+             	
+             	
+             	CheckBox cb = (CheckBox) findViewById(R.id.set_temperature_vacation_button);
+             	cb.setVisibility(View.INVISIBLE);
+             	
+             	currentView = 1;
+            }
+        });
+	}
+
+	private void nightTemperatureChange() {
+		TextView modes_night_edit = (TextView) findViewById(R.id.day_night_mode_night_edit);
+    	modes_night_edit.setOnClickListener(new OnClickListener() {
+    		   
+    		public void onClick(View v) {
+            	setContentView(R.layout.set_temperature);
+             	
+            	TextView tv = (TextView) findViewById(R.id.setTempText);
+            	tv.setText("Temporary Temperature");
+            	
+            	//Кнопка аплая температуры
+                Button setTemperatureAppl = (Button) findViewById(R.id.set_temperature_apply_button);
+                setTemperatureAppl.setOnClickListener(new Button.OnClickListener() {
+                	
+                	public void onClick(View v) {
+                		currTemperature = tmpTemp;
+                		vacation = tmpVac;
+                		settingsEditor.putFloat("currTemperature", currTemperature);
+                		settingsEditor.putBoolean("vacation", vacation);
+                		setContentView(R.layout.main);
+                		currentView = 0;
+                		initMain();
+                	}
+                });
+            	
+            	NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
+             	np1.setMaxValue(40);
+             	np1.setMinValue(5);
+             	np1.setValue((int)currTemperature);
+             	np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+					
+					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+						tmpTemp = newVal + tmpTemp*10 % 10*0.1f;
+					}
+				});
+             	
+             	NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
+             	np2.setMaxValue(9);
+             	np2.setMinValue(0);
+             	np2.setValue((int)(currTemperature * 10 % 10));
+             	np2.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+					
+					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+						float tmp = newVal * 0.1f;
+						tmpTemp = (int)tmpTemp + tmp;
+					}
+				});
+             	
+             	
+             	CheckBox cb = (CheckBox) findViewById(R.id.set_temperature_vacation_button);
+             	cb.setVisibility(View.INVISIBLE);
+             	
+             	currentView = 1;
+            }
+        });
+	}
+
+	private void setDaysAction() {
+		TextView mnd = (TextView) findViewById(R.id.monday_button);
+        mnd.setOnClickListener(new OnClickListener() {
+   
+        	public void onClick(View v) {
+        		
+        		setContentView(R.layout.day_view);
+        		TextView tv = (TextView) findViewById(R.id.dayName);
+        		tv.setText("Monday");
+        		currentView = 1;
+        	}
+        });
+        
+        TextView tue = (TextView) findViewById(R.id.tuesday_button);
+        tue.setOnClickListener(new OnClickListener() {
+   
+        	public void onClick(View v) {
+        		
+        		setContentView(R.layout.day_view);
+        		TextView tv = (TextView) findViewById(R.id.dayName);
+        		tv.setText("Tuesday");
+        		currentView = 1;
+        	}
+        });
+        
+        TextView wen = (TextView) findViewById(R.id.wednesday_button);
+        wen.setOnClickListener(new OnClickListener() {
+   
+        	public void onClick(View v) {
+        		
+        		setContentView(R.layout.day_view);
+        		TextView tv = (TextView) findViewById(R.id.dayName);
+        		tv.setText("Wednesday");
+        		currentView = 1;
+        	}
+        });
+        
+        TextView thu = (TextView) findViewById(R.id.thursday_button);
+        thu.setOnClickListener(new OnClickListener() {
+   
+        	public void onClick(View v) {
+        		
+        		setContentView(R.layout.day_view);
+        		TextView tv = (TextView) findViewById(R.id.dayName);
+        		tv.setText("Thursday");
+        		currentView = 1;
+        	}
+        });
+        
+        TextView fri = (TextView) findViewById(R.id.friday_button);
+        fri.setOnClickListener(new OnClickListener() {
+   
+        	public void onClick(View v) {
+        		
+        		setContentView(R.layout.day_view);
+        		TextView tv = (TextView) findViewById(R.id.dayName);
+        		tv.setText("Friday");
+        		currentView = 1;
+        	}
+        });
+        
+        TextView sat = (TextView) findViewById(R.id.saturday_button);
+        sat.setOnClickListener(new OnClickListener() {
+   
+        	public void onClick(View v) {
+        		
+        		setContentView(R.layout.day_view);
+        		TextView tv = (TextView) findViewById(R.id.dayName);
+        		tv.setText("Saturday");
+        		currentView = 1;
+        	}
+        });
+        
+        TextView sun = (TextView) findViewById(R.id.sunday_button);
+        sun.setOnClickListener(new OnClickListener() {
+   
+        	public void onClick(View v) {
+        		
+        		setContentView(R.layout.day_view);
+        		TextView tv = (TextView) findViewById(R.id.dayName);
+        		tv.setText("Sunday");
+        		currentView = 1;
+        	}
+        });
+
+	}
+
+	private void setBigPic() {
+		ImageButton changeCurrTempB;
         if (vacation) {
         	changeCurrTempB = (ImageButton) findViewById(R.id.glagneVacation);
         	
@@ -573,200 +773,35 @@ public class TermostatActivity extends Activity {
             }
         });
         
-        //Кнопки дней
-        TextView mnd = (TextView) findViewById(R.id.monday_button);
-        mnd.setOnClickListener(new OnClickListener() {
-   
-        	public void onClick(View v) {
-        		
-        		setContentView(R.layout.day_view);
-        		TextView tv = (TextView) findViewById(R.id.dayName);
-        		tv.setText("Monday");
-        		currentView = 1;
-        	}
-        });
-        
-        
-        
-        TextView tue = (TextView) findViewById(R.id.tuesday_button);
-        tue.setOnClickListener(new OnClickListener() {
-   
-        	public void onClick(View v) {
-        		
-        		setContentView(R.layout.day_view);
-        		TextView tv = (TextView) findViewById(R.id.dayName);
-        		tv.setText("Tuesday");
-        		currentView = 1;
-        	}
-        });
-        
-        TextView wen = (TextView) findViewById(R.id.wednesday_button);
-        wen.setOnClickListener(new OnClickListener() {
-   
-        	public void onClick(View v) {
-        		
-        		setContentView(R.layout.day_view);
-        		TextView tv = (TextView) findViewById(R.id.dayName);
-        		tv.setText("Wednesday");
-        		currentView = 1;
-        	}
-        });
-        
-        TextView thu = (TextView) findViewById(R.id.thursday_button);
-        thu.setOnClickListener(new OnClickListener() {
-   
-        	public void onClick(View v) {
-        		
-        		setContentView(R.layout.day_view);
-        		TextView tv = (TextView) findViewById(R.id.dayName);
-        		tv.setText("Thursday");
-        		currentView = 1;
-        	}
-        });
-        
-        TextView fri = (TextView) findViewById(R.id.friday_button);
-        fri.setOnClickListener(new OnClickListener() {
-   
-        	public void onClick(View v) {
-        		
-        		setContentView(R.layout.day_view);
-        		TextView tv = (TextView) findViewById(R.id.dayName);
-        		tv.setText("Friday");
-        		currentView = 1;
-        	}
-        });
-        
-        TextView sat = (TextView) findViewById(R.id.saturday_button);
-        sat.setOnClickListener(new OnClickListener() {
-   
-        	public void onClick(View v) {
-        		
-        		setContentView(R.layout.day_view);
-        		TextView tv = (TextView) findViewById(R.id.dayName);
-        		tv.setText("Saturday");
-        		currentView = 1;
-        	}
-        });
-        
-        TextView sun = (TextView) findViewById(R.id.sunday_button);
-        sun.setOnClickListener(new OnClickListener() {
-   
-        	public void onClick(View v) {
-        		
-        		setContentView(R.layout.day_view);
-        		TextView tv = (TextView) findViewById(R.id.dayName);
-        		tv.setText("Sunday");
-        		currentView = 1;
-        	}
-        });
-
-        
-        
-    	TextView mainTemp = (TextView) findViewById(R.id.main_view_temperature);
-    	mainTemp.setText(""+currTemperature+"°C");
-        
-    	TextView modes_night_edit = (TextView) findViewById(R.id.day_night_mode_night_edit);
-    	modes_night_edit.setOnClickListener(new OnClickListener() {
-    		   
-    		public void onClick(View v) {
-            	setContentView(R.layout.set_temperature);
-             	
-            	TextView tv = (TextView) findViewById(R.id.setTempText);
-            	tv.setText("Temporary Temperature");
-            	
-            	NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
-             	np1.setMaxValue(40);
-             	np1.setMinValue(5);
-             	np1.setValue((int)currTemperature);
-             	np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-					
-					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-						currTemperature += (newVal - oldVal);
-						settingsEditor.putFloat("currTemperature", currTemperature);
-						settingsEditor.apply();
-					}
-				});
-             	
-             	NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
-             	np2.setMaxValue(9);
-             	np2.setMinValue(0);
-             	np2.setValue((int)(currTemperature * 10 % 10));
-             	np2.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-					
-					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-						float tmp = newVal * 0.1f;
-						currTemperature = (int)currTemperature + tmp;
-						settingsEditor.putFloat("currTemperature", currTemperature);
-						settingsEditor.apply();
-					}
-				});
-             	
-             	
-             	CheckBox cb = (CheckBox) findViewById(R.id.set_temperature_vacation_button);
-             	cb.setVisibility(View.INVISIBLE);
-             	
-             	currentView = 1;
-            }
-        });
-    	
-    	TextView modes_day_edit = (TextView) findViewById(R.id.day_night_mode_day_edit);
-    	modes_day_edit.setOnClickListener(new OnClickListener() {
-    		   
-    		public void onClick(View v) {
-            	setContentView(R.layout.set_temperature);
-             	
-            	TextView tv = (TextView) findViewById(R.id.setTempText);
-            	tv.setText("Temporary Temperature");
-            	
-            	//Кнопка аплая температуры
-                Button setTemperatureAppl = (Button) findViewById(R.id.set_temperature_apply_button);
-                setTemperatureAppl.setOnClickListener(new Button.OnClickListener() {
-                	
-                	public void onClick(View v) {
-                		currTemperature = tmpTemp;
-                		vacation = tmpVac;
-                		settingsEditor.putFloat("currTemperature", currTemperature);
-                		settingsEditor.putBoolean("vacation", vacation);
-                		setContentView(R.layout.main);
-                		currentView = 0;
-                		initMain();
-                	}
-                });
-            	
-            	NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
-             	np1.setMaxValue(40);
-             	np1.setMinValue(5);
-             	np1.setValue((int)currTemperature);
-             	np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-					
-					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-						tmpTemp = newVal + tmpTemp*10 % 10*0.1f;
-					}
-				});
-             	
-             	NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
-             	np2.setMaxValue(9);
-             	np2.setMinValue(0);
-             	np2.setValue((int)(currTemperature * 10 % 10));
-             	np2.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-					
-					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-						float tmp = newVal * 0.1f;
-						tmpTemp = (int)tmpTemp + tmp;
-					}
-				});
-             	
-             	
-             	CheckBox cb = (CheckBox) findViewById(R.id.set_temperature_vacation_button);
-             	cb.setVisibility(View.INVISIBLE);
-             	
-             	currentView = 1;
-            }
-        });
-    	
-    	showTimeTableChange();
 	}
-	
+
+	private void setTabs() {
+		TabHost tabHost = (TabHost)findViewById(R.id.tabhost);
+        tabHost = (TabHost)findViewById(R.id.tabhost);
+        tabHost.setup();
+        
+        spec1 = tabHost.newTabSpec("Termostat");
+        spec1.setContent(R.id.thermostat);
+        spec1.setIndicator("Termostat");
+        
+        spec2 = tabHost.newTabSpec("Day night");
+        spec2.setContent(R.id.day_night_mode);
+        spec2.setIndicator("Day night");
+        
+        spec3 = tabHost.newTabSpec("7 days");
+        spec3.setContent(R.id.week_view);
+        spec3.setIndicator("7 days");
+        
+        spec4 = tabHost.newTabSpec("24h");
+        spec4.setContent(R.id.day);
+        spec4.setIndicator("24h");
+        
+        tabHost.addTab(spec1);
+        tabHost.addTab(spec2);
+        tabHost.addTab(spec3);
+        tabHost.addTab(spec4);
+	}
+
 	private void showTimeTableChange() {
 		//Экран выбора времен
     	TextView day_view_first = (TextView) findViewById(R.id.day_view_first_edit);
