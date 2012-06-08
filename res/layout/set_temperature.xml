@@ -71,7 +71,13 @@
         android:layout_row="5"
         android:layout_rowSpan="2"
         android:text="@string/set_temperature_vacation_label" />
-
+
+
+
+
+
+
+
     <Button
         android:id="@+id/set_temperature_apply_button"
         android:layout_width="114dp"
