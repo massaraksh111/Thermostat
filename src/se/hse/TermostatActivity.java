@@ -477,7 +477,10 @@ public class TermostatActivity extends Activity {
         tabHost.addTab(spec4);
         
         //Большая главная картинка
+<<<<<<< HEAD
 
+=======
+>>>>>>> remotes/origin/mMaxy
         ImageButton changeCurrTempB;
         if (vacation) {
         	changeCurrTempB = (ImageButton) findViewById(R.id.glagneVacation);
@@ -511,7 +514,10 @@ public class TermostatActivity extends Activity {
             	changeTimeTablePic(ll);
         	}
         }
+<<<<<<< HEAD
         
+=======
+>>>>>>> remotes/origin/mMaxy
         changeCurrTempB.setOnClickListener(new OnClickListener(){
 
             public void onClick(View v) {
