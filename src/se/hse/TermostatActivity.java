@@ -130,7 +130,7 @@ public class TermostatActivity extends Activity {
 	protected void checkCurrenMode() {
 		//updateUI();
 		Calendar c = Calendar.getInstance();
-		int day = c.get(Calendar.DAY_OF_WEEK) - 1;
+		int day = c.get(Calendar.DAY_OF_WEEK) - 2;
 		int hour = c.get(Calendar.HOUR_OF_DAY);
 		int min = c.get(Calendar.MINUTE);
 		int sec = c.get(Calendar.SECOND);
@@ -155,12 +155,16 @@ public class TermostatActivity extends Activity {
 		if ((new Date(0, 0, 0, LastHour[0], LastMin[0], LastSec[0]))
 				.after(new Date(0, 0, 0, LastHour[1], LastMin[1], LastSec[1]))) {
 			night = false;
+			currTemperature = dayTemperature;
+			settingsEditor.putFloat("currTemperature", currTemperature);
 			settingsEditor.putBoolean("night", false);
 			settingsEditor.apply();
 			//updateUI();
 		} else {
 			night = true;
 			settingsEditor.putBoolean("night", true);
+			currTemperature = nightTemperature;
+			settingsEditor.putFloat("currTemperature", currTemperature);
 			settingsEditor.apply();
 			//updateUI();
 		}
@@ -182,7 +186,7 @@ public class TermostatActivity extends Activity {
 				ib1s.setVisibility(ImageButton.GONE);
 				ib1m.setVisibility(ImageButton.VISIBLE);
 			}
-			tw1.setText("" + d1.getHours() + ":" + d1.getMinutes());
+			tw1.setText( showFormatter(d1.getHours(), d1.getMinutes()));
 		}
 
 		Date d2 = findSecondTime(d1);
@@ -201,7 +205,7 @@ public class TermostatActivity extends Activity {
 				ib2s.setVisibility(ImageButton.GONE);
 				ib2m.setVisibility(ImageButton.VISIBLE);
 			}
-			tw2.setText("" + d2.getHours() + ":" + d2.getMinutes());
+			tw2.setText( showFormatter(d2.getHours(), d2.getMinutes()));
 		}
 
 		Date d3 = findThirdTime(d2);
@@ -210,17 +214,17 @@ public class TermostatActivity extends Activity {
 		ImageButton ib3s = (ImageButton) findViewById(R.id.main_view_third_image_sun);
 		TextView tw3 = (TextView) findViewById(R.id.main_view_third_time);
 		LinearLayout ll3 = (LinearLayout) findViewById(R.id.thirdTT);
-		if (d2 == null) {
+		if (d3 == null) {
 			ll3.setVisibility(LinearLayout.GONE);
 		} else {
 			if (nextDay[0]) {
 				ib3s.setVisibility(ImageButton.VISIBLE);
-				ib3m.setVisibility(ImageButton.GONE);
+				ib3m.setVisibility(ImageButton.INVISIBLE);
 			} else {
-				ib3s.setVisibility(ImageButton.GONE);
+				ib3s.setVisibility(ImageButton.INVISIBLE);
 				ib3m.setVisibility(ImageButton.VISIBLE);
 			}
-			tw3.setText("" + d3.getHours() + ":" + d3.getMinutes());
+			tw3.setText( showFormatter(d3.getHours(), d3.getMinutes()));
 		}
 	}
 
@@ -228,7 +232,7 @@ public class TermostatActivity extends Activity {
 		Date res = new Date();
 
 		Calendar c = Calendar.getInstance();
-		int day = c.get(Calendar.DAY_OF_WEEK) - 1;
+		int day = c.get(Calendar.DAY_OF_WEEK) - 2;
 		int hour = c.get(Calendar.HOUR_OF_DAY);
 		int min = c.get(Calendar.MINUTE);
 		int sec = c.get(Calendar.SECOND);
@@ -311,7 +315,7 @@ public class TermostatActivity extends Activity {
 		}
 
 		Calendar c = Calendar.getInstance();
-		int day = c.get(Calendar.DAY_OF_WEEK) - 1;
+		int day = c.get(Calendar.DAY_OF_WEEK) - 2;
 		int hour = d.getHours();
 		int min = d.getMinutes();
 		int sec = d.getSeconds();
@@ -395,7 +399,7 @@ public class TermostatActivity extends Activity {
 		}
 
 		Calendar c = Calendar.getInstance();
-		int day = c.get(Calendar.DAY_OF_WEEK) - 1;
+		int day = c.get(Calendar.DAY_OF_WEEK) - 2;
 		int hour = d.getHours();
 		int min = d.getMinutes();
 		int sec = d.getSeconds();
