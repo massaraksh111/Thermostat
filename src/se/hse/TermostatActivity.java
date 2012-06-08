@@ -521,6 +521,21 @@ public class TermostatActivity extends Activity {
             	TextView tv = (TextView) findViewById(R.id.setTempText);
             	tv.setText("Temporary Temperature");
             	
+            	// нопка апла€ температуры
+                Button setTemperatureAppl = (Button) findViewById(R.id.set_temperature_apply_button);
+                setTemperatureAppl.setOnClickListener(new Button.OnClickListener() {
+                	
+                	public void onClick(View v) {
+                		currTemperature = tmpTemp;
+                		vacation = tmpVac;
+                		settingsEditor.putFloat("currTemperature", currTemperature);
+                		settingsEditor.putBoolean("vacation", vacation);
+                		setContentView(R.layout.main);
+                		currentView = 0;
+                		initMain();
+                	}
+                });
+            	
             	NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
              	np1.setMaxValue(40);
              	np1.setMinValue(5);
@@ -528,9 +543,7 @@ public class TermostatActivity extends Activity {
              	np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 					
 					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-						currTemperature += (newVal - oldVal);
-						settingsEditor.putFloat("currTemperature", currTemperature);
-						settingsEditor.apply();
+						tmpTemp = newVal + tmpTemp*10 % 10*0.1f;
 					}
 				});
              	
@@ -542,9 +555,7 @@ public class TermostatActivity extends Activity {
 					
 					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 						float tmp = newVal * 0.1f;
-						currTemperature = (int)currTemperature + tmp;
-						settingsEditor.putFloat("currTemperature", currTemperature);
-						settingsEditor.apply();
+						tmpTemp = (int)tmpTemp + tmp;
 					}
 				});
              	
@@ -554,7 +565,7 @@ public class TermostatActivity extends Activity {
              	cb.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
 					
 					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-						vacation = !vacation;
+						tmpVac = isChecked;
 					}
 				});
              	
@@ -575,20 +586,7 @@ public class TermostatActivity extends Activity {
         	}
         });
         
-      // нопка апла€ температуры
-        Button setTemperatureAppl = (Button) findViewById(R.id.set_temperature_apply_button);
-        setTemperatureAppl.setOnClickListener(new OnClickListener() {
-        	
-        	public void onClick(View v) {
-        		currTemperature = tmpTemp;
-        		vacation = tmpVac;
-        		settingsEditor.putFloat("currTemperature", currTemperature);
-        		settingsEditor.putBoolean("vacation", vacation);
-        		setContentView(R.layout.main);
-        		currentView = 0;
-        		initMain();
-        	}
-        });
+        
         
         TextView tue = (TextView) findViewById(R.id.tuesday_button);
         tue.setOnClickListener(new OnClickListener() {
@@ -720,6 +718,21 @@ public class TermostatActivity extends Activity {
             	TextView tv = (TextView) findViewById(R.id.setTempText);
             	tv.setText("Temporary Temperature");
             	
+            	// нопка апла€ температуры
+                Button setTemperatureAppl = (Button) findViewById(R.id.set_temperature_apply_button);
+                setTemperatureAppl.setOnClickListener(new Button.OnClickListener() {
+                	
+                	public void onClick(View v) {
+                		currTemperature = tmpTemp;
+                		vacation = tmpVac;
+                		settingsEditor.putFloat("currTemperature", currTemperature);
+                		settingsEditor.putBoolean("vacation", vacation);
+                		setContentView(R.layout.main);
+                		currentView = 0;
+                		initMain();
+                	}
+                });
+            	
             	NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
              	np1.setMaxValue(40);
              	np1.setMinValue(5);
@@ -727,9 +740,7 @@ public class TermostatActivity extends Activity {
              	np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 					
 					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
-						currTemperature += (newVal - oldVal);
-						settingsEditor.putFloat("currTemperature", currTemperature);
-						settingsEditor.apply();
+						tmpTemp = newVal + tmpTemp*10 % 10*0.1f;
 					}
 				});
              	
@@ -741,9 +752,7 @@ public class TermostatActivity extends Activity {
 					
 					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
 						float tmp = newVal * 0.1f;
-						currTemperature = (int)currTemperature + tmp;
-						settingsEditor.putFloat("currTemperature", currTemperature);
-						settingsEditor.apply();
+						tmpTemp = (int)tmpTemp + tmp;
 					}
 				});
              	
@@ -755,7 +764,11 @@ public class TermostatActivity extends Activity {
             }
         });
     	
-    	
+    	showTimeTableChange();
+	}
+	
+	private void showTimeTableChange() {
+		//Ёкран выбора времен
     	TextView day_view_first = (TextView) findViewById(R.id.day_view_first_edit);
     	day_view_first.setOnClickListener(new OnClickListener() {
  		   
