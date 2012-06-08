@@ -22,11 +22,11 @@
         android:layout_row="3"
         android:layout_rowSpan="2"
         android:src="@drawable/little_moon_2_5" />
-
+
     <TextView
         android:id="@+id/day_night_mode_night_edit"
-        android:layout_width="161dp"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="84dp"
         android:layout_column="2"
         android:layout_columnSpan="3"
         android:layout_row="4"
@@ -51,10 +51,11 @@
         android:layout_row="7"
         android:layout_rowSpan="2"
         android:src="@drawable/little_sun_2_5" />
-
+
     <TextView
         android:id="@+id/day_night_mode_day_edit"
         android:layout_width="160dp"
+        android:layout_height="70dp"
         android:layout_column="2"
         android:layout_columnSpan="3"
         android:layout_row="8"

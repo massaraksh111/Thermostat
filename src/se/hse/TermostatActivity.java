@@ -457,11 +457,10 @@ public class TermostatActivity extends Activity {
         spec1.setContent(R.id.thermostat);
         spec1.setIndicator("Termostat");
         
-        spec2 = tabHost.newTabSpec("Set mode");
+        spec2 = tabHost.newTabSpec("Day night");
         spec2.setContent(R.id.day_night_mode);
-        spec2.setIndicator("Set mode");
+        spec2.setIndicator("Day night");
         
-        spec3 = tabHost.newTabSpec("7 days");
         spec3 = tabHost.newTabSpec("7 days");
         
         spec3.setContent(R.id.week_view);
@@ -559,17 +558,6 @@ public class TermostatActivity extends Activity {
              	currentView = 1;
             }
         });
-        if (vacation) {
-        	
-        	
-        	changeCurrTempB.setImageResource(R.drawable.vacation);
-        } else {
-        	if (night) {
-        		changeCurrTempB.setImageResource(R.drawable.vacation);
-        	} else {
-        		changeCurrTempB.setImageResource(R.drawable.vacation);
-        	}
-        }
         
         // ÌÓÔÍË ‰ÌÂÈ
         TextView mnd = (TextView) findViewById(R.id.monday_button);
@@ -656,10 +644,144 @@ public class TermostatActivity extends Activity {
         	}
         });
 
+        
+        
     	TextView mainTemp = (TextView) findViewById(R.id.main_view_temperature);
     	mainTemp.setText(""+currTemperature+"∞C");
         
-        
+    	TextView modes_night_edit = (TextView) findViewById(R.id.day_night_mode_night_edit);
+    	modes_night_edit.setOnClickListener(new OnClickListener() {
+    		   
+    		public void onClick(View v) {
+            	setContentView(R.layout.set_temperature);
+             	
+            	TextView tv = (TextView) findViewById(R.id.setTempText);
+            	tv.setText("Temporary Temperature");
+            	
+            	NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
+             	np1.setMaxValue(40);
+             	np1.setMinValue(5);
+             	np1.setValue((int)currTemperature);
+             	np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+					
+					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+						currTemperature += (newVal - oldVal);
+						settingsEditor.putFloat("currTemperature", currTemperature);
+						settingsEditor.apply();
+					}
+				});
+             	
+             	NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
+             	np2.setMaxValue(9);
+             	np2.setMinValue(0);
+             	np2.setValue((int)(currTemperature * 10 % 10));
+             	np2.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+					
+					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+						float tmp = newVal * 0.1f;
+						currTemperature = (int)currTemperature + tmp;
+						settingsEditor.putFloat("currTemperature", currTemperature);
+						settingsEditor.apply();
+					}
+				});
+             	
+             	
+             	CheckBox cb = (CheckBox) findViewById(R.id.set_temperature_vacation_button);
+             	cb.setVisibility(View.INVISIBLE);
+             	
+             	currentView = 1;
+            }
+        });
+    	
+    	TextView modes_day_edit = (TextView) findViewById(R.id.day_night_mode_day_edit);
+    	modes_day_edit.setOnClickListener(new OnClickListener() {
+    		   
+    		public void onClick(View v) {
+            	setContentView(R.layout.set_temperature);
+             	
+            	TextView tv = (TextView) findViewById(R.id.setTempText);
+            	tv.setText("Temporary Temperature");
+            	
+            	NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
+             	np1.setMaxValue(40);
+             	np1.setMinValue(5);
+             	np1.setValue((int)currTemperature);
+             	np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+					
+					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+						currTemperature += (newVal - oldVal);
+						settingsEditor.putFloat("currTemperature", currTemperature);
+						settingsEditor.apply();
+					}
+				});
+             	
+             	NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
+             	np2.setMaxValue(9);
+             	np2.setMinValue(0);
+             	np2.setValue((int)(currTemperature * 10 % 10));
+             	np2.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+					
+					public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+						float tmp = newVal * 0.1f;
+						currTemperature = (int)currTemperature + tmp;
+						settingsEditor.putFloat("currTemperature", currTemperature);
+						settingsEditor.apply();
+					}
+				});
+             	
+             	
+             	CheckBox cb = (CheckBox) findViewById(R.id.set_temperature_vacation_button);
+             	cb.setVisibility(View.INVISIBLE);
+             	
+             	currentView = 1;
+            }
+        });
+    	
+    	
+    	TextView day_view_first = (TextView) findViewById(R.id.day_view_first_edit);
+    	day_view_first.setOnClickListener(new OnClickListener() {
+ 		   
+     	public void onClick(View v) {
+     		
+     		setContentView(R.layout.set_time);
+     		currentView = 1;
+     	}});
+    	
+    	TextView day_view_second = (TextView) findViewById(R.id.day_view_second_edit);
+    	day_view_second.setOnClickListener(new OnClickListener() {
+ 		   
+     	public void onClick(View v) {
+     		
+     		setContentView(R.layout.set_time);
+     		currentView = 1;
+     	}});
+    	
+    	TextView day_view_third = (TextView) findViewById(R.id.day_view_third_edit);
+    	day_view_third.setOnClickListener(new OnClickListener() {
+ 		   
+     	public void onClick(View v) {
+     		
+     		setContentView(R.layout.set_time);
+     		currentView = 1;
+     	}});
+    	
+    	TextView day_view_fourth = (TextView) findViewById(R.id.day_view_fourth_edit);
+    	day_view_fourth.setOnClickListener(new OnClickListener() {
+ 		   
+     	public void onClick(View v) {
+     		
+     		setContentView(R.layout.set_time);
+     		currentView = 1;
+     	}});
+    	
+    	TextView day_view_fifth = (TextView) findViewById(R.id.day_view_fifth_edit);
+    	day_view_fifth.setOnClickListener(new OnClickListener() {
+ 		   
+     	public void onClick(View v) {
+     		
+     		setContentView(R.layout.set_time);
+     		currentView = 1;
+     	}});
 	}
 	
 }
