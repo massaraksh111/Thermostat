@@ -91,7 +91,7 @@ public class TermostatActivity extends Activity {
 		}
 		checkCurrenMode();
 
-		initMain();
+		initMain(0);
 		currentView = 0;
 		mHandler = new Handler();
 		mHandler.removeCallbacks(timerTask);
@@ -108,7 +108,7 @@ public class TermostatActivity extends Activity {
 				}
 				tmpVac = vacation;
 				tmpTemp = currTemperature;
-				initMain();
+				initMain(0);
 				return true;
 			} else {
 				return super.onKeyDown(keyCode, event);
@@ -464,9 +464,9 @@ public class TermostatActivity extends Activity {
 		return res;
 	}
 
-	private void initMain() {
+	private void initMain(final int mode) {
 		// Задаем табы
-		setTabs();
+		setTabs(mode);
 
 		// Большая главная картинка
 		setBigPic();
@@ -487,7 +487,7 @@ public class TermostatActivity extends Activity {
 		// 24 часа кнопка
 		Calendar c = Calendar.getInstance();
 		int day = c.get(Calendar.DAY_OF_WEEK) - 2;
-		showTimeTableChange(day, 0, false);
+		showTimeTableChange(day, mode, false);
 	}
 
 	private void dayTemperatureChange() {
@@ -514,7 +514,7 @@ public class TermostatActivity extends Activity {
 								settingsEditor.apply();
 								setContentView(R.layout.main);
 								currentView = 0;
-								initMain();
+								initMain(0);
 							}
 						});
 
@@ -575,7 +575,7 @@ public class TermostatActivity extends Activity {
 								settingsEditor.apply();
 								setContentView(R.layout.main);
 								currentView = 0;
-								initMain();
+								initMain(0);
 							}
 						});
 
@@ -775,7 +775,7 @@ public class TermostatActivity extends Activity {
 								settingsEditor.apply();
 								setContentView(R.layout.main);
 								currentView = 0;
-								initMain();
+								initMain(0);
 							}
 						});
 
@@ -858,7 +858,7 @@ public class TermostatActivity extends Activity {
 		}
 	}
 
-	private void setTabs() {
+	private void setTabs(final int mode) {
 		TabHost tabHost = (TabHost) findViewById(R.id.tabhost);
 		tabHost = (TabHost) findViewById(R.id.tabhost);
 		tabHost.setup();
@@ -891,8 +891,8 @@ public class TermostatActivity extends Activity {
 					currentView = 3;
 					Calendar c = Calendar.getInstance();
 					int day = c.get(Calendar.DAY_OF_WEEK) - 2;
-					showTimeTableChange(day, 0, false);
-					initLabels(day, 0);
+					showTimeTableChange(day, mode, false);
+					initLabels(day, mode);
 				}
 			}
 		});
@@ -910,9 +910,9 @@ public class TermostatActivity extends Activity {
 	private void showTimeTableChange(final int dNumber, int dayType, final boolean flag) {
 		// Экран выбора времен
 		final int day = dayType;
-				
-		//TextView tv = (TextView) findViewById(R.id.dayName);
-		//tv.setText(weekString[dNumber]);
+		
+		TextView tv = (TextView) findViewById(R.id.dayName);
+		tv.setText(weekString[dNumber]);
 		
 		ImageButton dayToNightSwitch = (ImageButton) findViewById(R.id.day_view_img_sun);
 		ImageButton nightToDaySwitch = (ImageButton) findViewById(R.id.day_view_img_moon);
@@ -937,7 +937,7 @@ public class TermostatActivity extends Activity {
 					showTimeTableChange(dNumber, 1, flag);
 				} else {
 					setContentView(R.layout.main);
-					initMain();
+					initMain(1);
 				}
 				
 
@@ -956,7 +956,7 @@ public class TermostatActivity extends Activity {
 					showTimeTableChange(dNumber, 0, flag);
 				} else {
 					setContentView(R.layout.main);
-					initMain();
+					initMain(0);
 				}
 
 			}
@@ -1005,7 +1005,7 @@ public class TermostatActivity extends Activity {
 
 						} else {
 							setContentView(R.layout.main);
-							initMain();
+							initMain(0);
 						}
 						
 					}
@@ -1056,7 +1056,7 @@ public class TermostatActivity extends Activity {
 							showTimeTableChange(dNumber, day, flag);
 						} else {
 							setContentView(R.layout.main);
-							initMain();
+							initMain(0);
 						}
 						
 
@@ -1108,7 +1108,7 @@ public class TermostatActivity extends Activity {
 							showTimeTableChange(dNumber, day, flag);
 						} else {
 							setContentView(R.layout.main);
-							initMain();
+							initMain(0);
 						}
 						
 
@@ -1160,7 +1160,7 @@ public class TermostatActivity extends Activity {
 							showTimeTableChange(dNumber, day, flag);
 						} else {
 							setContentView(R.layout.main);
-							initMain();
+							initMain(0);
 						}
 					}
 				});
@@ -1210,7 +1210,7 @@ public class TermostatActivity extends Activity {
 							showTimeTableChange(dNumber, day, flag);
 						} else {
 							setContentView(R.layout.main);
-							initMain();
+							initMain(0);
 						}
 						
 					}
