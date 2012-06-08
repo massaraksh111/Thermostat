@@ -43,6 +43,8 @@ public class TermostatActivity extends Activity {
 	float currTemperature;
 	float dayTemperature;
 	float nightTemperature;
+	boolean[] nextNight = new boolean[3];
+	boolean[] nextDay = new boolean[3];
 	TabHost tabHost; // tabwidget
 	TabSpec spec1; // main tab
 	TabSpec spec2; // day/night mode
@@ -150,6 +152,301 @@ public class TermostatActivity extends Activity {
 	    }
 	}
 	
+	private void changeTimeTablePic(LinearLayout ll) {
+		Date d1 = findNextTime();
+		
+		if (d1 == null){
+			ll.setVisibility(LinearLayout.GONE);
+		} else {
+			ImageButton ib1m = (ImageButton) findViewById(R.id.main_view_first_image_moon);
+			ImageButton ib1s = (ImageButton) findViewById(R.id.main_view_first_image_sun);
+			TextView tw1 = (TextView) findViewById(R.id.main_view_first_time);
+			if (nextDay[0]) {
+				ib1s.setVisibility(ImageButton.VISIBLE);
+				ib1m.setVisibility(ImageButton.GONE);
+			} else {
+				ib1s.setVisibility(ImageButton.GONE);
+				ib1m.setVisibility(ImageButton.VISIBLE);
+			}
+			tw1.setText("" + d1.getHours()+ ":" + d1.getMinutes());
+		}
+		
+		Date d2 = findSecondTime(d1);
+		
+		ImageButton ib2m = (ImageButton) findViewById(R.id.main_view_second_image_moon);
+		ImageButton ib2s = (ImageButton) findViewById(R.id.main_view_second_image_sun);
+		TextView tw2 = (TextView) findViewById(R.id.main_view_second_time);
+		LinearLayout ll2 = (LinearLayout) findViewById(R.id.secondTT);
+		if (d2 == null){
+			ll2.setVisibility(LinearLayout.GONE);
+		} else {
+			if (nextDay[0]) {
+				ib2s.setVisibility(ImageButton.VISIBLE);
+				ib2m.setVisibility(ImageButton.GONE);
+			} else {
+				ib2s.setVisibility(ImageButton.GONE);
+				ib2m.setVisibility(ImageButton.VISIBLE);
+			}
+			tw2.setText("" + d2.getHours()+ ":" + d2.getMinutes());
+		}
+		
+		Date d3 = findThirdTime(d2);
+		
+		ImageButton ib3m = (ImageButton) findViewById(R.id.main_view_third_image_moon);
+		ImageButton ib3s = (ImageButton) findViewById(R.id.main_view_third_image_sun);
+		TextView tw3 = (TextView) findViewById(R.id.main_view_third_time);
+		LinearLayout ll3 = (LinearLayout) findViewById(R.id.thirdTT);
+		if (d2 == null){
+			ll3.setVisibility(LinearLayout.GONE);
+		} else {
+			if (nextDay[0]) {
+				ib3s.setVisibility(ImageButton.VISIBLE);
+				ib3m.setVisibility(ImageButton.GONE);
+			} else {
+				ib3s.setVisibility(ImageButton.GONE);
+				ib3m.setVisibility(ImageButton.VISIBLE);
+			}
+			tw3.setText("" + d3.getHours()+ ":" + d3.getMinutes());
+		}
+	}
+	
+	private Date findNextTime() {
+		Date res = new Date();
+		
+		Calendar c = Calendar.getInstance(); 
+	    int day = c.get(Calendar.DAY_OF_WEEK) - 1;
+	    int hour = c.get(Calendar.HOUR_OF_DAY);
+	    int min = c.get(Calendar.MINUTE);
+	    int sec = c.get(Calendar.SECOND);
+	    int[] LastHour = new int[2];
+	    int[] LastMin = new int[2];
+	    int[] LastSec = new int[2];
+	    boolean flagDay = false;
+	    boolean flagNight = false;
+	    for (int m = 0; m < NUMBER_OF_MODS; m++) {
+	    	for (int t = 0; t < NUMBER_OF_TIMES; t++) {
+	    		if (timeAble[day][m][t]) {
+	    			if (timetable[day][m][t].after( new Date(0, 0, 0, hour, min, sec) ) ) {
+	    				LastHour[m] = timetable[day][m][t].getHours();
+	    				LastMin[m] = timetable[day][m][t].getMinutes();
+	    				LastSec[m] = timetable[day][m][t].getSeconds();
+	    				if (m == 0) {
+	    					flagDay = true;
+	    				} else {
+	    					flagNight = true;
+	    				}
+	    				break;
+	    			}
+	    		} else {
+	    			continue;
+	    		}
+	    	}
+	    }
+	    if (flagDay) {
+	    	if (flagNight) {
+	    		//0 - day, 1 - night
+	    	    if ( (new Date(0, 0, 0, LastHour[0], LastMin[0], LastSec[0])).before(new 
+	    	    		Date(0, 0, 0, LastHour[1], LastMin[1], LastSec[1]))) {
+	    	    	nextNight[0] = false;
+	    	    	nextDay[0] = true;
+	    	    	res.setHours(LastHour[0]);
+		    		res.setMinutes(LastMin[0]);
+		    		res.setSeconds(LastSec[0]);
+	    	    } else {
+	    	    	nextNight[0] = true;
+	    	    	nextDay[0] = false;
+	    	    	res.setHours(LastHour[1]);
+		    		res.setMinutes(LastMin[1]);
+		    		res.setSeconds(LastSec[1]);
+	    	    }
+	    	} else {
+	    		nextNight[0] = false;
+    	    	nextDay[0] = true;
+	    		res.setHours(LastHour[0]);
+	    		res.setMinutes(LastMin[0]);
+	    		res.setSeconds(LastSec[0]);
+	    	}
+	    } else {
+	    	if (flagNight) {
+	    		nextNight[0] = true;
+    	    	nextDay[0] = false;
+	    		res.setHours(LastHour[1]);
+	    		res.setMinutes(LastMin[1]);
+	    		res.setSeconds(LastSec[1]);
+	    	} else {
+	    		nextNight[0] = false;
+    	    	nextDay[0] = false;
+	    		return null;
+	    	}
+	    }
+	    
+		return res;
+	}
+
+	private Date findSecondTime(Date d) {
+		Date res = new Date();
+		
+		if (!nextDay[0]) {
+	    	if (!nextNight[0]){
+	    		nextDay[1] = false;
+	    		nextNight[1] = false;
+	    		return null;
+	    	}
+	    }
+		
+		Calendar c = Calendar.getInstance(); 
+	    int day = c.get(Calendar.DAY_OF_WEEK) - 1;
+	    int hour = d.getHours();
+	    int min = d.getMinutes();
+	    int sec = d.getSeconds();
+	    int[] LastHour = new int[2];
+	    int[] LastMin = new int[2];
+	    int[] LastSec = new int[2];
+	    boolean flagDay = false;
+	    boolean flagNight = false;
+	    
+	    for (int m = 0; m < NUMBER_OF_MODS; m++) {
+	    	for (int t = 0; t < NUMBER_OF_TIMES; t++) {
+	    		if (timeAble[day][m][t]) {
+	    			if (timetable[day][m][t].after( new Date(0, 0, 0, hour, min, sec) ) ) {
+	    				LastHour[m] = timetable[day][m][t].getHours();
+	    				LastMin[m] = timetable[day][m][t].getMinutes();
+	    				LastSec[m] = timetable[day][m][t].getSeconds();
+	    				if (m == 0) {
+		    				flagDay = true;
+		    			} else {
+		    				flagNight = true;
+		    			}
+	    				break;
+	    			}
+	    		} else {
+	    			continue;
+	    		}
+	    	}
+	    }
+	    if (flagDay) {
+	    	if (flagNight) {
+	    		//0 - day, 1 - night
+	    	    if ( (new Date(0, 0, 0, LastHour[0], LastMin[0], LastSec[0])).before(new 
+	    	    		Date(0, 0, 0, LastHour[1], LastMin[1], LastSec[1]))) {
+	    	    	nextNight[1] = false;
+	    	    	nextDay[1] = true;
+	    	    	res.setHours(LastHour[0]);
+		    		res.setMinutes(LastMin[0]);
+		    		res.setSeconds(LastSec[0]);
+	    	    } else {
+	    	    	nextNight[1] = true;
+	    	    	nextDay[1] = false;
+	    	    	res.setHours(LastHour[1]);
+		    		res.setMinutes(LastMin[1]);
+		    		res.setSeconds(LastSec[1]);
+	    	    }
+	    	} else {
+	    		nextNight[1] = false;
+    	    	nextDay[1] = true;
+	    		res.setHours(LastHour[0]);
+	    		res.setMinutes(LastMin[0]);
+	    		res.setSeconds(LastSec[0]);
+	    	}
+	    } else {
+	    	if (flagNight) {
+	    		nextNight[1] = true;
+    	    	nextDay[1] = false;
+	    		res.setHours(LastHour[1]);
+	    		res.setMinutes(LastMin[1]);
+	    		res.setSeconds(LastSec[1]);
+	    	} else {
+	    		nextNight[1] = false;
+    	    	nextDay[1] = false;
+	    		return null;
+	    	}
+	    }
+	    
+		return res;
+	}
+	
+	private Date findThirdTime(Date d) {
+		Date res = new Date();
+		
+		if (!nextDay[1]) {
+	    	if (!nextNight[1]){
+	    		nextDay[2] = false;
+	    		nextNight[2] = false;
+	    		return null;
+	    	}
+	    }
+		
+		Calendar c = Calendar.getInstance(); 
+	    int day = c.get(Calendar.DAY_OF_WEEK) - 1;
+	    int hour = d.getHours();
+	    int min = d.getMinutes();
+	    int sec = d.getSeconds();
+	    int[] LastHour = new int[2];
+	    int[] LastMin = new int[2];
+	    int[] LastSec = new int[2];
+	    boolean flagDay = false;
+	    boolean flagNight = false;
+	    
+	    for (int m = 0; m < NUMBER_OF_MODS; m++) {
+	    	for (int t = 0; t < NUMBER_OF_TIMES; t++) {
+	    		if (timeAble[day][m][t]) {
+	    			if (timetable[day][m][t].after( new Date(0, 0, 0, hour, min, sec) ) ) {
+	    				LastHour[m] = timetable[day][m][t].getHours();
+	    				LastMin[m] = timetable[day][m][t].getMinutes();
+	    				LastSec[m] = timetable[day][m][t].getSeconds();
+	    				if (m == 0) {
+		    				flagDay = true;
+		    			} else {
+		    				flagNight = true;
+		    			}
+	    				break;
+	    			}
+	    		} else {
+	    			continue;
+	    		}
+	    	}
+	    }
+	    if (flagDay) {
+	    	if (flagNight) {
+	    		//0 - day, 1 - night
+	    	    if ( (new Date(0, 0, 0, LastHour[0], LastMin[0], LastSec[0])).before(new 
+	    	    		Date(0, 0, 0, LastHour[1], LastMin[1], LastSec[1]))) {
+	    	    	nextNight[2] = false;
+	    	    	nextDay[2] = true;
+	    	    	res.setHours(LastHour[0]);
+		    		res.setMinutes(LastMin[0]);
+		    		res.setSeconds(LastSec[0]);
+	    	    } else {
+	    	    	nextNight[2] = true;
+	    	    	nextDay[2] = false;
+	    	    	res.setHours(LastHour[1]);
+		    		res.setMinutes(LastMin[1]);
+		    		res.setSeconds(LastSec[1]);
+	    	    }
+	    	} else {
+	    		nextNight[2] = false;
+    	    	nextDay[2] = true;
+	    		res.setHours(LastHour[0]);
+	    		res.setMinutes(LastMin[0]);
+	    		res.setSeconds(LastSec[0]);
+	    	}
+	    } else {
+	    	if (flagNight) {
+	    		nextNight[2] = true;
+    	    	nextDay[2] = false;
+	    		res.setHours(LastHour[1]);
+	    		res.setMinutes(LastMin[1]);
+	    		res.setSeconds(LastSec[1]);
+	    	} else {
+	    		nextNight[2] = false;
+    	    	nextDay[2] = false;
+	    		return null;
+	    	}
+	    }
+	    
+		return res;
+	}
+	
 	private void initMain() {
 		//Задаем табы
 		TabHost tabHost = (TabHost)findViewById(R.id.tabhost);
@@ -180,7 +477,41 @@ public class TermostatActivity extends Activity {
         tabHost.addTab(spec4);
         
         //Большая главная картинка
-        ImageButton changeCurrTempB = (ImageButton) findViewById(R.id.glagneMoon);
+
+        ImageButton changeCurrTempB;
+        if (vacation) {
+        	changeCurrTempB = (ImageButton) findViewById(R.id.glagneVacation);
+        	
+        	changeCurrTempB.setVisibility(ImageButton.VISIBLE);
+        	((ImageButton) findViewById(R.id.glagneMoon)).setVisibility(ImageButton.GONE);
+        	((ImageButton) findViewById(R.id.glagneSun)).setVisibility(ImageButton.GONE);
+        	
+        	LinearLayout ll = (LinearLayout) findViewById(R.id.timeTableLayOut);
+        	ll.setVisibility(LinearLayout.INVISIBLE);
+        } else {
+        	if (night) {
+        		changeCurrTempB = (ImageButton) findViewById(R.id.glagneMoon);
+        		
+        		changeCurrTempB.setVisibility(ImageButton.VISIBLE);
+        		((ImageButton) findViewById(R.id.glagneVacation)).setVisibility(ImageButton.GONE);
+            	((ImageButton) findViewById(R.id.glagneSun)).setVisibility(ImageButton.GONE);
+            	
+            	LinearLayout ll = (LinearLayout) findViewById(R.id.timeTableLayOut);
+            	ll.setVisibility(LinearLayout.VISIBLE);
+            	changeTimeTablePic(ll);
+        	} else {
+        		changeCurrTempB = (ImageButton) findViewById(R.id.glagneSun);
+        		
+        		changeCurrTempB.setVisibility(ImageButton.VISIBLE);
+        		((ImageButton) findViewById(R.id.glagneMoon)).setVisibility(ImageButton.GONE);
+            	((ImageButton) findViewById(R.id.glagneVacation)).setVisibility(ImageButton.GONE);
+            	
+            	LinearLayout ll = (LinearLayout) findViewById(R.id.timeTableLayOut);
+            	ll.setVisibility(LinearLayout.VISIBLE);
+            	changeTimeTablePic(ll);
+        	}
+        }
+        
         changeCurrTempB.setOnClickListener(new OnClickListener(){
 
             public void onClick(View v) {
@@ -230,8 +561,7 @@ public class TermostatActivity extends Activity {
             }
         });
         if (vacation) {
-        	LinearLayout ll = (LinearLayout) findViewById(R.id.timeTableLayOut);
-        	ll.setVisibility(LinearLayout.INVISIBLE);
+        	
         	
         	changeCurrTempB.setImageResource(R.drawable.vacation);
         } else {
@@ -243,7 +573,7 @@ public class TermostatActivity extends Activity {
         }
         
         //Кнопки дней
-        Button mnd = (Button) findViewById(R.id.monday_button);
+        TextView mnd = (TextView) findViewById(R.id.monday_button);
         mnd.setOnClickListener(new OnClickListener() {
    
         	public void onClick(View v) {
@@ -255,7 +585,7 @@ public class TermostatActivity extends Activity {
         	}
         });
         
-        Button tue = (Button) findViewById(R.id.tuesday_button);
+        TextView tue = (TextView) findViewById(R.id.tuesday_button);
         tue.setOnClickListener(new OnClickListener() {
    
         	public void onClick(View v) {
@@ -267,7 +597,7 @@ public class TermostatActivity extends Activity {
         	}
         });
         
-        Button wen = (Button) findViewById(R.id.wednesday_button);
+        TextView wen = (TextView) findViewById(R.id.wednesday_button);
         wen.setOnClickListener(new OnClickListener() {
    
         	public void onClick(View v) {
@@ -279,7 +609,7 @@ public class TermostatActivity extends Activity {
         	}
         });
         
-        Button thu = (Button) findViewById(R.id.thursday_button);
+        TextView thu = (TextView) findViewById(R.id.thursday_button);
         thu.setOnClickListener(new OnClickListener() {
    
         	public void onClick(View v) {
@@ -291,7 +621,7 @@ public class TermostatActivity extends Activity {
         	}
         });
         
-        Button fri = (Button) findViewById(R.id.friday_button);
+        TextView fri = (TextView) findViewById(R.id.friday_button);
         fri.setOnClickListener(new OnClickListener() {
    
         	public void onClick(View v) {
@@ -303,7 +633,7 @@ public class TermostatActivity extends Activity {
         	}
         });
         
-        Button sat = (Button) findViewById(R.id.saturday_button);
+        TextView sat = (TextView) findViewById(R.id.saturday_button);
         sat.setOnClickListener(new OnClickListener() {
    
         	public void onClick(View v) {
@@ -315,7 +645,7 @@ public class TermostatActivity extends Activity {
         	}
         });
         
-        Button sun = (Button) findViewById(R.id.sunday_button);
+        TextView sun = (TextView) findViewById(R.id.sunday_button);
         sun.setOnClickListener(new OnClickListener() {
    
         	public void onClick(View v) {

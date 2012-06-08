@@ -12,70 +12,71 @@
         android:text="@string/week_view_label"
         android:layout_margin="20dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-	<LinearLayout 
+
+ <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
         android:orientation="vertical" >
         
-        <Button
+        <TextView
             android:id="@+id/monday_button"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="7dp"
-            
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Monday" />
 
-        <Button
+        <TextView
             android:id="@+id/tuesday_button"
             android:layout_marginBottom="7dp"
-            
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_gravity="center_horizontal"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="Tuesday" />
-        <Button
+        <TextView
             android:id="@+id/wednesday_button"
             android:layout_marginBottom="7dp"
-            
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_gravity="center_horizontal"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="Wednesday" />
 
-        <Button
+        <TextView
             android:id="@+id/thursday_button"
             android:layout_marginBottom="7dp"
-            
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_gravity="center_horizontal"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="Thursday" />
-        <Button
+        <TextView
             android:id="@+id/friday_button"
             android:layout_marginBottom="7dp"
-            
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_gravity="center_horizontal"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="Friday" />
-        <Button
+        <TextView
             android:id="@+id/saturday_button"
             android:layout_marginBottom="7dp"
-            
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_gravity="center_horizontal"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="Saturday" />
         
-        <Button
+        <TextView
             android:id="@+id/sunday_button"
-            
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_gravity="center_horizontal"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:text="Sunday" />
             
     </LinearLayout>
 
-</LinearLayout> 
+</LinearLayout>

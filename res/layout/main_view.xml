@@ -95,8 +95,9 @@
         android:layout_weight="1"
         android:baselineAligned="false"
         android:weightSum="100" >
-
+
         <LinearLayout
+            android:id="@+id/firstTT"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="33.33"
@@ -129,13 +130,14 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
         </LinearLayout>
-
+
         <LinearLayout
+            android:id="@+id/secondTT"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="33.33"
-            android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="33.33"
             android:orientation="vertical" >
 
             <ImageButton
@@ -163,8 +165,9 @@
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
         </LinearLayout>
-
+
         <LinearLayout
+            android:id="@+id/thirdTT"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="33.33"
@@ -184,9 +187,9 @@
                 android:layout_height="0px"
                 android:layout_weight="1"
                 android:background="@drawable/little_sun_2_5" />
-
+
             <TextView
-                android:id="@+id/main_view_time"
+                android:id="@+id/main_view_third_time"
                 android:layout_width="wrap_content"
                 android:layout_height="0px"
                 android:layout_gravity="center_horizontal"
