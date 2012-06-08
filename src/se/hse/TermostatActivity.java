@@ -38,11 +38,13 @@ public class TermostatActivity extends Activity {
 	SharedPreferences.Editor settingsEditor;
 	boolean night;
 	boolean vacation;
+	boolean tmpVac;
 	Date[][][] timetable = new Date[NUMBER_OF_DAYS][NUMBER_OF_MODS][NUMBER_OF_TIMES];
 	boolean[][][] timeAble = new boolean[NUMBER_OF_DAYS][NUMBER_OF_MODS][NUMBER_OF_TIMES];
 	float currTemperature;
 	float dayTemperature;
 	float nightTemperature;
+	float tmpTemp;
 	boolean[] nextNight = new boolean[3];
 	boolean[] nextDay = new boolean[3];
 	TabHost tabHost; // tabwidget
@@ -104,12 +106,14 @@ public class TermostatActivity extends Activity {
      
     }
 	
-	@Override
+    @Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) { 
         	if (currentView != 0){
         		setContentView(R.layout.main);
         		currentView = 0;
+        		tmpVac = vacation;
+        		tmpTemp = currTemperature;
         		initMain();
         		return true;
         	} else {
@@ -118,7 +122,7 @@ public class TermostatActivity extends Activity {
         }
         return false;
      }
-	
+    
 	protected void checkCurrenMode() {
 		Calendar c = Calendar.getInstance(); 
 	    int day = c.get(Calendar.DAY_OF_WEEK) - 1;
@@ -462,7 +466,6 @@ public class TermostatActivity extends Activity {
         spec2.setIndicator("Day night");
         
         spec3 = tabHost.newTabSpec("7 days");
-        
         spec3.setContent(R.id.week_view);
         spec3.setIndicator("7 days");
         
@@ -572,6 +575,21 @@ public class TermostatActivity extends Activity {
         	}
         });
         
+      //Кнопка аплая температуры
+        Button setTemperatureAppl = (Button) findViewById(R.id.set_temperature_apply_button);
+        setTemperatureAppl.setOnClickListener(new OnClickListener() {
+        	
+        	public void onClick(View v) {
+        		currTemperature = tmpTemp;
+        		vacation = tmpVac;
+        		settingsEditor.putFloat("currTemperature", currTemperature);
+        		settingsEditor.putBoolean("vacation", vacation);
+        		setContentView(R.layout.main);
+        		currentView = 0;
+        		initMain();
+        	}
+        });
+        
         TextView tue = (TextView) findViewById(R.id.tuesday_button);
         tue.setOnClickListener(new OnClickListener() {
    
@@ -643,6 +661,8 @@ public class TermostatActivity extends Activity {
         		currentView = 1;
         	}
         });
+
+        
         
     	TextView mainTemp = (TextView) findViewById(R.id.main_view_temperature);
     	mainTemp.setText(""+currTemperature+"°C");

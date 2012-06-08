@@ -39,8 +39,8 @@ public final class R {
         public static final int day_view_first_edit=0x7f050009;
         public static final int day_view_fourth_button=0x7f050010;
         public static final int day_view_fourth_edit=0x7f05000f;
-        public static final int day_view_img_moon=0x7f050013;
-        public static final int day_view_img_sun=0x7f050014;
+        public static final int day_view_img_moon=0x7f050014;
+        public static final int day_view_img_sun=0x7f050013;
         public static final int day_view_second_button=0x7f05000c;
         public static final int day_view_second_edit=0x7f05000b;
         public static final int day_view_third_button=0x7f05000e;
