@@ -187,7 +187,7 @@
                 android:layout_height="0px"
                 android:layout_weight="1"
                 android:background="@drawable/little_sun_2_5" />
-
+
             <TextView
                 android:id="@+id/main_view_third_time"
                 android:layout_width="wrap_content"

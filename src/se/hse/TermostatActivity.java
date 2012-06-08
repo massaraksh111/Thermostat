@@ -461,7 +461,7 @@ public class TermostatActivity extends Activity {
         spec2.setContent(R.id.day_night_mode);
         spec2.setIndicator("Set mode");
         
-        TabSpec spec3 = tabHost.newTabSpec("7 days");
+        spec3 = tabHost.newTabSpec("7 days");
         spec3 = tabHost.newTabSpec("7 days");
         
         spec3.setContent(R.id.week_view);
@@ -510,6 +510,7 @@ public class TermostatActivity extends Activity {
             	changeTimeTablePic(ll);
         	}
         }
+
         changeCurrTempB.setOnClickListener(new OnClickListener(){
 
             public void onClick(View v) {
