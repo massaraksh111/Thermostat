@@ -643,8 +643,6 @@ public class TermostatActivity extends Activity {
         		currentView = 1;
         	}
         });
-
-        
         
     	TextView mainTemp = (TextView) findViewById(R.id.main_view_temperature);
     	mainTemp.setText(""+currTemperature+"°C");
