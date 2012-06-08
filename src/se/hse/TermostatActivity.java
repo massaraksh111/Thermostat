@@ -180,7 +180,7 @@ public class TermostatActivity extends Activity {
         tabHost.addTab(spec4);
         
         //Большая главная картинка
-        ImageButton changeCurrTempB = (ImageButton) findViewById(R.id.changeCurrTempClick);
+        ImageButton changeCurrTempB = (ImageButton) findViewById(R.id.glagneMoon);
         changeCurrTempB.setOnClickListener(new OnClickListener(){
 
             public void onClick(View v) {

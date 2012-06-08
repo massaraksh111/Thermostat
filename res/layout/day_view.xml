@@ -151,10 +151,17 @@
         android:weightSum="100" >
 
         <ImageButton
-            android:id="@+id/day_view_img"
+            android:id="@+id/day_view_img_moon"
             android:layout_width="82dp"
             android:layout_height="82dp"
+            android:visibility="gone"
             android:background="@drawable/little_moon_2_5" />
+        
+        <ImageButton
+            android:id="@+id/day_view_img_sun"
+            android:layout_width="82dp"
+            android:layout_height="82dp"
+            android:background="@drawable/little_sun_2_5" />
 
         <Button
             android:id="@+id/day_view_apply_button"
