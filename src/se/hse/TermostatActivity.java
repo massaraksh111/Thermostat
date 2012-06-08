@@ -109,7 +109,9 @@ public class TermostatActivity extends Activity {
         if (keyCode == KeyEvent.KEYCODE_BACK) { 
         	if (currentView != 0){
         		setContentView(R.layout.main);
-        		currentView = 0;
+        		if (currentView != 2){
+        			currentView = 0;
+        		}
         		tmpVac = vacation;
         		tmpTemp = currTemperature;
         		initMain();
@@ -472,7 +474,7 @@ public class TermostatActivity extends Activity {
     	dayTemperatureChange();
     	
     	//24 часа кнопка 
-    	showTimeTableChange(-1, 0);
+    	showTimeTableChange((Calendar.getInstance()).get(Calendar.DAY_OF_WEEK) - 1, 0);
 	}
 	
 	private void dayTemperatureChange() {
@@ -602,7 +604,7 @@ public class TermostatActivity extends Activity {
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Monday");
         		showTimeTableChange(0, 0);
-        		currentView = 1;
+        		currentView = 2;
         	}
         });
         
@@ -616,7 +618,7 @@ public class TermostatActivity extends Activity {
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Tuesday");
         		showTimeTableChange(1, 0);
-        		currentView = 1;
+        		currentView = 2;
         	}
         });
         
@@ -630,7 +632,7 @@ public class TermostatActivity extends Activity {
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Wednesday");
         		showTimeTableChange(2, 0);
-        		currentView = 1;
+        		currentView = 2;
         	}
         });
         
@@ -644,7 +646,7 @@ public class TermostatActivity extends Activity {
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Thursday");
         		showTimeTableChange(3, 0);
-        		currentView = 1;
+        		currentView = 2;
         	}
         });
         
@@ -658,7 +660,7 @@ public class TermostatActivity extends Activity {
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Friday");
         		showTimeTableChange(4, 0);
-        		currentView = 1;
+        		currentView = 2;
         	}
         });
         
@@ -672,7 +674,7 @@ public class TermostatActivity extends Activity {
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Saturday");
         		showTimeTableChange(5, 0);
-        		currentView = 1;
+        		currentView = 2;
         	}
         });
         
@@ -686,7 +688,7 @@ public class TermostatActivity extends Activity {
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Sunday");
         		showTimeTableChange(6, 0);
-        		currentView = 1;
+        		currentView = 2;
         	}
         });
 
@@ -792,7 +794,7 @@ public class TermostatActivity extends Activity {
 
 	private String showFormatter(int h, int m) {
 		String hour   = (h < 10 ? "0" : "") + h;
-		String minute = m + (m < 10 ? "0" : "");
+		String minute = (m < 10 ? "0" : "") + m;
 		
 		return (hour + ":" + minute);
 	}
@@ -844,6 +846,11 @@ public class TermostatActivity extends Activity {
         tabHost.addTab(spec2);
         tabHost.addTab(spec3);
         tabHost.addTab(spec4);
+        
+        if (currentView == 2) {
+        	tabHost.setCurrentTab(2);
+        	currentView = 0;
+        }
 	}
 
 	private void showTimeTableChange(final int dNumber, int dayType) {
@@ -870,7 +877,7 @@ public class TermostatActivity extends Activity {
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText(weekString[dNumber]);
         		showTimeTableChange(dNumber, 1);
-        		currentView = 1;
+        		
 				
 			}
 		});
@@ -884,7 +891,7 @@ public class TermostatActivity extends Activity {
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText(weekString[dNumber]);
         		showTimeTableChange(dNumber, 0);
-        		currentView = 1;
+        		
 				
 			}
 		});
@@ -921,12 +928,12 @@ public class TermostatActivity extends Activity {
 		        		initLabels(dNumber, day);
 		        		TextView tv = (TextView) findViewById(R.id.dayName);
 		        		tv.setText(weekString[dNumber]);
-		        		showTimeTableChange(0, day);
-		        		currentView = 1;
+		        		showTimeTableChange(dNumber, day);
+		        		
 					}
 				});
      		
-    			currentView = 1;
+    			
     		}});
     	
     	TextView day_view_second = (TextView) findViewById(R.id.day_view_second_edit);
@@ -961,12 +968,12 @@ public class TermostatActivity extends Activity {
 		        		initLabels(dNumber, day);
 		        		TextView tv = (TextView) findViewById(R.id.dayName);
 		        		tv.setText(weekString[dNumber]);
-		        		showTimeTableChange(1, day);
-		        		currentView = 1;
+		        		showTimeTableChange(dNumber, day);
+		        		
 					}
 				});
      		
-    			currentView = 1;
+    			
     		}});
     	
     	TextView day_view_third = (TextView) findViewById(R.id.day_view_third_edit);
@@ -1001,12 +1008,12 @@ public class TermostatActivity extends Activity {
 		        		initLabels(dNumber, day);
 		        		TextView tv = (TextView) findViewById(R.id.dayName);
 		        		tv.setText(weekString[dNumber]);
-		        		showTimeTableChange(2, day);
-		        		currentView = 1;
+		        		showTimeTableChange(dNumber, day);
+		        		
 					}
 				});
      		
-    			currentView = 1;
+    			
     		}});
     	
     	TextView day_view_fourth = (TextView) findViewById(R.id.day_view_fourth_edit);
@@ -1041,12 +1048,12 @@ public class TermostatActivity extends Activity {
 		        		initLabels(dNumber, day);
 		        		TextView tv = (TextView) findViewById(R.id.dayName);
 		        		tv.setText(weekString[dNumber]);
-		        		showTimeTableChange(3, day);
-		        		currentView = 1;
+		        		showTimeTableChange(dNumber, day);
+		        		
 					}
 				});
      		
-    			currentView = 1;
+    			
     		}});
     	
     	TextView day_view_fifth = (TextView) findViewById(R.id.day_view_fifth_edit);
@@ -1081,12 +1088,11 @@ public class TermostatActivity extends Activity {
 		        		initLabels(dNumber, day);
 		        		TextView tv = (TextView) findViewById(R.id.dayName);
 		        		tv.setText(weekString[dNumber]);
-		        		showTimeTableChange(4, day);
-		        		currentView = 1;
+		        		showTimeTableChange(dNumber, day);
+		        		
 					}
 				});
      		
-    			currentView = 1;
     		}});
 	}
 	
