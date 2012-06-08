@@ -83,7 +83,7 @@ public class TermostatActivity extends Activity {
         	for (int m = 0; m < NUMBER_OF_MODS; m++){
         		for (int t = 0; t < NUMBER_OF_TIMES; t++){
         			int hour, min, sec;
-        			hour = settings.getInt("hour" + d + m + t, 12);
+        			hour = settings.getInt("hour" + d + m + t, 9);
         			min= settings.getInt("min" + + d + m + t, 0);
         			sec = settings.getInt("sec" + + d + m + t, 0);
         			timeAble[d][m][t] = settings.getBoolean("timeAble" + + d + m + t, false);
@@ -598,6 +598,7 @@ public class TermostatActivity extends Activity {
         	public void onClick(View v) {
         		
         		setContentView(R.layout.day_view);
+        		initLabels(0, 0);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Monday");
         		currentView = 1;
@@ -610,6 +611,7 @@ public class TermostatActivity extends Activity {
         	public void onClick(View v) {
         		
         		setContentView(R.layout.day_view);
+        		initLabels(1, 0);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Tuesday");
         		currentView = 1;
@@ -622,6 +624,7 @@ public class TermostatActivity extends Activity {
         	public void onClick(View v) {
         		
         		setContentView(R.layout.day_view);
+        		initLabels(2, 0);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Wednesday");
         		currentView = 1;
@@ -634,6 +637,7 @@ public class TermostatActivity extends Activity {
         	public void onClick(View v) {
         		
         		setContentView(R.layout.day_view);
+        		initLabels(3, 0);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Thursday");
         		currentView = 1;
@@ -646,6 +650,7 @@ public class TermostatActivity extends Activity {
         	public void onClick(View v) {
         		
         		setContentView(R.layout.day_view);
+        		initLabels(4, 0);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Friday");
         		currentView = 1;
@@ -658,6 +663,7 @@ public class TermostatActivity extends Activity {
         	public void onClick(View v) {
         		
         		setContentView(R.layout.day_view);
+        		initLabels(5, 0);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Saturday");
         		currentView = 1;
@@ -670,6 +676,7 @@ public class TermostatActivity extends Activity {
         	public void onClick(View v) {
         		
         		setContentView(R.layout.day_view);
+        		initLabels(6, 0);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Sunday");
         		currentView = 1;
@@ -775,6 +782,35 @@ public class TermostatActivity extends Activity {
         
 	}
 
+	private String showFormatter(int h, int m) {
+		String hour   = (h < 10 ? "0" : "") + h;
+		String minute = m + (m < 10 ? "0" : "");
+		
+		return (hour + ":" + minute);
+	}
+	
+	private String showTemp(float t) {
+		return Float.toString((float)((int)(t*10) / 10f));
+	}
+	
+	private void initLabels(int day_number, int mode) {
+		TextView list[] = new TextView[5];
+		list[0] = (TextView) findViewById(R.id.day_view_first_edit);
+		list[1] = (TextView) findViewById(R.id.day_view_second_edit);
+		list[2] = (TextView) findViewById(R.id.day_view_third_edit);
+		list[3] = (TextView) findViewById(R.id.day_view_fourth_edit);
+		list[4] = (TextView) findViewById(R.id.day_view_fifth_edit);
+		
+		for(int i = 0; i < 5; i++)
+		{
+			Date date = timetable[day_number][mode][i];
+			int h = date.getHours();
+			int m = date.getMinutes();
+
+			list[i].setText(showFormatter(h, m));
+		}
+	}
+	
 	private void setTabs() {
 		TabHost tabHost = (TabHost)findViewById(R.id.tabhost);
         tabHost = (TabHost)findViewById(R.id.tabhost);
