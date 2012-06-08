@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.ImageButton;
 import android.widget.TabHost;
@@ -33,7 +34,6 @@ public class TermostatActivity extends Activity {
 	
 	int currentView;
 	
-	OnClickListener currTempListener;
 	SharedPreferences settings;
 	SharedPreferences.Editor settingsEditor;
 	boolean night;
@@ -101,16 +101,13 @@ public class TermostatActivity extends Activity {
       public void run() { checkCurrenMode(); } }, 45*1000);
      
     }
-    
-	protected void setTemp(boolean b) {
-		setContentView(R.layout.set_temperature);
-	}
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) { 
         	if (currentView != 0){
         		setContentView(R.layout.main);
+        		currentView = 0;
         		initMain();
         		return true;
         	} else {
@@ -154,6 +151,7 @@ public class TermostatActivity extends Activity {
 	}
 	
 	private void initMain() {
+		//Задаем табы
 		TabHost tabHost = (TabHost)findViewById(R.id.tabhost);
         tabHost = (TabHost)findViewById(R.id.tabhost);
         tabHost.setup();
@@ -180,17 +178,16 @@ public class TermostatActivity extends Activity {
         tabHost.addTab(spec2);
         tabHost.addTab(spec3);
         tabHost.addTab(spec4);
-        final ImageButton changeCurrTempB = (ImageButton) findViewById(R.id.changeCurrTempClick);
-        currTempListener = new OnClickListener(){
+        
+        //Большая главная картинка
+        ImageButton changeCurrTempB = (ImageButton) findViewById(R.id.changeCurrTempClick);
+        changeCurrTempB.setOnClickListener(new OnClickListener(){
 
             public void onClick(View v) {
             	setContentView(R.layout.set_temperature);
              	
             	TextView tv = (TextView) findViewById(R.id.setTempText);
             	tv.setText("Temporary Temperature");
-            	
-            	/*ImageButton ib = (ImageButton) findViewById(R.id.set_temperature_image);
-            	ib.setVisibility(ImageButton.INVISIBLE);*/
             	
             	NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
              	np1.setMaxValue(40);
@@ -231,9 +228,21 @@ public class TermostatActivity extends Activity {
              	
              	currentView = 1;
             }
-        };
-        changeCurrTempB.setOnClickListener(currTempListener);
+        });
+        if (vacation) {
+        	LinearLayout ll = (LinearLayout) findViewById(R.id.timeTableLayOut);
+        	ll.setVisibility(LinearLayout.INVISIBLE);
+        	
+        	changeCurrTempB.setImageResource(R.drawable.vacation);
+        } else {
+        	if (night) {
+        		changeCurrTempB.setImageResource(R.drawable.vacation);
+        	} else {
+        		changeCurrTempB.setImageResource(R.drawable.vacation);
+        	}
+        }
         
+        //Кнопки дней
         Button mnd = (Button) findViewById(R.id.monday_button);
         mnd.setOnClickListener(new OnClickListener() {
    
@@ -245,6 +254,7 @@ public class TermostatActivity extends Activity {
         		currentView = 1;
         	}
         });
+        
         Button tue = (Button) findViewById(R.id.tuesday_button);
         tue.setOnClickListener(new OnClickListener() {
    
@@ -256,6 +266,7 @@ public class TermostatActivity extends Activity {
         		currentView = 1;
         	}
         });
+        
         Button wen = (Button) findViewById(R.id.wednesday_button);
         wen.setOnClickListener(new OnClickListener() {
    
@@ -267,6 +278,7 @@ public class TermostatActivity extends Activity {
         		currentView = 1;
         	}
         });
+        
         Button thu = (Button) findViewById(R.id.thursday_button);
         thu.setOnClickListener(new OnClickListener() {
    
@@ -278,6 +290,7 @@ public class TermostatActivity extends Activity {
         		currentView = 1;
         	}
         });
+        
         Button fri = (Button) findViewById(R.id.friday_button);
         fri.setOnClickListener(new OnClickListener() {
    
@@ -289,6 +302,7 @@ public class TermostatActivity extends Activity {
         		currentView = 1;
         	}
         });
+        
         Button sat = (Button) findViewById(R.id.saturday_button);
         sat.setOnClickListener(new OnClickListener() {
    
@@ -300,6 +314,7 @@ public class TermostatActivity extends Activity {
         		currentView = 1;
         	}
         });
+        
         Button sun = (Button) findViewById(R.id.sunday_button);
         sun.setOnClickListener(new OnClickListener() {
    
@@ -311,6 +326,11 @@ public class TermostatActivity extends Activity {
         		currentView = 1;
         	}
         });
+
+    	TextView mainTemp = (TextView) findViewById(R.id.main_view_temperature);
+    	mainTemp.setText(""+currTemperature+"°C");
+        
+        
 	}
 	
 }
