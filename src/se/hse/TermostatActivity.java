@@ -463,7 +463,7 @@ public class TermostatActivity extends Activity {
         
         //Вывод температуры на глагне
     	TextView mainTemp = (TextView) findViewById(R.id.main_view_temperature);
-    	mainTemp.setText(""+currTemperature+"°C");
+    	mainTemp.setText(""+showTemp(currTemperature)+"°C");
         
     	//Кнопка изменения ночной температуры
     	nightTemperatureChange();
@@ -870,7 +870,7 @@ public class TermostatActivity extends Activity {
 					
 					public void onClick(View v) {
 						timetable[dNumber][day][0].setHours(tmpDate.getHours());
-						timetable[dNumber][day][0].setHours(tmpDate.getMinutes());
+						timetable[dNumber][day][0].setMinutes(tmpDate.getMinutes());
 						settingsEditor.putInt("hour"+dNumber+day+"0", tmpDate.getHours());
 						settingsEditor.putInt("minute"+dNumber+day+"0", tmpDate.getMinutes());
 						settingsEditor.apply();
