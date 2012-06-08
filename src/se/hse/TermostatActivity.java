@@ -463,7 +463,7 @@ public class TermostatActivity extends Activity {
         //Кнопки дней
         setDaysAction();
         
-        
+        //Вывод температуры на глагне
     	TextView mainTemp = (TextView) findViewById(R.id.main_view_temperature);
     	mainTemp.setText(""+currTemperature+"°C");
         
@@ -600,6 +600,7 @@ public class TermostatActivity extends Activity {
         		setContentView(R.layout.day_view);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Monday");
+        		showTimeTableChange();
         		currentView = 1;
         	}
         });
@@ -612,6 +613,7 @@ public class TermostatActivity extends Activity {
         		setContentView(R.layout.day_view);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Tuesday");
+        		showTimeTableChange();
         		currentView = 1;
         	}
         });
@@ -624,6 +626,7 @@ public class TermostatActivity extends Activity {
         		setContentView(R.layout.day_view);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Wednesday");
+        		showTimeTableChange();
         		currentView = 1;
         	}
         });
@@ -636,6 +639,7 @@ public class TermostatActivity extends Activity {
         		setContentView(R.layout.day_view);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Thursday");
+        		showTimeTableChange();
         		currentView = 1;
         	}
         });
@@ -648,6 +652,7 @@ public class TermostatActivity extends Activity {
         		setContentView(R.layout.day_view);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Friday");
+        		showTimeTableChange();
         		currentView = 1;
         	}
         });
@@ -660,6 +665,7 @@ public class TermostatActivity extends Activity {
         		setContentView(R.layout.day_view);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Saturday");
+        		showTimeTableChange();
         		currentView = 1;
         	}
         });
@@ -672,6 +678,7 @@ public class TermostatActivity extends Activity {
         		setContentView(R.layout.day_view);
         		TextView tv = (TextView) findViewById(R.id.dayName);
         		tv.setText("Sunday");
+        		showTimeTableChange();
         		currentView = 1;
         	}
         });
