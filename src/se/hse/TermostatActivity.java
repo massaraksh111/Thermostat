@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.Timer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -80,8 +82,8 @@ public class TermostatActivity extends Activity {
 			for (int m = 0; m < NUMBER_OF_MODS; m++) {
 				for (int t = 0; t < NUMBER_OF_TIMES; t++) {
 					int hour, min, sec;
-					hour = settings.getInt("hour" + d + m + t, 9);
-					min = settings.getInt("min" + +d + m + t, 0);
+					hour = settings.getInt("hour" + d + m + t, (m == 0 ? 9 : 10));
+					min = settings.getInt("min" + +d + m + t, t);
 					sec = settings.getInt("sec" + +d + m + t, 0);
 					timeAble[d][m][t] = settings.getBoolean("timeAble" + +d + m
 							+ t, false);
@@ -1015,9 +1017,20 @@ public class TermostatActivity extends Activity {
 				applyTime.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {
+						// !!!!!!!!!!!!!!!!!!!!!!!!!!!! тут проверка
+						Date d = (Date)timetable[dNumber][day][0].clone();
 						timetable[dNumber][day][0].setHours(tmpDate.getHours());
-						timetable[dNumber][day][0].setMinutes(tmpDate
-								.getMinutes());
+						timetable[dNumber][day][0].setMinutes(tmpDate.getMinutes());
+						
+						if(testDateForComparing(dNumber, day, 0)) {
+							showAlert();
+							timetable[dNumber][day][0] = d;
+							setContentView(R.layout.main);
+							initMain(0);
+							return;
+						}
+						// !!!!!!!!!!!!!!!!!!!!!!!!!!!! тут проверка
+						
 						settingsEditor.putInt("hour" + dNumber + day + "0",
 								tmpDate.getHours());
 						settingsEditor.putInt("minute" + dNumber + day + "0",
@@ -1067,9 +1080,18 @@ public class TermostatActivity extends Activity {
 				applyTime.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {
+						Date d = (Date)timetable[dNumber][day][1].clone();
 						timetable[dNumber][day][1].setHours(tmpDate.getHours());
-						timetable[dNumber][day][1].setMinutes(tmpDate
-								.getMinutes());
+						timetable[dNumber][day][1].setMinutes(tmpDate.getMinutes());
+						
+						if(testDateForComparing(dNumber, day, 1)) {
+							showAlert();
+							timetable[dNumber][day][0] = d;
+							setContentView(R.layout.main);
+							initMain(0);
+							return;
+						}
+						
 						settingsEditor.putInt("hour" + dNumber + day + "1",
 								tmpDate.getHours());
 						settingsEditor.putInt("minute" + dNumber + day + "1",
@@ -1119,9 +1141,18 @@ public class TermostatActivity extends Activity {
 				applyTime.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {
+						Date d = (Date)timetable[dNumber][day][2].clone();
 						timetable[dNumber][day][2].setHours(tmpDate.getHours());
-						timetable[dNumber][day][2].setMinutes(tmpDate
-								.getMinutes());
+						timetable[dNumber][day][2].setMinutes(tmpDate.getMinutes());
+						
+						if(testDateForComparing(dNumber, day, 2)) {
+							showAlert();
+							timetable[dNumber][day][2] = d;
+							setContentView(R.layout.main);
+							initMain(0);
+							return;
+						}
+						
 						settingsEditor.putInt("hour" + dNumber + day + "2",
 								tmpDate.getHours());
 						settingsEditor.putInt("minute" + dNumber + day + "2",
@@ -1171,9 +1202,18 @@ public class TermostatActivity extends Activity {
 				applyTime.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {
+						Date d = (Date)timetable[dNumber][day][3].clone();
 						timetable[dNumber][day][3].setHours(tmpDate.getHours());
-						timetable[dNumber][day][3].setMinutes(tmpDate
-								.getMinutes());
+						timetable[dNumber][day][3].setMinutes(tmpDate.getMinutes());
+						
+						if(testDateForComparing(dNumber, day, 3)) {
+							showAlert();
+							timetable[dNumber][day][3] = d;
+							setContentView(R.layout.main);
+							initMain(0);
+							return;
+						}
+						
 						settingsEditor.putInt("hour" + dNumber + day + "3",
 								tmpDate.getHours());
 						settingsEditor.putInt("minute" + dNumber + day + "3",
@@ -1221,9 +1261,17 @@ public class TermostatActivity extends Activity {
 				applyTime.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {
+						Date d = (Date)timetable[dNumber][day][4].clone();
 						timetable[dNumber][day][4].setHours(tmpDate.getHours());
-						timetable[dNumber][day][4].setMinutes(tmpDate
-								.getMinutes());
+						timetable[dNumber][day][4].setMinutes(tmpDate.getMinutes());
+						
+						if(testDateForComparing(dNumber, day, 4)) {
+							showAlert();
+							timetable[dNumber][day][4] = d;
+							setContentView(R.layout.main);
+							initMain(0);
+							return;
+						}
 						settingsEditor.putInt("hour" + dNumber + day + "4",
 								tmpDate.getHours());
 						settingsEditor.putInt("minute" + dNumber + day + "4",
@@ -1245,6 +1293,35 @@ public class TermostatActivity extends Activity {
 
 			}
 		});
+	}
+
+	// просто выводит диалоговое окно
+	void showAlert() {
+		AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);                      
+	    dlgAlert.setTitle("Date errors"); 
+	    dlgAlert.setMessage("Some dates are equal"); 
+	    dlgAlert.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) { }
+	    });
+	    dlgAlert.create().show();
+	}
+    
+	// проверяет весь день(2 режима) на совпадение
+    boolean testDateForComparing(int day, int mode, int editNumber) {
+		
+		Date d = timetable[day][mode][editNumber]; // получаем время
+		
+		for (int m = 0; m < 2; m++) {
+			for (int i = 0; i < NUMBER_OF_TIMES; i++) { // сравниваем всё время, за исключением его самого
+				if ( !(editNumber == i && mode == m)
+						&& (d.compareTo(timetable[day][mode][i]) == 0)) {
+					return true; // нашли совпадение 
+				}
+
+			}
+		}
+		
+		return false;
 	}
 
 	private void boolSwitchersActivated(final int dNumber, final int day, boolean flag) {
