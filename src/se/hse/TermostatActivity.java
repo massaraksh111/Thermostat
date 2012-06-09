@@ -1,8 +1,12 @@
 package se.hse;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -128,7 +132,33 @@ public class TermostatActivity extends Activity {
 			mHandler.postDelayed(this, 1 * 1000);
 		}
 	};
+	
+	public List<Date> getListOfNextSwichers() {
+	    Calendar c = Calendar.getInstance(); 
+	    final int Day = c.get(Calendar.DAY_OF_WEEK) - 2; // получаем день
 
+	    Comparator<Task> comparator = new TaskComparator(); // сортировщик дат
+	    PriorityQueue<Task> queue = new PriorityQueue<Task>(10, comparator); 
+	    for (int m = 0; m < NUMBER_OF_MODS; m++) {
+	        for (int t = 0; t < NUMBER_OF_TIMES; t++) {
+	            queue.add(new Task( (m == 0) , timetable[Day][m][t]));
+	        }
+	    }
+
+	    List<Date> list = new ArrayList<Date>();
+	    Date now = new Date(0, 0, 0, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), 0);
+	    while(queue.size() != 0 || list.size() != 3) {
+	        Task t = queue.remove();
+	        if(now.before(t.d)) list.add( (Date)t.d.clone() );
+	    }
+
+	    for(int i = list.size(); i < 3; i++) {
+	        list.add(null);
+	    }
+
+	    return list;
+	}
+	
 	protected void checkCurrenMode() {
 		//updateUI();
 		Calendar c = Calendar.getInstance();
@@ -173,7 +203,9 @@ public class TermostatActivity extends Activity {
 	}
 
 	private void changeTimeTablePic(LinearLayout ll) {
-		Date d1 = findNextTime();
+		List<Date> list = getListOfNextSwichers();
+		
+		Date d1 = list.get(0);
 
 		if (d1 == null) {
 			ll.setVisibility(LinearLayout.GONE);
@@ -191,7 +223,7 @@ public class TermostatActivity extends Activity {
 			tw1.setText( showFormatter(d1.getHours(), d1.getMinutes()));
 		}
 
-		Date d2 = findSecondTime(d1);
+		Date d2 = list.get(1);
 
 		ImageButton ib2m = (ImageButton) findViewById(R.id.main_view_second_image_moon);
 		ImageButton ib2s = (ImageButton) findViewById(R.id.main_view_second_image_sun);
@@ -210,7 +242,7 @@ public class TermostatActivity extends Activity {
 			tw2.setText( showFormatter(d2.getHours(), d2.getMinutes()));
 		}
 
-		Date d3 = findThirdTime(d2);
+		Date d3 = list.get(2);
 
 		ImageButton ib3m = (ImageButton) findViewById(R.id.main_view_third_image_moon);
 		ImageButton ib3s = (ImageButton) findViewById(R.id.main_view_third_image_sun);
@@ -231,6 +263,10 @@ public class TermostatActivity extends Activity {
 	}
 
 	private Date findNextTime() {
+		
+		
+		
+		
 		Date res = new Date();
 
 		Calendar c = Calendar.getInstance();
@@ -298,174 +334,6 @@ public class TermostatActivity extends Activity {
 			} else {
 				nextNight[0] = false;
 				nextDay[0] = false;
-				return null;
-			}
-		}
-
-		return res;
-	}
-
-	private Date findSecondTime(Date d) {
-		Date res = new Date();
-
-		if (!nextDay[0]) {
-			if (!nextNight[0]) {
-				nextDay[1] = false;
-				nextNight[1] = false;
-				return null;
-			}
-		}
-
-		Calendar c = Calendar.getInstance();
-		int day = c.get(Calendar.DAY_OF_WEEK) - 2;
-		int hour = d.getHours();
-		int min = d.getMinutes();
-		int sec = d.getSeconds();
-		int[] LastHour = new int[2];
-		int[] LastMin = new int[2];
-		int[] LastSec = new int[2];
-		boolean flagDay = false;
-		boolean flagNight = false;
-
-		for (int m = 0; m < NUMBER_OF_MODS; m++) {
-			for (int t = 0; t < NUMBER_OF_TIMES; t++) {
-				if (timeAble[day][m][t]) {
-					if (timetable[day][m][t].after(new Date(0, 0, 0, hour, min,
-							sec))) {
-						LastHour[m] = timetable[day][m][t].getHours();
-						LastMin[m] = timetable[day][m][t].getMinutes();
-						LastSec[m] = timetable[day][m][t].getSeconds();
-						if (m == 0) {
-							flagDay = true;
-						} else {
-							flagNight = true;
-						}
-						break;
-					}
-				} else {
-					continue;
-				}
-			}
-		}
-		if (flagDay) {
-			if (flagNight) {
-				// 0 - day, 1 - night
-				if ((new Date(0, 0, 0, LastHour[0], LastMin[0], LastSec[0]))
-						.before(new Date(0, 0, 0, LastHour[1], LastMin[1],
-								LastSec[1]))) {
-					nextNight[1] = false;
-					nextDay[1] = true;
-					res.setHours(LastHour[0]);
-					res.setMinutes(LastMin[0]);
-					res.setSeconds(LastSec[0]);
-				} else {
-					nextNight[1] = true;
-					nextDay[1] = false;
-					res.setHours(LastHour[1]);
-					res.setMinutes(LastMin[1]);
-					res.setSeconds(LastSec[1]);
-				}
-			} else {
-				nextNight[1] = false;
-				nextDay[1] = true;
-				res.setHours(LastHour[0]);
-				res.setMinutes(LastMin[0]);
-				res.setSeconds(LastSec[0]);
-			}
-		} else {
-			if (flagNight) {
-				nextNight[1] = true;
-				nextDay[1] = false;
-				res.setHours(LastHour[1]);
-				res.setMinutes(LastMin[1]);
-				res.setSeconds(LastSec[1]);
-			} else {
-				nextNight[1] = false;
-				nextDay[1] = false;
-				return null;
-			}
-		}
-
-		return res;
-	}
-
-	private Date findThirdTime(Date d) {
-		Date res = new Date();
-
-		if (!nextDay[1]) {
-			if (!nextNight[1]) {
-				nextDay[2] = false;
-				nextNight[2] = false;
-				return null;
-			}
-		}
-
-		Calendar c = Calendar.getInstance();
-		int day = c.get(Calendar.DAY_OF_WEEK) - 2;
-		int hour = d.getHours();
-		int min = d.getMinutes();
-		int sec = d.getSeconds();
-		int[] LastHour = new int[2];
-		int[] LastMin = new int[2];
-		int[] LastSec = new int[2];
-		boolean flagDay = false;
-		boolean flagNight = false;
-
-		for (int m = 0; m < NUMBER_OF_MODS; m++) {
-			for (int t = 0; t < NUMBER_OF_TIMES; t++) {
-				if (timeAble[day][m][t]) {
-					if (timetable[day][m][t].after(new Date(0, 0, 0, hour, min,
-							sec))) {
-						LastHour[m] = timetable[day][m][t].getHours();
-						LastMin[m] = timetable[day][m][t].getMinutes();
-						LastSec[m] = timetable[day][m][t].getSeconds();
-						if (m == 0) {
-							flagDay = true;
-						} else {
-							flagNight = true;
-						}
-						break;
-					}
-				} else {
-					continue;
-				}
-			}
-		}
-		if (flagDay) {
-			if (flagNight) {
-				// 0 - day, 1 - night
-				if ((new Date(0, 0, 0, LastHour[0], LastMin[0], LastSec[0]))
-						.before(new Date(0, 0, 0, LastHour[1], LastMin[1],
-								LastSec[1]))) {
-					nextNight[2] = false;
-					nextDay[2] = true;
-					res.setHours(LastHour[0]);
-					res.setMinutes(LastMin[0]);
-					res.setSeconds(LastSec[0]);
-				} else {
-					nextNight[2] = true;
-					nextDay[2] = false;
-					res.setHours(LastHour[1]);
-					res.setMinutes(LastMin[1]);
-					res.setSeconds(LastSec[1]);
-				}
-			} else {
-				nextNight[2] = false;
-				nextDay[2] = true;
-				res.setHours(LastHour[0]);
-				res.setMinutes(LastMin[0]);
-				res.setSeconds(LastSec[0]);
-			}
-		} else {
-			if (flagNight) {
-				nextNight[2] = true;
-				nextDay[2] = false;
-				res.setHours(LastHour[1]);
-				res.setMinutes(LastMin[1]);
-				res.setSeconds(LastSec[1]);
-			} else {
-				nextNight[2] = false;
-				nextDay[2] = false;
 				return null;
 			}
 		}
@@ -629,104 +497,27 @@ public class TermostatActivity extends Activity {
 	}
 
 	private void setDaysAction() {
+		
 		TextView mnd = (TextView) findViewById(R.id.monday_button);
-		mnd.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-
-				setContentView(R.layout.day_view);
-				initLabels(0, 0);
-				TextView tv = (TextView) findViewById(R.id.dayName);
-				tv.setText("Monday");
-				showTimeTableChange(0, 0, true);
-				currentView = 2;
-			}
-		});
+		mnd.setOnClickListener(new DayButtonListener(0, "Monday"));
 
 		TextView tue = (TextView) findViewById(R.id.tuesday_button);
-		tue.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-
-				setContentView(R.layout.day_view);
-				initLabels(1, 0);
-				TextView tv = (TextView) findViewById(R.id.dayName);
-				tv.setText("Tuesday");
-				showTimeTableChange(1, 0, true);
-				currentView = 2;
-			}
-		});
+		tue.setOnClickListener(new DayButtonListener(1, "Tuesday"));
 
 		TextView wen = (TextView) findViewById(R.id.wednesday_button);
-		wen.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-
-				setContentView(R.layout.day_view);
-				initLabels(2, 0);
-				TextView tv = (TextView) findViewById(R.id.dayName);
-				tv.setText("Wednesday");
-				showTimeTableChange(2, 0, true);
-				currentView = 2;
-			}
-		});
+		wen.setOnClickListener(new DayButtonListener(2, "Wednesday"));
 
 		TextView thu = (TextView) findViewById(R.id.thursday_button);
-		thu.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-
-				setContentView(R.layout.day_view);
-				initLabels(3, 0);
-				TextView tv = (TextView) findViewById(R.id.dayName);
-				tv.setText("Thursday");
-				showTimeTableChange(3, 0, true);
-				currentView = 2;
-			}
-		});
+		thu.setOnClickListener(new DayButtonListener(3, "Thursday"));
 
 		TextView fri = (TextView) findViewById(R.id.friday_button);
-		fri.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-
-				setContentView(R.layout.day_view);
-				initLabels(4, 0);
-				TextView tv = (TextView) findViewById(R.id.dayName);
-				tv.setText("Friday");
-				showTimeTableChange(4, 0, true);
-				currentView = 2;
-			}
-		});
+		fri.setOnClickListener(new DayButtonListener(4, "Friday"));
 
 		TextView sat = (TextView) findViewById(R.id.saturday_button);
-		sat.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-
-				setContentView(R.layout.day_view);
-				initLabels(5, 0);
-				TextView tv = (TextView) findViewById(R.id.dayName);
-				tv.setText("Saturday");
-				showTimeTableChange(5, 0, true);
-				currentView = 2;
-			}
-		});
+		sat.setOnClickListener(new DayButtonListener(5, "Saturday"));
 
 		TextView sun = (TextView) findViewById(R.id.sunday_button);
-		sun.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-
-				setContentView(R.layout.day_view);
-				initLabels(6, 0);
-				TextView tv = (TextView) findViewById(R.id.dayName);
-				tv.setText("Sunday");
-				showTimeTableChange(6, 0, true);
-				currentView = 2;
-			}
-		});
-
+		sun.setOnClickListener(new DayButtonListener(6, "Sunday"));
 	}
 
 	private void updateUI() {
@@ -934,9 +725,8 @@ public class TermostatActivity extends Activity {
 		}
 		
 	}
-
+	
 	private void showTimeTableChange(final int dNumber, final int day, final boolean flag) {
-		// Экран выбора времен
 		
 		boolSwitchersActivated(dNumber, day, flag);
 		
@@ -945,358 +735,36 @@ public class TermostatActivity extends Activity {
 		
 		ImageButton dayToNightSwitch = (ImageButton) findViewById(R.id.day_view_img_sun);
 		ImageButton nightToDaySwitch = (ImageButton) findViewById(R.id.day_view_img_moon);
+		
+		int dayVisibility   = day == 0 ? ImageButton.VISIBLE : ImageButton.GONE;
+		int nightVisibility = day == 0 ? ImageButton.GONE : ImageButton.VISIBLE;
+		
+		dayToNightSwitch.setVisibility(dayVisibility);
+		nightToDaySwitch.setVisibility(nightVisibility);
 
-		if (day == 0) {
-			dayToNightSwitch.setVisibility(ImageButton.VISIBLE);
-			nightToDaySwitch.setVisibility(ImageButton.GONE);
-		} else {
-			dayToNightSwitch.setVisibility(ImageButton.GONE);
-			nightToDaySwitch.setVisibility(ImageButton.VISIBLE);
-		}
-
-		dayToNightSwitch.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-
-				if (flag) {
-					setContentView(R.layout.day_view);
-					initLabels(dNumber, 1);
-					TextView tv = (TextView) findViewById(R.id.dayName);
-					tv.setText(weekString[dNumber]);
-					showTimeTableChange(dNumber, 1, flag);
-				} else {
-					setContentView(R.layout.main);
-					initMain(1);
-				}
-				
-
-			}
-		});
-
-		nightToDaySwitch.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-
-				if (flag) {
-					setContentView(R.layout.day_view);
-					initLabels(dNumber, 0);
-					TextView tv = (TextView) findViewById(R.id.dayName);
-					tv.setText(weekString[dNumber]);
-					showTimeTableChange(dNumber, 0, flag);
-				} else {
-					setContentView(R.layout.main);
-					initMain(0);
-				}
-
-			}
-		});
+		dayToNightSwitch.setOnClickListener(new DaySwicher(flag, R.layout.day_view, R.layout.main, R.id.dayName, dNumber, 1));
+		nightToDaySwitch.setOnClickListener(new DaySwicher(flag, R.layout.day_view, R.layout.main, R.id.dayName, dNumber, 0));
+		
 
 		TextView day_view_first = (TextView) findViewById(R.id.day_view_first_edit);
-		day_view_first.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-
-				setContentView(R.layout.set_time);
-				TimePicker setTime = (TimePicker) findViewById(R.id.set_time_time_setter);
-				setTime.setIs24HourView(true);
-				setTime.setCurrentHour(timetable[dNumber][day][0].getHours());
-				setTime.setCurrentMinute(timetable[dNumber][day][0]
-						.getMinutes());
-				final Date tmpDate = new Date(0, 0, 0,
-						setTime.getCurrentHour(), setTime.getCurrentMinute(), 0);
-				setTime.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-
-					public void onTimeChanged(TimePicker view, int hourOfDay,
-							int minute) {
-						tmpDate.setHours(hourOfDay);
-						tmpDate.setMinutes(minute);
-					}
-				});
-
-				Button applyTime = (Button) findViewById(R.id.set_time_ok_button);
-				applyTime.setOnClickListener(new OnClickListener() {
-
-					public void onClick(View v) {
-						// !!!!!!!!!!!!!!!!!!!!!!!!!!!! тут проверка
-						Date d = (Date)timetable[dNumber][day][0].clone();
-						timetable[dNumber][day][0].setHours(tmpDate.getHours());
-						timetable[dNumber][day][0].setMinutes(tmpDate.getMinutes());
-						
-						if(testDateForComparing(dNumber, day, 0)) {
-							showAlert();
-							timetable[dNumber][day][0] = d;
-							setContentView(R.layout.main);
-							initMain(0);
-							return;
-						}
-						// !!!!!!!!!!!!!!!!!!!!!!!!!!!! тут проверка
-						
-						settingsEditor.putInt("hour" + dNumber + day + "0",
-								tmpDate.getHours());
-						settingsEditor.putInt("minute" + dNumber + day + "0",
-								tmpDate.getMinutes());
-						settingsEditor.apply();
-						if (flag) {
-							setContentView(R.layout.day_view);
-							initLabels(dNumber, day);
-							TextView tv = (TextView) findViewById(R.id.dayName);
-							tv.setText(weekString[dNumber]);
-							showTimeTableChange(dNumber, day, flag);
-
-						} else {
-							setContentView(R.layout.main);
-							initMain(0);
-						}
-						
-					}
-				});
-
-			}
-		});
+		day_view_first.setOnClickListener(new DayViewListener(dNumber, 0, flag, day) );
 
 		TextView day_view_second = (TextView) findViewById(R.id.day_view_second_edit);
-		day_view_second.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-
-				setContentView(R.layout.set_time);
-				TimePicker setTime = (TimePicker) findViewById(R.id.set_time_time_setter);
-				setTime.setIs24HourView(true);
-				setTime.setCurrentHour(timetable[dNumber][day][1].getHours());
-				setTime.setCurrentMinute(timetable[dNumber][day][1]
-						.getMinutes());
-				final Date tmpDate = new Date(0, 0, 0,
-						setTime.getCurrentHour(), setTime.getCurrentMinute(), 0);
-				setTime.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-
-					public void onTimeChanged(TimePicker view, int hourOfDay,
-							int minute) {
-						tmpDate.setHours(hourOfDay);
-						tmpDate.setMinutes(minute);
-					}
-				});
-
-				Button applyTime = (Button) findViewById(R.id.set_time_ok_button);
-				applyTime.setOnClickListener(new OnClickListener() {
-
-					public void onClick(View v) {
-						Date d = (Date)timetable[dNumber][day][1].clone();
-						timetable[dNumber][day][1].setHours(tmpDate.getHours());
-						timetable[dNumber][day][1].setMinutes(tmpDate.getMinutes());
-						
-						if(testDateForComparing(dNumber, day, 1)) {
-							showAlert();
-							timetable[dNumber][day][0] = d;
-							setContentView(R.layout.main);
-							initMain(0);
-							return;
-						}
-						
-						settingsEditor.putInt("hour" + dNumber + day + "1",
-								tmpDate.getHours());
-						settingsEditor.putInt("minute" + dNumber + day + "1",
-								tmpDate.getMinutes());
-						settingsEditor.apply();
-						if (flag) {
-							setContentView(R.layout.day_view);
-							initLabels(dNumber, day);
-							TextView tv = (TextView) findViewById(R.id.dayName);
-							tv.setText(weekString[dNumber]);
-							showTimeTableChange(dNumber, day, flag);
-						} else {
-							setContentView(R.layout.main);
-							initMain(0);
-						}
-						
-
-					}
-				});
-
-			}
-		});
-
+		day_view_second.setOnClickListener(new DayViewListener(dNumber, 1, flag, day) );
+		
 		TextView day_view_third = (TextView) findViewById(R.id.day_view_third_edit);
-		day_view_third.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-
-				setContentView(R.layout.set_time);
-				TimePicker setTime = (TimePicker) findViewById(R.id.set_time_time_setter);
-				setTime.setIs24HourView(true);
-				setTime.setCurrentHour(timetable[dNumber][day][2].getHours());
-				setTime.setCurrentMinute(timetable[dNumber][day][2]
-						.getMinutes());
-				final Date tmpDate = new Date(0, 0, 0,
-						setTime.getCurrentHour(), setTime.getCurrentMinute(), 0);
-				setTime.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-
-					public void onTimeChanged(TimePicker view, int hourOfDay,
-							int minute) {
-						tmpDate.setHours(hourOfDay);
-						tmpDate.setMinutes(minute);
-					}
-				});
-
-				Button applyTime = (Button) findViewById(R.id.set_time_ok_button);
-				applyTime.setOnClickListener(new OnClickListener() {
-
-					public void onClick(View v) {
-						Date d = (Date)timetable[dNumber][day][2].clone();
-						timetable[dNumber][day][2].setHours(tmpDate.getHours());
-						timetable[dNumber][day][2].setMinutes(tmpDate.getMinutes());
-						
-						if(testDateForComparing(dNumber, day, 2)) {
-							showAlert();
-							timetable[dNumber][day][2] = d;
-							setContentView(R.layout.main);
-							initMain(0);
-							return;
-						}
-						
-						settingsEditor.putInt("hour" + dNumber + day + "2",
-								tmpDate.getHours());
-						settingsEditor.putInt("minute" + dNumber + day + "2",
-								tmpDate.getMinutes());
-						settingsEditor.apply();
-						if (flag) {
-							setContentView(R.layout.day_view);
-							initLabels(dNumber, day);
-							TextView tv = (TextView) findViewById(R.id.dayName);
-							tv.setText(weekString[dNumber]);
-							showTimeTableChange(dNumber, day, flag);
-						} else {
-							setContentView(R.layout.main);
-							initMain(0);
-						}
-						
-
-					}
-				});
-
-			}
-		});
+		day_view_third.setOnClickListener(new DayViewListener(dNumber, 2, flag, day) );
 
 		TextView day_view_fourth = (TextView) findViewById(R.id.day_view_fourth_edit);
-		day_view_fourth.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-
-				setContentView(R.layout.set_time);
-				TimePicker setTime = (TimePicker) findViewById(R.id.set_time_time_setter);
-				setTime.setIs24HourView(true);
-				setTime.setCurrentHour(timetable[dNumber][day][3].getHours());
-				setTime.setCurrentMinute(timetable[dNumber][day][3]
-						.getMinutes());
-				final Date tmpDate = new Date(0, 0, 0,
-						setTime.getCurrentHour(), setTime.getCurrentMinute(), 0);
-				setTime.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-
-					public void onTimeChanged(TimePicker view, int hourOfDay,
-							int minute) {
-						tmpDate.setHours(hourOfDay);
-						tmpDate.setMinutes(minute);
-					}
-				});
-
-				Button applyTime = (Button) findViewById(R.id.set_time_ok_button);
-				applyTime.setOnClickListener(new OnClickListener() {
-
-					public void onClick(View v) {
-						Date d = (Date)timetable[dNumber][day][3].clone();
-						timetable[dNumber][day][3].setHours(tmpDate.getHours());
-						timetable[dNumber][day][3].setMinutes(tmpDate.getMinutes());
-						
-						if(testDateForComparing(dNumber, day, 3)) {
-							showAlert();
-							timetable[dNumber][day][3] = d;
-							setContentView(R.layout.main);
-							initMain(0);
-							return;
-						}
-						
-						settingsEditor.putInt("hour" + dNumber + day + "3",
-								tmpDate.getHours());
-						settingsEditor.putInt("minute" + dNumber + day + "3",
-								tmpDate.getMinutes());
-						settingsEditor.apply();
-						if (flag) {
-							setContentView(R.layout.day_view);
-							initLabels(dNumber, day);
-							TextView tv = (TextView) findViewById(R.id.dayName);
-							tv.setText(weekString[dNumber]);
-							showTimeTableChange(dNumber, day, flag);
-						} else {
-							setContentView(R.layout.main);
-							initMain(0);
-						}
-					}
-				});
-
-			}
-		});
+		day_view_fourth.setOnClickListener(new DayViewListener(dNumber, 3, flag, day) );
 
 		TextView day_view_fifth = (TextView) findViewById(R.id.day_view_fifth_edit);
-		day_view_fifth.setOnClickListener(new OnClickListener() {
-
-			public void onClick(View v) {
-
-				setContentView(R.layout.set_time);
-				TimePicker setTime = (TimePicker) findViewById(R.id.set_time_time_setter);
-				setTime.setIs24HourView(true);
-				setTime.setCurrentHour(timetable[dNumber][day][4].getHours());
-				setTime.setCurrentMinute(timetable[dNumber][day][4]
-						.getMinutes());
-				final Date tmpDate = new Date(0, 0, 0,
-						setTime.getCurrentHour(), setTime.getCurrentMinute(), 0);
-				setTime.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
-
-					public void onTimeChanged(TimePicker view, int hourOfDay,
-							int minute) {
-						tmpDate.setHours(hourOfDay);
-						tmpDate.setMinutes(minute);
-					}
-				});
-
-				Button applyTime = (Button) findViewById(R.id.set_time_ok_button);
-				applyTime.setOnClickListener(new OnClickListener() {
-
-					public void onClick(View v) {
-						Date d = (Date)timetable[dNumber][day][4].clone();
-						timetable[dNumber][day][4].setHours(tmpDate.getHours());
-						timetable[dNumber][day][4].setMinutes(tmpDate.getMinutes());
-						
-						if(testDateForComparing(dNumber, day, 4)) {
-							showAlert();
-							timetable[dNumber][day][4] = d;
-							setContentView(R.layout.main);
-							initMain(0);
-							return;
-						}
-						settingsEditor.putInt("hour" + dNumber + day + "4",
-								tmpDate.getHours());
-						settingsEditor.putInt("minute" + dNumber + day + "4",
-								tmpDate.getMinutes());
-						settingsEditor.apply();
-						if (flag) {
-							setContentView(R.layout.day_view);
-							initLabels(dNumber, day);
-							TextView tv = (TextView) findViewById(R.id.dayName);
-							tv.setText(weekString[dNumber]);
-							showTimeTableChange(dNumber, day, flag);
-						} else {
-							setContentView(R.layout.main);
-							initMain(0);
-						}
-						
-					}
-				});
-
-			}
-		});
+		day_view_fifth.setOnClickListener(new DayViewListener(dNumber, 4, flag, day) );
 	}
 
 	// просто выводит диалоговое окно
 	void showAlert() {
+		
 		AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);                      
 	    dlgAlert.setTitle("Date errors"); 
 	    dlgAlert.setMessage("Some dates are equal"); 
@@ -1309,6 +777,8 @@ public class TermostatActivity extends Activity {
 	// проверяет весь день(2 режима) на совпадение
     boolean testDateForComparing(int day, int mode, int editNumber) {
 		
+    	if(true) return false;
+    	
 		Date d = timetable[day][mode][editNumber]; // получаем время
 		
 		for (int m = 0; m < 2; m++) {
@@ -1383,4 +853,147 @@ public class TermostatActivity extends Activity {
 		
 	}
 
+	class DaySwicher implements View.OnClickListener {
+		private boolean flag;
+		private int layoutId;
+		private int mainId;
+		private int textId;
+		private int dNumber;
+		private int initMainWith;
+		
+		DaySwicher(boolean f, int lId, int mId, int tId, int dNum, int init) {
+			flag = f;
+			layoutId = lId;
+			mainId = mId;
+			textId = tId;
+			dNumber = dNum;
+			initMainWith = init;
+		}
+		
+		public void onClick(View v) {
+
+			if (flag) {
+				setContentView(layoutId);
+				initLabels(dNumber, initMainWith);
+				TextView tv = (TextView) findViewById(textId);
+				tv.setText(weekString[dNumber]);
+				showTimeTableChange(dNumber, initMainWith, flag);
+			} else {
+				setContentView(mainId);
+				initMain(initMainWith);
+			}
+		}
+		
+	}
+	
+	class DayViewListener implements View.OnClickListener {
+		private int dNumber;
+		private int numberOfTheDay;
+		private boolean flag;
+		private int day;
+
+		public DayViewListener(int dNumber, int numberOfTheDay, boolean flag, int day) {
+			this.dNumber = dNumber;
+			this.numberOfTheDay = numberOfTheDay;
+			this.flag = flag;
+			this.day = day;
+		}
+		
+		public void onClick(View v) {
+			setContentView(R.layout.set_time);
+			TimePicker setTime = (TimePicker) findViewById(R.id.set_time_time_setter);
+			setTime.setIs24HourView(true);
+			setTime.setCurrentHour(timetable[dNumber][day][numberOfTheDay]
+					.getHours());
+			setTime.setCurrentMinute(timetable[dNumber][day][numberOfTheDay]
+					.getMinutes());
+			final Date tmpDate = new Date(0, 0, 0, setTime.getCurrentHour(),
+					setTime.getCurrentMinute(), 0);
+			setTime.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+
+				public void onTimeChanged(TimePicker view, int hourOfDay,
+						int minute) {
+					tmpDate.setHours(hourOfDay);
+					tmpDate.setMinutes(minute);
+				}
+			});
+
+			Button applyTime = (Button) findViewById(R.id.set_time_ok_button);
+			applyTime.setOnClickListener(new OnClickListener() {
+
+				public void onClick(View v) {
+					Date d = (Date) timetable[dNumber][day][numberOfTheDay]
+							.clone();
+					timetable[dNumber][day][numberOfTheDay].setHours(tmpDate
+							.getHours());
+					timetable[dNumber][day][numberOfTheDay].setMinutes(tmpDate
+							.getMinutes());
+
+					if (testDateForComparing(dNumber, day, numberOfTheDay)) {
+						showAlert();
+						timetable[dNumber][day][numberOfTheDay] = d;
+						setContentView(R.layout.main);
+						initMain(0);
+						return;
+					}
+
+					settingsEditor.putInt("hour" + dNumber + day
+							+ numberOfTheDay, tmpDate.getHours());
+					settingsEditor.putInt("minute" + dNumber + day
+							+ numberOfTheDay, tmpDate.getMinutes());
+					settingsEditor.apply();
+					if (flag) {
+						setContentView(R.layout.day_view);
+						initLabels(dNumber, day);
+						TextView tv = (TextView) findViewById(R.id.dayName);
+						tv.setText(weekString[dNumber]);
+						showTimeTableChange(dNumber, day, flag);
+
+					} else {
+						setContentView(R.layout.main);
+						initMain(0);
+					}
+
+				}
+			});
+		}
+	}
+
+	class DayButtonListener implements View.OnClickListener {
+		private int day;
+		private String dayName;
+		
+		public DayButtonListener(int day, String dayName) {
+			this.day = day;	
+			this.dayName = dayName;
+		}
+		
+		public void onClick(View v) {
+			setContentView(R.layout.day_view);
+			initLabels(day, 0);
+			TextView tv = (TextView) findViewById(R.id.dayName);
+			tv.setText(dayName);
+			showTimeTableChange(day, 0, true);
+			currentView = 2;
+		}
+	}
 }
+
+class Task { // микрозадание
+    public Task(boolean day, Date d) {
+        this.day = day;
+        this.d = (Date)d.clone();
+    }
+    
+    public boolean day;
+    public Date d;
+}
+
+class TaskComparator implements Comparator<Task>
+{
+	public int compare(Task x, Task y) {
+        return x.d.compareTo(y.d);
+    }
+}
+
+
