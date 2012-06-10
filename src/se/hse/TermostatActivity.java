@@ -133,23 +133,29 @@ public class TermostatActivity extends Activity {
 		}
 	};
 	
-	public List<Date> getListOfNextSwichers() {
+	private int getCurrentDay() {
+		Calendar c = Calendar.getInstance(); 
+	    return c.get(Calendar.DAY_OF_WEEK) - 1;
+	}
+	
+	public List<Task> getListOfNextSwichers() {
 	    Calendar c = Calendar.getInstance(); 
-	    final int Day = c.get(Calendar.DAY_OF_WEEK) - 2; // получаем день
+	    final int Day = getCurrentDay(); // получаем день
 
 	    Comparator<Task> comparator = new TaskComparator(); // сортировщик дат
 	    PriorityQueue<Task> queue = new PriorityQueue<Task>(10, comparator); 
 	    for (int m = 0; m < NUMBER_OF_MODS; m++) {
 	        for (int t = 0; t < NUMBER_OF_TIMES; t++) {
-	            queue.add(new Task( (m == 0) , timetable[Day][m][t]));
+	            if(timeAble[Day][m][t])
+	            	queue.add(new Task( (m == 0) , timetable[Day][m][t]));
 	        }
 	    }
 
-	    List<Date> list = new ArrayList<Date>();
+	    List<Task> list = new ArrayList<Task>();
 	    Date now = new Date(0, 0, 0, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), 0);
-	    while(queue.size() != 0 || list.size() != 3) {
+	    while(queue.size() != 0 && list.size() != 3) {
 	        Task t = queue.remove();
-	        if(now.before(t.d)) list.add( (Date)t.d.clone() );
+	        if(now.before(t.d)) list.add( (Task)t.copy() );
 	    }
 
 	    for(int i = list.size(); i < 3; i++) {
@@ -162,7 +168,7 @@ public class TermostatActivity extends Activity {
 	protected void checkCurrenMode() {
 		//updateUI();
 		Calendar c = Calendar.getInstance();
-		int day = c.get(Calendar.DAY_OF_WEEK) - 2;
+		int day = getCurrentDay();
 		int hour = c.get(Calendar.HOUR_OF_DAY);
 		int min = c.get(Calendar.MINUTE);
 		int sec = c.get(Calendar.SECOND);
@@ -202,143 +208,36 @@ public class TermostatActivity extends Activity {
 		}
 	}
 
-	private void changeTimeTablePic(LinearLayout ll) {
-		List<Date> list = getListOfNextSwichers();
-		
-		Date d1 = list.get(0);
-
-		if (d1 == null) {
-			ll.setVisibility(LinearLayout.GONE);
+	private void showOnePicOnTimeTable(LinearLayout layout, int imB1, int imB2, int textView, Task t) {
+		if (t == null) {
+			layout.setVisibility(LinearLayout.GONE);
 		} else {
-			ImageButton ib1m = (ImageButton) findViewById(R.id.main_view_first_image_moon);
-			ImageButton ib1s = (ImageButton) findViewById(R.id.main_view_first_image_sun);
-			TextView tw1 = (TextView) findViewById(R.id.main_view_first_time);
-			if (nextDay[0]) {
+			ImageButton ib1m = (ImageButton) findViewById(imB1);
+			ImageButton ib1s = (ImageButton) findViewById(imB2);
+			TextView tw1 = (TextView) findViewById(textView);
+			if (t.day) {
 				ib1s.setVisibility(ImageButton.VISIBLE);
 				ib1m.setVisibility(ImageButton.GONE);
 			} else {
 				ib1s.setVisibility(ImageButton.GONE);
 				ib1m.setVisibility(ImageButton.VISIBLE);
 			}
-			tw1.setText( showFormatter(d1.getHours(), d1.getMinutes()));
-		}
-
-		Date d2 = list.get(1);
-
-		ImageButton ib2m = (ImageButton) findViewById(R.id.main_view_second_image_moon);
-		ImageButton ib2s = (ImageButton) findViewById(R.id.main_view_second_image_sun);
-		TextView tw2 = (TextView) findViewById(R.id.main_view_second_time);
-		LinearLayout ll2 = (LinearLayout) findViewById(R.id.secondTT);
-		if (d2 == null) {
-			ll2.setVisibility(LinearLayout.GONE);
-		} else {
-			if (nextDay[0]) {
-				ib2s.setVisibility(ImageButton.VISIBLE);
-				ib2m.setVisibility(ImageButton.GONE);
-			} else {
-				ib2s.setVisibility(ImageButton.GONE);
-				ib2m.setVisibility(ImageButton.VISIBLE);
-			}
-			tw2.setText( showFormatter(d2.getHours(), d2.getMinutes()));
-		}
-
-		Date d3 = list.get(2);
-
-		ImageButton ib3m = (ImageButton) findViewById(R.id.main_view_third_image_moon);
-		ImageButton ib3s = (ImageButton) findViewById(R.id.main_view_third_image_sun);
-		TextView tw3 = (TextView) findViewById(R.id.main_view_third_time);
-		LinearLayout ll3 = (LinearLayout) findViewById(R.id.thirdTT);
-		if (d3 == null) {
-			ll3.setVisibility(LinearLayout.GONE);
-		} else {
-			if (nextDay[0]) {
-				ib3s.setVisibility(ImageButton.VISIBLE);
-				ib3m.setVisibility(ImageButton.INVISIBLE);
-			} else {
-				ib3s.setVisibility(ImageButton.INVISIBLE);
-				ib3m.setVisibility(ImageButton.VISIBLE);
-			}
-			tw3.setText( showFormatter(d3.getHours(), d3.getMinutes()));
+			tw1.setText( showFormatter(t.d.getHours(), t.d.getMinutes()));
 		}
 	}
-
-	private Date findNextTime() {
+	
+	private void changeTimeTablePic(LinearLayout ll) {
+		List<Task> list = getListOfNextSwichers();
 		
+		LinearLayout ll2 = (LinearLayout) findViewById(R.id.secondTT);
+		LinearLayout ll3 = (LinearLayout) findViewById(R.id.thirdTT);
 		
-		
-		
-		Date res = new Date();
-
-		Calendar c = Calendar.getInstance();
-		int day = c.get(Calendar.DAY_OF_WEEK) - 2;
-		int hour = c.get(Calendar.HOUR_OF_DAY);
-		int min = c.get(Calendar.MINUTE);
-		int sec = c.get(Calendar.SECOND);
-		int[] LastHour = new int[2];
-		int[] LastMin = new int[2];
-		int[] LastSec = new int[2];
-		boolean flagDay = false;
-		boolean flagNight = false;
-		for (int m = 0; m < NUMBER_OF_MODS; m++) {
-			for (int t = 0; t < NUMBER_OF_TIMES; t++) {
-				if (timeAble[day][m][t]) {
-					if (timetable[day][m][t].after(new Date(0, 0, 0, hour, min,
-							sec))) {
-						LastHour[m] = timetable[day][m][t].getHours();
-						LastMin[m] = timetable[day][m][t].getMinutes();
-						LastSec[m] = timetable[day][m][t].getSeconds();
-						if (m == 0) {
-							flagDay = true;
-						} else {
-							flagNight = true;
-						}
-						break;
-					}
-				} else {
-					continue;
-				}
-			}
-		}
-		if (flagDay) {
-			if (flagNight) {
-				// 0 - day, 1 - night
-				if ((new Date(0, 0, 0, LastHour[0], LastMin[0], LastSec[0]))
-						.before(new Date(0, 0, 0, LastHour[1], LastMin[1],
-								LastSec[1]))) {
-					nextNight[0] = false;
-					nextDay[0] = true;
-					res.setHours(LastHour[0]);
-					res.setMinutes(LastMin[0]);
-					res.setSeconds(LastSec[0]);
-				} else {
-					nextNight[0] = true;
-					nextDay[0] = false;
-					res.setHours(LastHour[1]);
-					res.setMinutes(LastMin[1]);
-					res.setSeconds(LastSec[1]);
-				}
-			} else {
-				nextNight[0] = false;
-				nextDay[0] = true;
-				res.setHours(LastHour[0]);
-				res.setMinutes(LastMin[0]);
-				res.setSeconds(LastSec[0]);
-			}
-		} else {
-			if (flagNight) {
-				nextNight[0] = true;
-				nextDay[0] = false;
-				res.setHours(LastHour[1]);
-				res.setMinutes(LastMin[1]);
-				res.setSeconds(LastSec[1]);
-			} else {
-				nextNight[0] = false;
-				nextDay[0] = false;
-				return null;
-			}
-		}
-
-		return res;
+		showOnePicOnTimeTable(ll, R.id.main_view_first_image_moon, R.id.main_view_first_image_sun,
+				R.id.main_view_first_time, list.get(0));
+		showOnePicOnTimeTable(ll2, R.id.main_view_second_image_moon, R.id.main_view_second_image_sun,
+				R.id.main_view_second_time, list.get(1));
+		showOnePicOnTimeTable(ll3, R.id.main_view_third_image_moon, R.id.main_view_third_image_sun,
+				R.id.main_view_third_time, list.get(2));
 	}
 
 	private void initMain(final int mode) {
@@ -363,7 +262,7 @@ public class TermostatActivity extends Activity {
 
 		// 24 часа кнопка
 		Calendar c = Calendar.getInstance();
-		int day = c.get(Calendar.DAY_OF_WEEK) - 2;
+		int day = getCurrentDay();
 		showTimeTableChange(day, mode, false);
 		initLabels(day, mode);
 	}
@@ -704,7 +603,7 @@ public class TermostatActivity extends Activity {
 				if (tabId == "24h") {
 					currentView = 3;
 					Calendar c = Calendar.getInstance();
-					int day = c.get(Calendar.DAY_OF_WEEK) - 2;
+					int day = getCurrentDay();
 					showTimeTableChange(day, mode, false);
 					initLabels(day, mode);
 				}
@@ -979,10 +878,15 @@ public class TermostatActivity extends Activity {
 	}
 }
 
-class Task { // микрозадание
+class Task { 
     public Task(boolean day, Date d) {
         this.day = day;
         this.d = (Date)d.clone();
+    }
+    
+    
+    Task copy() {
+    	return new Task(day, d);
     }
     
     public boolean day;
