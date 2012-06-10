@@ -115,7 +115,12 @@ public class TermostatActivity extends Activity {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (currentView != 0) {
 				setContentView(R.layout.main);
-				if (currentView == 3){
+//				if (currentView == 3) {
+//					initMain(currDayNightLastTab);
+//					currentView = 0;
+//					return true;
+//				}
+				if (currentView == 4) {
 					initMain(currDayNightLastTab);
 					currentView = 3;
 					return true;
@@ -123,7 +128,7 @@ public class TermostatActivity extends Activity {
 				if (currentView != 2) {
 					currentView = 0;
 				}
-				
+
 				tmpVac = vacation;
 				tmpTemp = currTemperature;
 				initMain(0);
@@ -219,14 +224,14 @@ public class TermostatActivity extends Activity {
 			settingsEditor.apply();
 			// updateUI();
 		}
-		if(hour == 0 && min == 0) {
+		if (hour == 0 && min == 0) {
 			night = true;
 			settingsEditor.putBoolean("night", true);
 			currTemperature = nightTemperature;
 			settingsEditor.putFloat("currTemperature", currTemperature);
 			settingsEditor.apply();
 		}
-		//currTemperature = yy;
+		// currTemperature = yy;
 		yy++;
 	}
 
@@ -324,7 +329,7 @@ public class TermostatActivity extends Activity {
 
 				final NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
 				final NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
-				np1.setMaxValue(40);
+				np1.setMaxValue(30);
 				np1.setMinValue(5);
 				np1.setValue((int) dayTemperature);
 				np2.setValue((int) (dayTemperature * 10 % 10));
@@ -334,7 +339,7 @@ public class TermostatActivity extends Activity {
 					public void onValueChange(NumberPicker picker, int oldVal,
 							int newVal) {
 						tmpTemp = newVal + tmpTemp * 10 % 10 * 0.1f;
-						if (newVal == 40) {
+						if (newVal == 30) {
 							np2.setEnabled(false);
 							float tmp = 0.0f;
 							tmpTemp = (int) tmpTemp + tmp;
@@ -351,7 +356,8 @@ public class TermostatActivity extends Activity {
 
 				np2.setMaxValue(9);
 				np2.setMinValue(0);
-				if (np1.getValue() == 40) {
+				np2.setValue((int) dayTemperature * 10 % 10);
+				if (np1.getValue() == 30) {
 					np2.setEnabled(false);
 					float tmp = 0.0f;
 					tmpTemp = (int) tmpTemp + tmp;
@@ -409,7 +415,7 @@ public class TermostatActivity extends Activity {
 
 				final NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
 				final NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
-				np1.setMaxValue(40);
+				np1.setMaxValue(30);
 				np1.setMinValue(5);
 				np1.setValue((int) nightTemperature);
 				np2.setValue((int) (nightTemperature * 10 % 10));
@@ -419,7 +425,7 @@ public class TermostatActivity extends Activity {
 					public void onValueChange(NumberPicker picker, int oldVal,
 							int newVal) {
 						tmpTemp = newVal + tmpTemp * 10 % 10 * 0.1f;
-						if (newVal == 40) {
+						if (newVal == 30) {
 							np2.setEnabled(false);
 							float tmp = 0.0f;
 							tmpTemp = (int) tmpTemp + tmp;
@@ -436,7 +442,8 @@ public class TermostatActivity extends Activity {
 
 				np2.setMaxValue(9);
 				np2.setMinValue(0);
-				if (np1.getValue() == 40) {
+				np2.setValue((int) nightTemperature * 10 % 10);
+				if (np1.getValue() == 30) {
 					np2.setEnabled(false);
 					float tmp = 0.0f;
 					tmpTemp = (int) tmpTemp + tmp;
@@ -490,7 +497,7 @@ public class TermostatActivity extends Activity {
 		checkCurrenMode();
 
 		if (currentView == 0) {
-			
+
 			setBigPic();
 			setGlangTemperature();
 		}
@@ -551,10 +558,10 @@ public class TermostatActivity extends Activity {
 						.setOnClickListener(new Button.OnClickListener() {
 
 							public void onClick(View v) {
-								if (tmpTemp != currTemperature){
+								if (tmpTemp != currTemperature) {
 									temporaryMode = (true != tmpVac);
 								} else {
-								    temporaryMode = false;
+									temporaryMode = false;
 								}
 								currTemperature = tmpTemp;
 								vacation = tmpVac;
@@ -562,29 +569,49 @@ public class TermostatActivity extends Activity {
 										currTemperature);
 								settingsEditor.putBoolean("vacation", vacation);
 								settingsEditor.apply();
-								
+
 								setContentView(R.layout.main);
 								currentView = 0;
 								initMain(0);
 							}
 						});
 
-				NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
-				np1.setMaxValue(40);
+				final NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
+				final NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
+				np1.setMaxValue(30);
 				np1.setMinValue(5);
-				np1.setValue((int) currTemperature);
+				np1.setValue((int) dayTemperature);
+				np2.setValue((int) (dayTemperature * 10 % 10));
+
 				np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
 					public void onValueChange(NumberPicker picker, int oldVal,
 							int newVal) {
 						tmpTemp = newVal + tmpTemp * 10 % 10 * 0.1f;
+						if (newVal == 30) {
+							np2.setEnabled(false);
+							float tmp = 0.0f;
+							tmpTemp = (int) tmpTemp + tmp;
+						} else {
+							np2.setEnabled(true);
+							np2.setMaxValue(9);
+							np2.setMinValue(0);
+							float tmp = 0.0f;
+							tmpTemp = (int) tmpTemp + tmp;
+						}
 					}
+
 				});
 
-				NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
 				np2.setMaxValue(9);
 				np2.setMinValue(0);
-				np2.setValue((int) (currTemperature * 10 % 10));
+				np2.setValue((int) currTemperature * 10 % 10);
+				if (np1.getValue() == 30) {
+					np2.setEnabled(false);
+					float tmp = 0.0f;
+					tmpTemp = (int) tmpTemp + tmp;
+				}
+
 				np2.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
 					public void onValueChange(NumberPicker picker, int oldVal,
@@ -592,6 +619,7 @@ public class TermostatActivity extends Activity {
 						float tmp = newVal * 0.1f;
 						tmpTemp = (int) tmpTemp + tmp;
 					}
+
 				});
 
 				CheckBox cb = (CheckBox) findViewById(R.id.set_temperature_vacation_button);
@@ -649,7 +677,7 @@ public class TermostatActivity extends Activity {
 	}
 
 	private void setTabs(final int mode) {
-		/*TabHost*/ tabHost = (TabHost) findViewById(R.id.tabhost);
+		/* TabHost */tabHost = (TabHost) findViewById(R.id.tabhost);
 		tabHost.setup();
 
 		spec1 = tabHost.newTabSpec("Main");
@@ -682,20 +710,30 @@ public class TermostatActivity extends Activity {
 					showTimeTableChange(day, mode, false);
 					initLabels(day, mode);
 				}
+				if (tabId == "Main"){
+					updateUI();
+				}
 			}
 		});
 
 		if (currentView == 2) {
 			tabHost.setCurrentTab(2);
 			currentView = 0;
-		}
-		if (currentView == 3) {
-			tabHost.setCurrentTab(3);
-			currentView = 3;
-		}
-		if (currentView == 1) {
-			tabHost.setCurrentTab(1);
-			currentView = 0;
+		} else {
+			if (currentView == 3) {
+				tabHost.setCurrentTab(3);
+				currentView = 0;
+			} else {
+				if (currentView == 1) {
+					tabHost.setCurrentTab(1);
+					currentView = 0;
+				} else {
+					if (currentView == 4) {
+						tabHost.setCurrentTab(3);
+						currentView = 0;
+					}
+				}
+			}
 		}
 		setContentView(tabHost);
 	}
@@ -706,7 +744,7 @@ public class TermostatActivity extends Activity {
 		boolSwitchersActivated(dNumber, day, flag);
 
 		currDayNightLastTab = day;
-		
+
 		TextView tv = (TextView) findViewById(R.id.dayName);
 		tv.setText(weekString[dNumber]);
 
@@ -866,6 +904,7 @@ public class TermostatActivity extends Activity {
 			textId = tId;
 			dNumber = dNum;
 			initMainWith = init;
+			currentView = 3;
 		}
 
 		public void onClick(View v) {
@@ -898,6 +937,7 @@ public class TermostatActivity extends Activity {
 		}
 
 		public void onClick(View v) {
+			currentView = 4;
 			setContentView(R.layout.set_time);
 			TimePicker setTime = (TimePicker) findViewById(R.id.set_time_time_setter);
 			setTime.setIs24HourView(true);
@@ -935,6 +975,7 @@ public class TermostatActivity extends Activity {
 						return;
 					}
 
+					currentView = 3;
 					settingsEditor.putInt("hour" + dNumber + day
 							+ numberOfTheDay, tmpDate.getHours());
 					settingsEditor.putInt("minute" + dNumber + day
