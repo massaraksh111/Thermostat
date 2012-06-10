@@ -43,6 +43,7 @@ public class TermostatActivity extends Activity {
 	boolean night;
 	boolean vacation;
 	boolean tmpVac;
+	int currDayNightLastTab = 0;
 	Date[][][] timetable = new Date[NUMBER_OF_DAYS][NUMBER_OF_MODS][NUMBER_OF_TIMES];
 	boolean[][][] timeAble = new boolean[NUMBER_OF_DAYS][NUMBER_OF_MODS][NUMBER_OF_TIMES];
 	float currTemperature;
@@ -113,9 +114,15 @@ public class TermostatActivity extends Activity {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (currentView != 0) {
 				setContentView(R.layout.main);
+				if (currentView == 3){
+					initMain(currDayNightLastTab);
+					currentView = 3;
+					return true;
+				}
 				if (currentView != 2) {
 					currentView = 0;
 				}
+				
 				tmpVac = vacation;
 				tmpTemp = currTemperature;
 				initMain(0);
@@ -657,7 +664,6 @@ public class TermostatActivity extends Activity {
 			public void onTabChanged(String tabId) {
 				if (tabId == "24h") {
 					currentView = 3;
-					Calendar c = Calendar.getInstance();
 					int day = getCurrentDay();
 					showTimeTableChange(day, mode, false);
 					initLabels(day, mode);
@@ -685,6 +691,8 @@ public class TermostatActivity extends Activity {
 
 		boolSwitchersActivated(dNumber, day, flag);
 
+		currDayNightLastTab = day;
+		
 		TextView tv = (TextView) findViewById(R.id.dayName);
 		tv.setText(weekString[dNumber]);
 
@@ -909,7 +917,7 @@ public class TermostatActivity extends Activity {
 						showAlert();
 						timetable[dNumber][day][numberOfTheDay] = d;
 						setContentView(R.layout.main);
-						initMain(0);
+						initMain(day);
 						return;
 					}
 
@@ -927,7 +935,7 @@ public class TermostatActivity extends Activity {
 
 					} else {
 						setContentView(R.layout.main);
-						initMain(0);
+						initMain(day);
 					}
 
 				}
