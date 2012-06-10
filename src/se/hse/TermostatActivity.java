@@ -190,12 +190,12 @@ public class TermostatActivity extends Activity {
 		int min = c.get(Calendar.MINUTE);
 		Date now = new Date(0, 0, 0, hour, min);
 		Task first = nextThreeSwichers.get(0);
-		if( first != null && now.before(first.d) && !vacation ) {
+		if( first != null && !now.before(first.d) && !vacation ) {
 			night = !first.day; // ибо аки мудак думу над моделью программы думал
 			currTemperature = first.day ? dayTemperature : nightTemperature;
 			nextThreeSwichers = getListOfNextSwichers();
 		}
-		if(hour == 0 && min == 0) {
+		if(hour == 0 && min == 0 && !vacation) {
 			night = true;
 			settingsEditor.putBoolean("night", true);
 			currTemperature = nightTemperature;
