@@ -212,6 +212,13 @@ public class TermostatActivity extends Activity {
 			settingsEditor.apply();
 			// updateUI();
 		}
+		if(hour == 0 && min == 0) {
+			night = true;
+			settingsEditor.putBoolean("night", true);
+			currTemperature = nightTemperature;
+			settingsEditor.putFloat("currTemperature", currTemperature);
+			settingsEditor.apply();
+		}
 		currTemperature = yy;
 		yy++;
 	}
