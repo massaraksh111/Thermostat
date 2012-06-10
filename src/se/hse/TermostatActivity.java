@@ -190,7 +190,7 @@ public class TermostatActivity extends Activity {
 		int min = c.get(Calendar.MINUTE);
 		Date now = new Date(0, 0, 0, hour, min);
 		Task first = nextThreeSwichers.get(0);
-		if( first.d != null && now.before(first.d) && !vacation ) {
+		if( first != null && now.before(first.d) && !vacation ) {
 			night = !first.day; // ибо аки мудак думу над моделью программы думал
 			currTemperature = first.day ? dayTemperature : nightTemperature;
 			nextThreeSwichers = getListOfNextSwichers();
@@ -734,6 +734,7 @@ public class TermostatActivity extends Activity {
 					initLabels(day, mode);
 				}
 				if (tabId == "Main"){
+					currentView = 0;
 					updateUI();
 				}
 			}
