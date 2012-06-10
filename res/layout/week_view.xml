@@ -17,65 +17,68 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
         android:orientation="vertical" >
-        
+        
         <TextView
-            android:id="@+id/monday_button"
+            android:id="@+id/weekViewButton1"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="7dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Monday" />
-
+            android:text="Monday"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
         <TextView
-            android:id="@+id/tuesday_button"
+            android:id="@+id/weekViewButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="7dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_gravity="center_horizontal"
+            android:text="Tuesday"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/weekViewButton3"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="Tuesday" />
-        <TextView
-            android:id="@+id/wednesday_button"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="7dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_gravity="center_horizontal"
+            android:text="Wednesday"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/weekViewButton4"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="Wednesday" />
-
-        <TextView
-            android:id="@+id/thursday_button"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="7dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_gravity="center_horizontal"
+            android:text="Thursday"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/weekViewButton5"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="Thursday" />
-        <TextView
-            android:id="@+id/friday_button"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="7dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_gravity="center_horizontal"
+            android:text="Friday"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/weekViewButton6"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="Friday" />
-        <TextView
-            android:id="@+id/saturday_button"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="7dp"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="Saturday" />
-        
+            android:text="Saturday"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+        
         <TextView
-            android:id="@+id/sunday_button"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_gravity="center_horizontal"
+            android:id="@+id/weekViewButton7"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:text="Sunday" />
+            android:layout_gravity="center_horizontal"
+            android:text="Sunday"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
             
     </LinearLayout>
 
