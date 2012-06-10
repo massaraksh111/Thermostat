@@ -46,7 +46,6 @@ public final class R {
         public static final int day_view_third_button=0x7f05000e;
         public static final int day_view_third_edit=0x7f05000d;
         public static final int firstTT=0x7f05001d;
-        public static final int friday_button=0x7f050039;
         public static final int glagneMoon=0x7f050019;
         public static final int glagneSun=0x7f050018;
         public static final int glagneVacation=0x7f05001a;
@@ -60,8 +59,6 @@ public final class R {
         public static final int main_view_third_image_moon=0x7f050026;
         public static final int main_view_third_image_sun=0x7f050027;
         public static final int main_view_third_time=0x7f050028;
-        public static final int monday_button=0x7f050035;
-        public static final int saturday_button=0x7f05003a;
         public static final int secondTT=0x7f050021;
         public static final int setTempText=0x7f05002a;
         public static final int set_temperature=0x7f050029;
@@ -71,17 +68,20 @@ public final class R {
         public static final int set_time_label=0x7f050030;
         public static final int set_time_ok_button=0x7f050032;
         public static final int set_time_time_setter=0x7f050031;
-        public static final int sunday_button=0x7f05003b;
         public static final int tabhost=0x7f050015;
         public static final int temperature_big_setter=0x7f05002b;
         public static final int temperature_small_setter=0x7f05002c;
         public static final int textView1=0x7f050017;
         public static final int thermostat=0x7f050016;
         public static final int thirdTT=0x7f050025;
-        public static final int thursday_button=0x7f050038;
         public static final int timeTableLayOut=0x7f05001c;
-        public static final int tuesday_button=0x7f050036;
-        public static final int wednesday_button=0x7f050037;
+        public static final int weekViewButton1=0x7f050035;
+        public static final int weekViewButton2=0x7f050036;
+        public static final int weekViewButton3=0x7f050037;
+        public static final int weekViewButton4=0x7f050038;
+        public static final int weekViewButton5=0x7f050039;
+        public static final int weekViewButton6=0x7f05003a;
+        public static final int weekViewButton7=0x7f05003b;
         public static final int week_view=0x7f050033;
         public static final int week_view_label=0x7f050034;
     }

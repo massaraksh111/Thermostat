@@ -66,13 +66,13 @@ public class TermostatActivity extends Activity {
 
 		setContentView(R.layout.main);
 
-		weekString[0] = "Monday";
-		weekString[1] = "Tuesday";
-		weekString[2] = "Wednesday";
-		weekString[3] = "Thursday";
-		weekString[4] = "Friday";
-		weekString[5] = "Saturday";
-		weekString[6] = "Sunday";
+		weekString[Calendar.MONDAY - 1] = "Monday";
+		weekString[Calendar.TUESDAY - 1] = "Tuesday";
+		weekString[Calendar.WEDNESDAY - 1] = "Wednesday";
+		weekString[Calendar.THURSDAY - 1] = "Thursday";
+		weekString[Calendar.FRIDAY - 1] = "Friday";
+		weekString[Calendar.SATURDAY - 1] = "Saturday";
+		weekString[Calendar.SUNDAY - 1] = "Sunday";
 
 		settings = getPreferences(0);
 		settingsEditor = settings.edit();
@@ -87,7 +87,8 @@ public class TermostatActivity extends Activity {
 			for (int m = 0; m < NUMBER_OF_MODS; m++) {
 				for (int t = 0; t < NUMBER_OF_TIMES; t++) {
 					int hour, min, sec;
-					hour = settings.getInt("hour" + d + m + t, (m == 0 ? 9 : 10));
+					hour = settings.getInt("hour" + d + m + t,
+							(m == 0 ? 9 : 10));
 					min = settings.getInt("min" + +d + m + t, t);
 					sec = settings.getInt("sec" + +d + m + t, 0);
 					timeAble[d][m][t] = settings.getBoolean("timeAble" + +d + m
@@ -133,41 +134,43 @@ public class TermostatActivity extends Activity {
 			mHandler.postDelayed(this, 1 * 1000);
 		}
 	};
-	
+
 	private int getCurrentDay() {
-		Calendar c = Calendar.getInstance(); 
-	    return c.get(Calendar.DAY_OF_WEEK) - 1;
+		Calendar c = Calendar.getInstance();
+		return c.get(Calendar.DAY_OF_WEEK) - 1;
 	}
-	
+
 	public List<Task> getListOfNextSwichers() {
-	    Calendar c = Calendar.getInstance(); 
-	    final int Day = getCurrentDay(); // получаем день
+		Calendar c = Calendar.getInstance();
+		final int Day = getCurrentDay(); // получаем день
 
-	    Comparator<Task> comparator = new TaskComparator(); // сортировщик дат
-	    PriorityQueue<Task> queue = new PriorityQueue<Task>(10, comparator); 
-	    for (int m = 0; m < NUMBER_OF_MODS; m++) {
-	        for (int t = 0; t < NUMBER_OF_TIMES; t++) {
-	            if(timeAble[Day][m][t])
-	            	queue.add(new Task( (m == 0) , timetable[Day][m][t]));
-	        }
-	    }
+		Comparator<Task> comparator = new TaskComparator(); // сортировщик дат
+		PriorityQueue<Task> queue = new PriorityQueue<Task>(10, comparator);
+		for (int m = 0; m < NUMBER_OF_MODS; m++) {
+			for (int t = 0; t < NUMBER_OF_TIMES; t++) {
+				if (timeAble[Day][m][t])
+					queue.add(new Task((m == 0), timetable[Day][m][t]));
+			}
+		}
 
-	    List<Task> list = new ArrayList<Task>();
-	    Date now = new Date(0, 0, 0, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), 0);
-	    while(queue.size() != 0 && list.size() != 3) {
-	        Task t = queue.remove();
-	        if(now.before(t.d)) list.add( (Task)t.copy() );
-	    }
+		List<Task> list = new ArrayList<Task>();
+		Date now = new Date(0, 0, 0, c.get(Calendar.HOUR_OF_DAY),
+				c.get(Calendar.MINUTE), 0);
+		while (queue.size() != 0 && list.size() != 3) {
+			Task t = queue.remove();
+			if (now.before(t.d))
+				list.add((Task) t.copy());
+		}
 
-	    for(int i = list.size(); i < 3; i++) {
-	        list.add(null);
-	    }
+		for (int i = list.size(); i < 3; i++) {
+			list.add(null);
+		}
 
-	    return list;
+		return list;
 	}
-	
+
 	protected void checkCurrenMode() {
-		//updateUI();
+		// updateUI();
 		Calendar c = Calendar.getInstance();
 		int day = getCurrentDay();
 		int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -198,20 +201,19 @@ public class TermostatActivity extends Activity {
 			settingsEditor.putFloat("currTemperature", currTemperature);
 			settingsEditor.putBoolean("night", false);
 			settingsEditor.apply();
-			//updateUI();
+			// updateUI();
 		} else {
 			night = true;
 			settingsEditor.putBoolean("night", true);
 			currTemperature = nightTemperature;
 			settingsEditor.putFloat("currTemperature", currTemperature);
 			settingsEditor.apply();
-			//updateUI();
+			// updateUI();
 		}
-		currTemperature = yy;
-		yy++;
 	}
 
-	private void showOnePicOnTimeTable(LinearLayout layout, int imB1, int imB2, int textView, Task t) {
+	private void showOnePicOnTimeTable(LinearLayout layout, int imB1, int imB2,
+			int textView, Task t) {
 		if (t == null) {
 			layout.setVisibility(LinearLayout.GONE);
 		} else {
@@ -225,22 +227,25 @@ public class TermostatActivity extends Activity {
 				ib1s.setVisibility(ImageButton.GONE);
 				ib1m.setVisibility(ImageButton.VISIBLE);
 			}
-			tw1.setText( showFormatter(t.d.getHours(), t.d.getMinutes()));
+			tw1.setText(showFormatter(t.d.getHours(), t.d.getMinutes()));
 		}
 	}
-	
+
 	private void changeTimeTablePic(LinearLayout ll) {
 		List<Task> list = getListOfNextSwichers();
-		
+
 		LinearLayout ll2 = (LinearLayout) findViewById(R.id.secondTT);
 		LinearLayout ll3 = (LinearLayout) findViewById(R.id.thirdTT);
-		
-		showOnePicOnTimeTable(ll, R.id.main_view_first_image_moon, R.id.main_view_first_image_sun,
-				R.id.main_view_first_time, list.get(0));
-		showOnePicOnTimeTable(ll2, R.id.main_view_second_image_moon, R.id.main_view_second_image_sun,
-				R.id.main_view_second_time, list.get(1));
-		showOnePicOnTimeTable(ll3, R.id.main_view_third_image_moon, R.id.main_view_third_image_sun,
-				R.id.main_view_third_time, list.get(2));
+
+		showOnePicOnTimeTable(ll, R.id.main_view_first_image_moon,
+				R.id.main_view_first_image_sun, R.id.main_view_first_time,
+				list.get(0));
+		showOnePicOnTimeTable(ll2, R.id.main_view_second_image_moon,
+				R.id.main_view_second_image_sun, R.id.main_view_second_time,
+				list.get(1));
+		showOnePicOnTimeTable(ll3, R.id.main_view_third_image_moon,
+				R.id.main_view_third_image_sun, R.id.main_view_third_time,
+				list.get(2));
 	}
 
 	private void initMain(final int mode) {
@@ -263,7 +268,6 @@ public class TermostatActivity extends Activity {
 		dayTemperatureChange();
 
 		// 24 часа кнопка
-		Calendar c = Calendar.getInstance();
 		int day = getCurrentDay();
 		showTimeTableChange(day, mode, false);
 		initLabels(day, mode);
@@ -271,9 +275,9 @@ public class TermostatActivity extends Activity {
 
 	private void dayTemperatureChange() {
 		TextView modes_day_edit = (TextView) findViewById(R.id.day_night_mode_day_edit);
-		
+
 		modes_day_edit.setText(showTemp(dayTemperature) + "°C");
-		
+
 		modes_day_edit.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -300,22 +304,41 @@ public class TermostatActivity extends Activity {
 							}
 						});
 
-				NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
+				final NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
+				final NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
 				np1.setMaxValue(40);
 				np1.setMinValue(5);
 				np1.setValue((int) dayTemperature);
+				np2.setValue((int) (dayTemperature * 10 % 10));
+				
 				np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
 					public void onValueChange(NumberPicker picker, int oldVal,
 							int newVal) {
 						tmpTemp = newVal + tmpTemp * 10 % 10 * 0.1f;
+						if (newVal == 40) {
+							np2.setEnabled(false);
+							float tmp = 0.0f;
+							tmpTemp = (int) tmpTemp + tmp;
+						} else {
+							np2.setEnabled(true);
+							np2.setMaxValue(9);
+							np2.setMinValue(0);
+							float tmp = 0.0f;
+							tmpTemp = (int) tmpTemp + tmp;
+						}
 					}
+					
 				});
 
-				NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
 				np2.setMaxValue(9);
 				np2.setMinValue(0);
-				np2.setValue((int) (dayTemperature * 10 % 10));
+				if (np1.getValue() == 40) {
+					np2.setEnabled(false);
+					float tmp = 0.0f;
+					tmpTemp = (int) tmpTemp + tmp;
+				}
+				
 				np2.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
 					public void onValueChange(NumberPicker picker, int oldVal,
@@ -323,6 +346,7 @@ public class TermostatActivity extends Activity {
 						float tmp = newVal * 0.1f;
 						tmpTemp = (int) tmpTemp + tmp;
 					}
+					
 				});
 
 				CheckBox cb = (CheckBox) findViewById(R.id.set_temperature_vacation_button);
@@ -335,9 +359,9 @@ public class TermostatActivity extends Activity {
 
 	private void nightTemperatureChange() {
 		TextView modes_night_edit = (TextView) findViewById(R.id.day_night_mode_night_edit);
-		
+
 		modes_night_edit.setText(showTemp(nightTemperature) + "°C");
-		
+
 		modes_night_edit.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
@@ -362,24 +386,44 @@ public class TermostatActivity extends Activity {
 								currentView = 1;
 								initMain(0);
 							}
+							
 						});
 
-				NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
+				final NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
+				final NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
 				np1.setMaxValue(40);
 				np1.setMinValue(5);
 				np1.setValue((int) nightTemperature);
+				np2.setValue((int) (nightTemperature * 10 % 10));
+				
 				np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
 					public void onValueChange(NumberPicker picker, int oldVal,
 							int newVal) {
 						tmpTemp = newVal + tmpTemp * 10 % 10 * 0.1f;
+						if (newVal == 40) {
+							np2.setEnabled(false);
+							float tmp = 0.0f;
+							tmpTemp = (int) tmpTemp + tmp;
+						} else {
+							np2.setEnabled(true);
+							np2.setMaxValue(9);
+							np2.setMinValue(0);
+							float tmp = 0.0f;
+							tmpTemp = (int) tmpTemp + tmp;
+						}
 					}
+					
 				});
 
-				NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
 				np2.setMaxValue(9);
 				np2.setMinValue(0);
-				np2.setValue((int) (nightTemperature * 10 % 10));
+				if (np1.getValue() == 40) {
+					np2.setEnabled(false);
+					float tmp = 0.0f;
+					tmpTemp = (int) tmpTemp + tmp;
+				}
+				
 				np2.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
 					public void onValueChange(NumberPicker picker, int oldVal,
@@ -387,6 +431,7 @@ public class TermostatActivity extends Activity {
 						float tmp = newVal * 0.1f;
 						tmpTemp = (int) tmpTemp + tmp;
 					}
+					
 				});
 
 				CheckBox cb = (CheckBox) findViewById(R.id.set_temperature_vacation_button);
@@ -398,30 +443,22 @@ public class TermostatActivity extends Activity {
 	}
 
 	private void setDaysAction() {
-		
-		TextView mnd = (TextView) findViewById(R.id.monday_button);
-		mnd.setOnClickListener(new DayButtonListener(0, "Monday"));
 
-		TextView tue = (TextView) findViewById(R.id.tuesday_button);
-		tue.setOnClickListener(new DayButtonListener(1, "Tuesday"));
+		List<TextView> days = new ArrayList<TextView>();
+		days.add((TextView) findViewById(R.id.weekViewButton1));
+		days.add((TextView) findViewById(R.id.weekViewButton2));
+		days.add((TextView) findViewById(R.id.weekViewButton3));
+		days.add((TextView) findViewById(R.id.weekViewButton4));
+		days.add((TextView) findViewById(R.id.weekViewButton5));
+		days.add((TextView) findViewById(R.id.weekViewButton6));
+		days.add((TextView) findViewById(R.id.weekViewButton7));
 
-		TextView wen = (TextView) findViewById(R.id.wednesday_button);
-		wen.setOnClickListener(new DayButtonListener(2, "Wednesday"));
+		for (int i = 0; i < days.size(); i++) {
+			days.get(i).setText(weekString[i]);
+			days.get(i).setOnClickListener(new DayButtonListener(i, weekString[i]));
+		}
 
-		TextView thu = (TextView) findViewById(R.id.thursday_button);
-		thu.setOnClickListener(new DayButtonListener(3, "Thursday"));
-
-		TextView fri = (TextView) findViewById(R.id.friday_button);
-		fri.setOnClickListener(new DayButtonListener(4, "Friday"));
-
-		TextView sat = (TextView) findViewById(R.id.saturday_button);
-		sat.setOnClickListener(new DayButtonListener(5, "Saturday"));
-
-		TextView sun = (TextView) findViewById(R.id.sunday_button);
-		sun.setOnClickListener(new DayButtonListener(6, "Sunday"));
 	}
-
-	int yy = 0;
 	
 	private void setGlangTemperature() {
 		TextView mainTemp = (TextView) findViewById(R.id.main_view_temperature);
@@ -438,7 +475,7 @@ public class TermostatActivity extends Activity {
 			setGlangTemperature();
 		}
 	}
-	
+
 	private void setBigPic() {
 		ImageButton changeCurrTempB;
 		
@@ -611,7 +648,7 @@ public class TermostatActivity extends Activity {
 		tabHost.addTab(spec4);
 
 		tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-			
+
 			public void onTabChanged(String tabId) {
 				if (tabId == "24h") {
 					currentView = 3;
@@ -622,7 +659,7 @@ public class TermostatActivity extends Activity {
 				}
 			}
 		});
-		
+
 		if (currentView == 2) {
 			tabHost.setCurrentTab(2);
 			currentView = 0;
@@ -636,136 +673,159 @@ public class TermostatActivity extends Activity {
 			currentView = 0;
 		}
 		setContentView(tabHost);
-		
 	}
-	
-	private void showTimeTableChange(final int dNumber, final int day, final boolean flag) {
-		
+
+	private void showTimeTableChange(final int dNumber, final int day,
+			final boolean flag) {
+
 		boolSwitchersActivated(dNumber, day, flag);
-		
+
 		TextView tv = (TextView) findViewById(R.id.dayName);
 		tv.setText(weekString[dNumber]);
-		
+
 		ImageButton dayToNightSwitch = (ImageButton) findViewById(R.id.day_view_img_sun);
 		ImageButton nightToDaySwitch = (ImageButton) findViewById(R.id.day_view_img_moon);
-		
-		int dayVisibility   = day == 0 ? ImageButton.VISIBLE : ImageButton.GONE;
+
+		int dayVisibility = day == 0 ? ImageButton.VISIBLE : ImageButton.GONE;
 		int nightVisibility = day == 0 ? ImageButton.GONE : ImageButton.VISIBLE;
-		
+
 		dayToNightSwitch.setVisibility(dayVisibility);
 		nightToDaySwitch.setVisibility(nightVisibility);
 
-		dayToNightSwitch.setOnClickListener(new DaySwicher(flag, R.layout.day_view, R.layout.main, R.id.dayName, dNumber, 1));
-		nightToDaySwitch.setOnClickListener(new DaySwicher(flag, R.layout.day_view, R.layout.main, R.id.dayName, dNumber, 0));
-		
+		dayToNightSwitch.setOnClickListener(new DaySwicher(flag,
+				R.layout.day_view, R.layout.main, R.id.dayName, dNumber, 1));
+		nightToDaySwitch.setOnClickListener(new DaySwicher(flag,
+				R.layout.day_view, R.layout.main, R.id.dayName, dNumber, 0));
 
 		TextView day_view_first = (TextView) findViewById(R.id.day_view_first_edit);
-		day_view_first.setOnClickListener(new DayViewListener(dNumber, 0, flag, day) );
+		day_view_first.setOnClickListener(new DayViewListener(dNumber, 0, flag,
+				day));
 
 		TextView day_view_second = (TextView) findViewById(R.id.day_view_second_edit);
-		day_view_second.setOnClickListener(new DayViewListener(dNumber, 1, flag, day) );
-		
+		day_view_second.setOnClickListener(new DayViewListener(dNumber, 1,
+				flag, day));
+
 		TextView day_view_third = (TextView) findViewById(R.id.day_view_third_edit);
-		day_view_third.setOnClickListener(new DayViewListener(dNumber, 2, flag, day) );
+		day_view_third.setOnClickListener(new DayViewListener(dNumber, 2, flag,
+				day));
 
 		TextView day_view_fourth = (TextView) findViewById(R.id.day_view_fourth_edit);
-		day_view_fourth.setOnClickListener(new DayViewListener(dNumber, 3, flag, day) );
+		day_view_fourth.setOnClickListener(new DayViewListener(dNumber, 3,
+				flag, day));
 
 		TextView day_view_fifth = (TextView) findViewById(R.id.day_view_fifth_edit);
-		day_view_fifth.setOnClickListener(new DayViewListener(dNumber, 4, flag, day) );
+		day_view_fifth.setOnClickListener(new DayViewListener(dNumber, 4, flag,
+				day));
 	}
 
 	// просто выводит диалоговое окно
 	void showAlert() {
-		
-		AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);                      
-	    dlgAlert.setTitle("Date errors"); 
-	    dlgAlert.setMessage("Some dates are equal"); 
-	    dlgAlert.setPositiveButton("OK",new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int whichButton) { }
-	    });
-	    dlgAlert.create().show();
+
+		AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+		dlgAlert.setTitle("Date errors");
+		dlgAlert.setMessage("Some dates are equal");
+		dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+			}
+		});
+		dlgAlert.create().show();
 	}
-    
+
 	// проверяет весь день(2 режима) на совпадение
-    boolean testDateForComparing(int day, int mode, int editNumber) {
-		
-    	if(true) return false;
-    	
+	boolean testDateForComparing(int day, int mode, int editNumber) {
+
+		if (true)
+			return false;
+
 		Date d = timetable[day][mode][editNumber]; // получаем время
-		
+
 		for (int m = 0; m < 2; m++) {
-			for (int i = 0; i < NUMBER_OF_TIMES; i++) { // сравниваем всё время, за исключением его самого
-				if ( !(editNumber == i && mode == m)
+			for (int i = 0; i < NUMBER_OF_TIMES; i++) { // сравниваем всё время,
+														// за исключением его
+														// самого
+				if (!(editNumber == i && mode == m)
 						&& (d.compareTo(timetable[day][mode][i]) == 0)) {
-					return true; // нашли совпадение 
+					return true; // нашли совпадение
 				}
 
 			}
 		}
-		
+
 		return false;
 	}
+	
 
-	private void boolSwitchersActivated(final int dNumber, final int day, boolean flag) {
-		
+	private void boolSwitchersActivated(final int dNumber, final int day,
+			boolean flag) {
+
 		ToggleButton tb1 = (ToggleButton) findViewById(R.id.day_view_first_button);
 		tb1.setChecked(timeAble[dNumber][day][0]);
-		
+
 		tb1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
 				timeAble[dNumber][day][0] = isChecked;
-				settingsEditor.putBoolean("timeAble"+dNumber+day+"0", isChecked);
+				settingsEditor.putBoolean("timeAble" + dNumber + day + "0",
+						isChecked);
 				settingsEditor.apply();
 			}
 		});
-		
+
 		ToggleButton tb2 = (ToggleButton) findViewById(R.id.day_view_second_button);
 		tb2.setChecked(timeAble[dNumber][day][1]);
-		
+
 		tb2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
 				timeAble[dNumber][day][1] = isChecked;
-				settingsEditor.putBoolean("timeAble"+dNumber+day+"1", isChecked);
+				settingsEditor.putBoolean("timeAble" + dNumber + day + "1",
+						isChecked);
 				settingsEditor.apply();
 			}
 		});
-		
+
 		ToggleButton tb3 = (ToggleButton) findViewById(R.id.day_view_third_button);
 		tb3.setChecked(timeAble[dNumber][day][2]);
-		
+
 		tb3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
 				timeAble[dNumber][day][2] = isChecked;
-				settingsEditor.putBoolean("timeAble"+dNumber+day+"2", isChecked);
+				settingsEditor.putBoolean("timeAble" + dNumber + day + "2",
+						isChecked);
 				settingsEditor.apply();
 			}
 		});
-		
+
 		ToggleButton tb4 = (ToggleButton) findViewById(R.id.day_view_fourth_button);
 		tb4.setChecked(timeAble[dNumber][day][3]);
-		
+
 		tb4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
 				timeAble[dNumber][day][3] = isChecked;
-				settingsEditor.putBoolean("timeAble"+dNumber+day+"3", isChecked);
+				settingsEditor.putBoolean("timeAble" + dNumber + day + "3",
+						isChecked);
 				settingsEditor.apply();
 			}
 		});
-		
+
 		ToggleButton tb5 = (ToggleButton) findViewById(R.id.day_view_fifth_button);
 		tb5.setChecked(timeAble[dNumber][day][4]);
-		
+
 		tb5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
 				timeAble[dNumber][day][4] = isChecked;
-				settingsEditor.putBoolean("timeAble"+dNumber+day+"4", isChecked);
+				settingsEditor.putBoolean("timeAble" + dNumber + day + "4",
+						isChecked);
 				settingsEditor.apply();
 			}
 		});
-		
+
 	}
 
+	
 	class DaySwicher implements View.OnClickListener {
 		private boolean flag;
 		private int layoutId;
@@ -773,7 +833,7 @@ public class TermostatActivity extends Activity {
 		private int textId;
 		private int dNumber;
 		private int initMainWith;
-		
+
 		DaySwicher(boolean f, int lId, int mId, int tId, int dNum, int init) {
 			flag = f;
 			layoutId = lId;
@@ -782,7 +842,7 @@ public class TermostatActivity extends Activity {
 			dNumber = dNum;
 			initMainWith = init;
 		}
-		
+
 		public void onClick(View v) {
 
 			if (flag) {
@@ -796,22 +856,23 @@ public class TermostatActivity extends Activity {
 				initMain(initMainWith);
 			}
 		}
-		
+
 	}
-	
+
 	class DayViewListener implements View.OnClickListener {
 		private int dNumber;
 		private int numberOfTheDay;
 		private boolean flag;
 		private int day;
 
-		public DayViewListener(int dNumber, int numberOfTheDay, boolean flag, int day) {
+		public DayViewListener(int dNumber, int numberOfTheDay, boolean flag,
+				int day) {
 			this.dNumber = dNumber;
 			this.numberOfTheDay = numberOfTheDay;
 			this.flag = flag;
 			this.day = day;
 		}
-		
+
 		public void onClick(View v) {
 			setContentView(R.layout.set_time);
 			TimePicker setTime = (TimePicker) findViewById(R.id.set_time_time_setter);
@@ -875,12 +936,12 @@ public class TermostatActivity extends Activity {
 	class DayButtonListener implements View.OnClickListener {
 		private int day;
 		private String dayName;
-		
+
 		public DayButtonListener(int day, String dayName) {
-			this.day = day;	
+			this.day = day;
 			this.dayName = dayName;
 		}
-		
+
 		public void onClick(View v) {
 			setContentView(R.layout.day_view);
 			initLabels(day, 0);
@@ -892,26 +953,22 @@ public class TermostatActivity extends Activity {
 	}
 }
 
-class Task { 
-    public Task(boolean day, Date d) {
-        this.day = day;
-        this.d = (Date)d.clone();
-    }
-    
-    
-    Task copy() {
-    	return new Task(day, d);
-    }
-    
-    public boolean day;
-    public Date d;
+class Task {
+	public Task(boolean day, Date d) {
+		this.day = day;
+		this.d = (Date) d.clone();
+	}
+
+	Task copy() {
+		return new Task(day, d);
+	}
+
+	public boolean day;
+	public Date d;
 }
 
-class TaskComparator implements Comparator<Task>
-{
+class TaskComparator implements Comparator<Task> {
 	public int compare(Task x, Task y) {
-        return x.d.compareTo(y.d);
-    }
+		return x.d.compareTo(y.d);
+	}
 }
-
-
