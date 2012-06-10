@@ -521,8 +521,9 @@ public class TermostatActivity extends Activity {
 
 		if (currentView == 0) {
 
-			setBigPic();
-			setGlangTemperature();
+			setContentView(R.layout.main);
+			currentView = 0;
+			initMain(currDayNightLastTab);
 		}
 	}
 
@@ -752,7 +753,7 @@ public class TermostatActivity extends Activity {
 		} else {
 			if (currentView == 3) {
 				tabHost.setCurrentTab(3);
-				currentView = 0;
+				currentView = 3;
 			} else {
 				if (currentView == 1) {
 					tabHost.setCurrentTab(1);
@@ -760,7 +761,7 @@ public class TermostatActivity extends Activity {
 				} else {
 					if (currentView == 4) {
 						tabHost.setCurrentTab(3);
-						currentView = 0;
+						currentView = 4;
 					}
 				}
 			}
