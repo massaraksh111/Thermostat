@@ -165,7 +165,8 @@ public class TermostatActivity extends Activity {
 		}
 
 		List<Task> list = new ArrayList<Task>();
-		Date now = new Date(0, 0, 0, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE));
+		Date now = new Date(0, 0, 0, c.get(Calendar.HOUR_OF_DAY),
+				c.get(Calendar.MINUTE));
 		while (queue.size() != 0 && list.size() != 3) {
 			Task t = queue.remove();
 			if (now.before(t.d))
@@ -185,12 +186,13 @@ public class TermostatActivity extends Activity {
 		int min = c.get(Calendar.MINUTE);
 		Date now = new Date(0, 0, 0, hour, min);
 		Task first = nextThreeSwichers.get(0);
-		if( first != null && !now.before(first.d) && !vacation ) {
-			night = !first.day; // ибо аки мудак думу над моделью программы думал
+		if (first != null && !now.before(first.d) && !vacation) {
+			night = !first.day; // ибо аки мудак думу над моделью программы
+								// думал
 			currTemperature = first.day ? dayTemperature : nightTemperature;
 			nextThreeSwichers = getListOfNextSwichers();
 		}
-		if(hour == 0 && min == 0 && !vacation) {
+		if (hour == 0 && min == 0 && !vacation) {
 			night = true;
 			settingsEditor.putBoolean("night", true);
 			currTemperature = nightTemperature;
@@ -298,8 +300,13 @@ public class TermostatActivity extends Activity {
 				final NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
 				np1.setMaxValue(29);
 				np1.setMinValue(5);
-				np1.setValue((int) dayTemperature);
-				np2.setValue((int) (dayTemperature * 10 % 10));
+				float dt = dayTemperature;
+				np1.setValue((int) dt);
+
+				np2.setMaxValue(9);
+				np2.setMinValue(0);
+				int dt2 = (int) (dt * 10) % 10;
+				np2.setValue(dt2);
 
 				np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
@@ -321,9 +328,6 @@ public class TermostatActivity extends Activity {
 
 				});
 
-				np2.setMaxValue(9);
-				np2.setMinValue(0);
-				np2.setValue((int) dayTemperature * 10 % 10);
 				if (np1.getValue() == 30) {
 					np2.setEnabled(false);
 					float tmp = 0.0f;
@@ -384,8 +388,15 @@ public class TermostatActivity extends Activity {
 				final NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
 				np1.setMaxValue(30);
 				np1.setMinValue(5);
-				np1.setValue((int) nightTemperature);
-				np2.setValue((int) (nightTemperature * 10 % 10));
+
+				float nt = nightTemperature;
+				int nt2 = (int) (nt * 10) % 10;
+
+				np1.setValue((int) nt);
+
+				np2.setMaxValue(9);
+				np2.setMinValue(0);
+				np2.setValue(nt2);
 
 				np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
@@ -407,9 +418,6 @@ public class TermostatActivity extends Activity {
 
 				});
 
-				np2.setMaxValue(9);
-				np2.setMinValue(0);
-				np2.setValue((int) nightTemperature * 10 % 10);
 				if (np1.getValue() == 30) {
 					np2.setEnabled(false);
 					float tmp = 0.0f;
@@ -548,8 +556,14 @@ public class TermostatActivity extends Activity {
 				final NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
 				np1.setMaxValue(30);
 				np1.setMinValue(5);
-				np1.setValue((int) dayTemperature);
-				np2.setValue((int) (dayTemperature * 10 % 10));
+				np2.setMaxValue(9);
+				np2.setMinValue(0);
+
+				float tt = currTemperature;
+				int tt1 = (int) (tt * 10) % 10;
+
+				np1.setValue((int) tt);
+				np2.setValue(tt1);
 
 				np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
@@ -571,9 +585,8 @@ public class TermostatActivity extends Activity {
 
 				});
 
-				np2.setMaxValue(9);
-				np2.setMinValue(0);
-				np2.setValue((int) currTemperature * 10 % 10);
+				
+				
 				if (np1.getValue() == 30) {
 					np2.setEnabled(false);
 					float tmp = 0.0f;
@@ -678,14 +691,14 @@ public class TermostatActivity extends Activity {
 					showTimeTableChange(day, mode, false);
 					initLabels(day, mode);
 				}
-				if (tabId == "Main"){
+				if (tabId == "Main") {
 					currentView = 0;
 					updateUI();
 				}
-				if (tabId == "Day night"){
+				if (tabId == "Day night") {
 					currentView = 3;
 				}
-				if (tabId == "7 days"){
+				if (tabId == "7 days") {
 					currentView = 3;
 				}
 			}
@@ -701,7 +714,7 @@ public class TermostatActivity extends Activity {
 			} else {
 				if (currentView == 1) {
 					tabHost.setCurrentTab(1);
-					currentView = 0;
+					currentView = 1;
 				} else {
 					if (currentView == 4) {
 						tabHost.setCurrentTab(3);
@@ -733,9 +746,9 @@ public class TermostatActivity extends Activity {
 		nightToDaySwitch.setVisibility(nightVisibility);
 
 		dayToNightSwitch.setOnClickListener(new DaySwicher(flag,
-				R.layout.day_view, R.layout.main, R.id.dayName, dNumber, 0));
-		nightToDaySwitch.setOnClickListener(new DaySwicher(flag,
 				R.layout.day_view, R.layout.main, R.id.dayName, dNumber, 1));
+		nightToDaySwitch.setOnClickListener(new DaySwicher(flag,
+				R.layout.day_view, R.layout.main, R.id.dayName, dNumber, 0));
 
 		TextView day_view_first = (TextView) findViewById(R.id.day_view_first_edit);
 		day_view_first.setOnClickListener(new DayViewListener(dNumber, 0, flag,
@@ -775,18 +788,20 @@ public class TermostatActivity extends Activity {
 	boolean testDateForComparing(int day, int mode, int editNumber) {
 		Date d = timetable[day][mode][editNumber]; // получаем время
 
+		int numb = 0;
 		for (int m = 0; m < 2; m++) {
 			for (int i = 0; i < NUMBER_OF_TIMES; i++) { // сравниваем всё время,
 														// за исключением его
 														// самого
-				if (!(editNumber == i && mode == m)
-						&& (d.compareTo(timetable[day][mode][i]) == 0)) {
-					return true; // нашли совпадение
+				if (d.compareTo(timetable[day][m][i]) == 0) {
+					numb++;
 				}
 
 			}
 		}
 
+		Log.d("test equals", numb + "");
+		if(numb != 1) return true;
 		return false;
 	}
 
