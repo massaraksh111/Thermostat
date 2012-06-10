@@ -117,11 +117,11 @@ public class TermostatActivity extends Activity {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (currentView != 0) {
 				setContentView(R.layout.main);
-//				if (currentView == 3) {
-//					initMain(currDayNightLastTab);
-//					currentView = 0;
-//					return true;
-//				}
+				// if (currentView == 3) {
+				// initMain(currDayNightLastTab);
+				// currentView = 0;
+				// return true;
+				// }
 				if (currentView == 4) {
 					initMain(currDayNightLastTab);
 					currentView = 3;
@@ -170,7 +170,8 @@ public class TermostatActivity extends Activity {
 		}
 
 		List<Task> list = new ArrayList<Task>();
-		Date now = new Date(0, 0, 0, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE));
+		Date now = new Date(0, 0, 0, c.get(Calendar.HOUR_OF_DAY),
+				c.get(Calendar.MINUTE));
 		while (queue.size() != 0 && list.size() != 3) {
 			Task t = queue.remove();
 			if (now.before(t.d))
@@ -190,12 +191,13 @@ public class TermostatActivity extends Activity {
 		int min = c.get(Calendar.MINUTE);
 		Date now = new Date(0, 0, 0, hour, min);
 		Task first = nextThreeSwichers.get(0);
-		if( first != null && !now.before(first.d) && !vacation ) {
-			night = !first.day; // ибо аки мудак думу над моделью программы думал
+		if (first != null && !now.before(first.d) && !vacation) {
+			night = !first.day; // ибо аки мудак думу над моделью программы
+								// думал
 			currTemperature = first.day ? dayTemperature : nightTemperature;
 			nextThreeSwichers = getListOfNextSwichers();
 		}
-		if(hour == 0 && min == 0 && !vacation) {
+		if (hour == 0 && min == 0 && !vacation) {
 			night = true;
 			settingsEditor.putBoolean("night", true);
 			currTemperature = nightTemperature;
@@ -205,55 +207,31 @@ public class TermostatActivity extends Activity {
 		settingsEditor.putBoolean("night", night);
 		settingsEditor.apply();
 		// updateUI();
-		/*Calendar c = Calendar.getInstance();
-		int day = getCurrentDay();
-		int hour = c.get(Calendar.HOUR_OF_DAY);
-		int min = c.get(Calendar.MINUTE);
-		int sec = c.get(Calendar.SECOND);
-		int[] LastHour = new int[2];
-		int[] LastMin = new int[2];
-		int[] LastSec = new int[2];
-		for (int m = 0; m < NUMBER_OF_MODS; m++) {
-			for (int t = 0; t < NUMBER_OF_TIMES; t++) {
-				if (timeAble[day][m][t]) {
-					if (timetable[day][m][t].before(new Date(0, 0, 0, hour,
-							min, sec))) {
-						LastHour[m] = timetable[day][m][t].getHours();
-						LastMin[m] = timetable[day][m][t].getMinutes();
-						LastSec[m] = timetable[day][m][t].getSeconds();
-					}
-				} else {
-					continue;
-				}
-			}
-		}
-		// 0 - day, 1 - night
-		if ((new Date(0, 0, 0, LastHour[0], LastMin[0], LastSec[0]))
-				.after(new Date(0, 0, 0, LastHour[1], LastMin[1], LastSec[1]))) {
-			night = false;
-			currTemperature = dayTemperature;
-			settingsEditor.putFloat("currTemperature", currTemperature);
-			settingsEditor.putBoolean("night", false);
-			settingsEditor.apply();
-			// updateUI();
-		} else {
-			night = true;
-			settingsEditor.putBoolean("night", true);
-			currTemperature = nightTemperature;
-			settingsEditor.putFloat("currTemperature", currTemperature);
-			settingsEditor.apply();
-			// updateUI();
-		}
-		if (hour == 0 && min == 0) {
-			night = true;
-			settingsEditor.putBoolean("night", true);
-			currTemperature = nightTemperature;
-			settingsEditor.putFloat("currTemperature", currTemperature);
-			settingsEditor.apply();
-		}
-<<<<<<< HEAD
-		//currTemperature = yy;
-		yy++;*/
+		/*
+		 * Calendar c = Calendar.getInstance(); int day = getCurrentDay(); int
+		 * hour = c.get(Calendar.HOUR_OF_DAY); int min = c.get(Calendar.MINUTE);
+		 * int sec = c.get(Calendar.SECOND); int[] LastHour = new int[2]; int[]
+		 * LastMin = new int[2]; int[] LastSec = new int[2]; for (int m = 0; m <
+		 * NUMBER_OF_MODS; m++) { for (int t = 0; t < NUMBER_OF_TIMES; t++) { if
+		 * (timeAble[day][m][t]) { if (timetable[day][m][t].before(new Date(0,
+		 * 0, 0, hour, min, sec))) { LastHour[m] =
+		 * timetable[day][m][t].getHours(); LastMin[m] =
+		 * timetable[day][m][t].getMinutes(); LastSec[m] =
+		 * timetable[day][m][t].getSeconds(); } } else { continue; } } } // 0 -
+		 * day, 1 - night if ((new Date(0, 0, 0, LastHour[0], LastMin[0],
+		 * LastSec[0])) .after(new Date(0, 0, 0, LastHour[1], LastMin[1],
+		 * LastSec[1]))) { night = false; currTemperature = dayTemperature;
+		 * settingsEditor.putFloat("currTemperature", currTemperature);
+		 * settingsEditor.putBoolean("night", false); settingsEditor.apply(); //
+		 * updateUI(); } else { night = true; settingsEditor.putBoolean("night",
+		 * true); currTemperature = nightTemperature;
+		 * settingsEditor.putFloat("currTemperature", currTemperature);
+		 * settingsEditor.apply(); // updateUI(); } if (hour == 0 && min == 0) {
+		 * night = true; settingsEditor.putBoolean("night", true);
+		 * currTemperature = nightTemperature;
+		 * settingsEditor.putFloat("currTemperature", currTemperature);
+		 * settingsEditor.apply(); } <<<<<<< HEAD //currTemperature = yy; yy++;
+		 */
 		// currTemperature = yy;
 	}
 
@@ -354,8 +332,13 @@ public class TermostatActivity extends Activity {
 				final NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
 				np1.setMaxValue(30);
 				np1.setMinValue(5);
-				np1.setValue((int) dayTemperature);
-				np2.setValue((int) (dayTemperature * 10 % 10));
+				float dt = dayTemperature;
+				np1.setValue((int) dt);
+
+				np2.setMaxValue(9);
+				np2.setMinValue(0);
+				int dt2 = (int) (dt * 10) % 10;
+				np2.setValue(dt2);
 
 				np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
@@ -377,9 +360,6 @@ public class TermostatActivity extends Activity {
 
 				});
 
-				np2.setMaxValue(9);
-				np2.setMinValue(0);
-				np2.setValue((int) dayTemperature * 10 % 10);
 				if (np1.getValue() == 30) {
 					np2.setEnabled(false);
 					float tmp = 0.0f;
@@ -440,8 +420,15 @@ public class TermostatActivity extends Activity {
 				final NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
 				np1.setMaxValue(30);
 				np1.setMinValue(5);
-				np1.setValue((int) nightTemperature);
-				np2.setValue((int) (nightTemperature * 10 % 10));
+
+				float nt = nightTemperature;
+				int nt2 = (int) (nt * 10) % 10;
+
+				np1.setValue((int) nt);
+
+				np2.setMaxValue(9);
+				np2.setMinValue(0);
+				np2.setValue(nt2);
 
 				np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
@@ -463,9 +450,6 @@ public class TermostatActivity extends Activity {
 
 				});
 
-				np2.setMaxValue(9);
-				np2.setMinValue(0);
-				np2.setValue((int) nightTemperature * 10 % 10);
 				if (np1.getValue() == 30) {
 					np2.setEnabled(false);
 					float tmp = 0.0f;
@@ -604,8 +588,14 @@ public class TermostatActivity extends Activity {
 				final NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
 				np1.setMaxValue(30);
 				np1.setMinValue(5);
-				np1.setValue((int) dayTemperature);
-				np2.setValue((int) (dayTemperature * 10 % 10));
+				np2.setMaxValue(9);
+				np2.setMinValue(0);
+
+				float tt = currTemperature;
+				int tt1 = (int) (tt * 10) % 10;
+
+				np1.setValue((int) tt);
+				np2.setValue(tt1);
 
 				np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
@@ -627,9 +617,8 @@ public class TermostatActivity extends Activity {
 
 				});
 
-				np2.setMaxValue(9);
-				np2.setMinValue(0);
-				np2.setValue((int) currTemperature * 10 % 10);
+				
+				
 				if (np1.getValue() == 30) {
 					np2.setEnabled(false);
 					float tmp = 0.0f;
@@ -734,14 +723,14 @@ public class TermostatActivity extends Activity {
 					showTimeTableChange(day, mode, false);
 					initLabels(day, mode);
 				}
-				if (tabId == "Main"){
+				if (tabId == "Main") {
 					currentView = 0;
 					updateUI();
 				}
-				if (tabId == "Day night"){
+				if (tabId == "Day night") {
 					currentView = 3;
 				}
-				if (tabId == "7 days"){
+				if (tabId == "7 days") {
 					currentView = 3;
 				}
 			}
@@ -757,7 +746,7 @@ public class TermostatActivity extends Activity {
 			} else {
 				if (currentView == 1) {
 					tabHost.setCurrentTab(1);
-					currentView = 0;
+					currentView = 1;
 				} else {
 					if (currentView == 4) {
 						tabHost.setCurrentTab(3);
