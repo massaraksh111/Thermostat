@@ -295,7 +295,7 @@ public class TermostatActivity extends Activity {
 				setContentView(R.layout.set_temperature);
 
 				TextView tv = (TextView) findViewById(R.id.setTempText);
-				tv.setText("Temporary Temperature");
+				tv.setText("Day Temperature");
 
 				// Кнопка аплая температуры
 				Button setTemperatureAppl = (Button) findViewById(R.id.set_temperature_apply_button);
@@ -379,7 +379,7 @@ public class TermostatActivity extends Activity {
 				setContentView(R.layout.set_temperature);
 
 				TextView tv = (TextView) findViewById(R.id.setTempText);
-				tv.setText("Temporary Temperature");
+				tv.setText("Night Temperature");
 
 				// Кнопка аплая температуры
 				Button setTemperatureAppl = (Button) findViewById(R.id.set_temperature_apply_button);
@@ -638,9 +638,9 @@ public class TermostatActivity extends Activity {
 		TabHost tabHost = (TabHost) findViewById(R.id.tabhost);
 		tabHost.setup();
 
-		spec1 = tabHost.newTabSpec("Termostat");
+		spec1 = tabHost.newTabSpec("Main");
 		spec1.setContent(R.id.thermostat);
-		spec1.setIndicator("Termostat");
+		spec1.setIndicator("Main");
 
 		spec2 = tabHost.newTabSpec("Day night");
 		spec2.setContent(R.id.day_night_mode);
@@ -866,7 +866,6 @@ public class TermostatActivity extends Activity {
 				initMain(initMainWith);
 			}
 		}
-
 	}
 
 	class DayViewListener implements View.OnClickListener {
