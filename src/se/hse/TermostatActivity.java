@@ -60,6 +60,7 @@ public class TermostatActivity extends Activity {
 	TabSpec spec4; // 24h
 	Timer timer;
 	String[] weekString = new String[7];
+	List<Task> nextThreeSwichers;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -99,6 +100,7 @@ public class TermostatActivity extends Activity {
 				}
 			}
 		}
+		nextThreeSwichers = getListOfNextSwichers();
 		checkCurrenMode();
 
 		initMain(0);
@@ -163,8 +165,7 @@ public class TermostatActivity extends Activity {
 		}
 
 		List<Task> list = new ArrayList<Task>();
-		Date now = new Date(0, 0, 0, c.get(Calendar.HOUR_OF_DAY),
-				c.get(Calendar.MINUTE), 0);
+		Date now = new Date(0, 0, 0, c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE));
 		while (queue.size() != 0 && list.size() != 3) {
 			Task t = queue.remove();
 			if (now.before(t.d))
@@ -179,8 +180,27 @@ public class TermostatActivity extends Activity {
 	}
 
 	protected void checkCurrenMode() {
-		// updateUI();
 		Calendar c = Calendar.getInstance();
+		int hour = c.get(Calendar.HOUR_OF_DAY);
+		int min = c.get(Calendar.MINUTE);
+		Date now = new Date(0, 0, 0, hour, min);
+		Task first = nextThreeSwichers.get(0);
+		if( first.d != null && now.before(first.d) && !vacation ) {
+			night = !first.day; // ибо аки мудак думу над моделью программы думал
+			currTemperature = first.day ? dayTemperature : nightTemperature;
+			nextThreeSwichers = getListOfNextSwichers();
+		}
+		if(hour == 0 && min == 0) {
+			night = true;
+			settingsEditor.putBoolean("night", true);
+			currTemperature = nightTemperature;
+			nextThreeSwichers = getListOfNextSwichers();
+		}
+		settingsEditor.putFloat("currTemperature", currTemperature);
+		settingsEditor.putBoolean("night", night);
+		settingsEditor.apply();
+		// updateUI();
+		/*Calendar c = Calendar.getInstance();
 		int day = getCurrentDay();
 		int hour = c.get(Calendar.HOUR_OF_DAY);
 		int min = c.get(Calendar.MINUTE);
@@ -227,7 +247,7 @@ public class TermostatActivity extends Activity {
 			settingsEditor.apply();
 		}
 		//currTemperature = yy;
-		yy++;
+		yy++;*/
 	}
 
 	private void showOnePicOnTimeTable(LinearLayout layout, int imB1, int imB2,
@@ -250,20 +270,21 @@ public class TermostatActivity extends Activity {
 	}
 
 	private void changeTimeTablePic(LinearLayout ll) {
-		List<Task> list = getListOfNextSwichers();
+		nextThreeSwichers = getListOfNextSwichers();
 
+		Log.d("size of nextThreeSwichers", nextThreeSwichers.size() + "");
 		LinearLayout ll2 = (LinearLayout) findViewById(R.id.secondTT);
 		LinearLayout ll3 = (LinearLayout) findViewById(R.id.thirdTT);
 
 		showOnePicOnTimeTable(ll, R.id.main_view_first_image_moon,
 				R.id.main_view_first_image_sun, R.id.main_view_first_time,
-				list.get(0));
+				nextThreeSwichers.get(0));
 		showOnePicOnTimeTable(ll2, R.id.main_view_second_image_moon,
 				R.id.main_view_second_image_sun, R.id.main_view_second_time,
-				list.get(1));
+				nextThreeSwichers.get(1));
 		showOnePicOnTimeTable(ll3, R.id.main_view_third_image_moon,
 				R.id.main_view_third_image_sun, R.id.main_view_third_time,
-				list.get(2));
+				nextThreeSwichers.get(2));
 	}
 
 	private void initMain(final int mode) {
