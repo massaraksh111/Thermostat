@@ -14,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -128,7 +129,7 @@ public class TermostatActivity extends Activity {
 	private Runnable timerTask = new Runnable() {
 		public void run() {
 			checkCurrenMode();
-
+			updateUI();
 			mHandler.postDelayed(this, 1 * 1000);
 		}
 	};
@@ -206,6 +207,8 @@ public class TermostatActivity extends Activity {
 			settingsEditor.apply();
 			//updateUI();
 		}
+		currTemperature = yy;
+		yy++;
 	}
 
 	private void showOnePicOnTimeTable(LinearLayout layout, int imB1, int imB2, int textView, Task t) {
@@ -251,8 +254,7 @@ public class TermostatActivity extends Activity {
 		setDaysAction();
 
 		// Вывод температуры на глагне
-		TextView mainTemp = (TextView) findViewById(R.id.main_view_temperature);
-		mainTemp.setText("" + showTemp(currTemperature) + "°C");
+		setGlangTemperature();
 
 		// Кнопка изменения ночной температуры
 		nightTemperatureChange();
@@ -419,15 +421,27 @@ public class TermostatActivity extends Activity {
 		sun.setOnClickListener(new DayButtonListener(6, "Sunday"));
 	}
 
+	int yy = 0;
+	
+	private void setGlangTemperature() {
+		TextView mainTemp = (TextView) findViewById(R.id.main_view_temperature);
+		mainTemp.setText("" + showTemp(currTemperature) + "°C");
+	}
+	
 	private void updateUI() {
-		if(tabHost.getCurrentTab() == 0 || tabHost.getCurrentTab() == 1) {
-			currentView = tabHost.getCurrentTab();
-			initMain(0);
+		Log.d("updateUI", "in updateUI()");
+		
+		checkCurrenMode();
+		
+		if(currentView == 0) { 
+			setBigPic();
+			setGlangTemperature();
 		}
 	}
 	
 	private void setBigPic() {
 		ImageButton changeCurrTempB;
+		
 		if (vacation) {
 			changeCurrTempB = (ImageButton) findViewById(R.id.glagneVacation);
 
@@ -573,9 +587,8 @@ public class TermostatActivity extends Activity {
 
 	private void setTabs(final int mode) {
 		TabHost tabHost = (TabHost) findViewById(R.id.tabhost);
-		tabHost = (TabHost) findViewById(R.id.tabhost);
 		tabHost.setup();
-
+		
 		spec1 = tabHost.newTabSpec("Termostat");
 		spec1.setContent(R.id.thermostat);
 		spec1.setIndicator("Termostat");
@@ -622,6 +635,7 @@ public class TermostatActivity extends Activity {
 			tabHost.setCurrentTab(1);
 			currentView = 0;
 		}
+		setContentView(tabHost);
 		
 	}
 	
