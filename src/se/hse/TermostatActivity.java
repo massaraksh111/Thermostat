@@ -117,11 +117,6 @@ public class TermostatActivity extends Activity {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (currentView != 0) {
 				setContentView(R.layout.main);
-//				if (currentView == 3) {
-//					initMain(currDayNightLastTab);
-//					currentView = 0;
-//					return true;
-//				}
 				if (currentView == 4) {
 					initMain(currDayNightLastTab);
 					currentView = 3;
@@ -204,57 +199,6 @@ public class TermostatActivity extends Activity {
 		settingsEditor.putFloat("currTemperature", currTemperature);
 		settingsEditor.putBoolean("night", night);
 		settingsEditor.apply();
-		// updateUI();
-		/*Calendar c = Calendar.getInstance();
-		int day = getCurrentDay();
-		int hour = c.get(Calendar.HOUR_OF_DAY);
-		int min = c.get(Calendar.MINUTE);
-		int sec = c.get(Calendar.SECOND);
-		int[] LastHour = new int[2];
-		int[] LastMin = new int[2];
-		int[] LastSec = new int[2];
-		for (int m = 0; m < NUMBER_OF_MODS; m++) {
-			for (int t = 0; t < NUMBER_OF_TIMES; t++) {
-				if (timeAble[day][m][t]) {
-					if (timetable[day][m][t].before(new Date(0, 0, 0, hour,
-							min, sec))) {
-						LastHour[m] = timetable[day][m][t].getHours();
-						LastMin[m] = timetable[day][m][t].getMinutes();
-						LastSec[m] = timetable[day][m][t].getSeconds();
-					}
-				} else {
-					continue;
-				}
-			}
-		}
-		// 0 - day, 1 - night
-		if ((new Date(0, 0, 0, LastHour[0], LastMin[0], LastSec[0]))
-				.after(new Date(0, 0, 0, LastHour[1], LastMin[1], LastSec[1]))) {
-			night = false;
-			currTemperature = dayTemperature;
-			settingsEditor.putFloat("currTemperature", currTemperature);
-			settingsEditor.putBoolean("night", false);
-			settingsEditor.apply();
-			// updateUI();
-		} else {
-			night = true;
-			settingsEditor.putBoolean("night", true);
-			currTemperature = nightTemperature;
-			settingsEditor.putFloat("currTemperature", currTemperature);
-			settingsEditor.apply();
-			// updateUI();
-		}
-		if (hour == 0 && min == 0) {
-			night = true;
-			settingsEditor.putBoolean("night", true);
-			currTemperature = nightTemperature;
-			settingsEditor.putFloat("currTemperature", currTemperature);
-			settingsEditor.apply();
-		}
-<<<<<<< HEAD
-		//currTemperature = yy;
-		yy++;*/
-		// currTemperature = yy;
 	}
 
 	private void showOnePicOnTimeTable(LinearLayout layout, int imB1, int imB2,
@@ -352,7 +296,7 @@ public class TermostatActivity extends Activity {
 
 				final NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
 				final NumberPicker np2 = (NumberPicker) findViewById(R.id.temperature_small_setter);
-				np1.setMaxValue(30);
+				np1.setMaxValue(29);
 				np1.setMinValue(5);
 				np1.setValue((int) dayTemperature);
 				np2.setValue((int) (dayTemperature * 10 % 10));
@@ -701,7 +645,7 @@ public class TermostatActivity extends Activity {
 	}
 
 	private void setTabs(final int mode) {
-		/* TabHost */tabHost = (TabHost) findViewById(R.id.tabhost);
+		tabHost = (TabHost) findViewById(R.id.tabhost);
 		tabHost.setup();
 
 		spec1 = tabHost.newTabSpec("Main");
@@ -789,9 +733,9 @@ public class TermostatActivity extends Activity {
 		nightToDaySwitch.setVisibility(nightVisibility);
 
 		dayToNightSwitch.setOnClickListener(new DaySwicher(flag,
-				R.layout.day_view, R.layout.main, R.id.dayName, dNumber, 1));
-		nightToDaySwitch.setOnClickListener(new DaySwicher(flag,
 				R.layout.day_view, R.layout.main, R.id.dayName, dNumber, 0));
+		nightToDaySwitch.setOnClickListener(new DaySwicher(flag,
+				R.layout.day_view, R.layout.main, R.id.dayName, dNumber, 1));
 
 		TextView day_view_first = (TextView) findViewById(R.id.day_view_first_edit);
 		day_view_first.setOnClickListener(new DayViewListener(dNumber, 0, flag,
@@ -829,10 +773,6 @@ public class TermostatActivity extends Activity {
 
 	// проверяет весь день(2 режима) на совпадение
 	boolean testDateForComparing(int day, int mode, int editNumber) {
-
-		if (true)
-			return false;
-
 		Date d = timetable[day][mode][editNumber]; // получаем время
 
 		for (int m = 0; m < 2; m++) {
