@@ -61,6 +61,7 @@ public class TermostatActivity extends Activity {
 	Timer timer;
 	String[] weekString = new String[7];
 	List<Task> nextThreeSwichers;
+	boolean swichOnMidNight;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -68,6 +69,7 @@ public class TermostatActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.main);
+		swichOnMidNight = true;
 
 		weekString[Calendar.MONDAY - 1] = "Monday";
 		weekString[Calendar.TUESDAY - 1] = "Tuesday";
@@ -109,8 +111,6 @@ public class TermostatActivity extends Activity {
 		mHandler.removeCallbacks(timerTask);
 		mHandler.postDelayed(timerTask, 100);
 	}
-
-	int yy;
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -192,11 +192,16 @@ public class TermostatActivity extends Activity {
 			currTemperature = first.day ? dayTemperature : nightTemperature;
 			nextThreeSwichers = getListOfNextSwichers();
 		}
-		if (hour == 0 && min == 0 && !vacation) {
-			night = true;
-			settingsEditor.putBoolean("night", true);
-			currTemperature = nightTemperature;
-			nextThreeSwichers = getListOfNextSwichers();
+		if (hour == 0 && min == 0) {
+			if (!vacation && swichOnMidNight) {
+				night = true;
+				settingsEditor.putBoolean("night", true);
+				currTemperature = nightTemperature;
+				nextThreeSwichers = getListOfNextSwichers();
+				swichOnMidNight = false;
+			}
+		} else {
+			swichOnMidNight = true;
 		}
 		settingsEditor.putFloat("currTemperature", currTemperature);
 		settingsEditor.putBoolean("night", night);
