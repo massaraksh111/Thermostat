@@ -737,6 +737,12 @@ public class TermostatActivity extends Activity {
 					currentView = 0;
 					updateUI();
 				}
+				if (tabId == "Day night"){
+					currentView = 3;
+				}
+				if (tabId == "7 days"){
+					currentView = 3;
+				}
 			}
 		});
 
@@ -928,11 +934,11 @@ public class TermostatActivity extends Activity {
 			textId = tId;
 			dNumber = dNum;
 			initMainWith = init;
-			currentView = 3;
 		}
 
 		public void onClick(View v) {
 
+			currentView = 3;
 			if (flag) {
 				setContentView(layoutId);
 				initLabels(dNumber, initMainWith);
