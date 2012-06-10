@@ -106,6 +106,8 @@ public class TermostatActivity extends Activity {
 		mHandler.postDelayed(timerTask, 100);
 	}
 
+	int yy;
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -210,6 +212,8 @@ public class TermostatActivity extends Activity {
 			settingsEditor.apply();
 			// updateUI();
 		}
+		currTemperature = yy;
+		yy++;
 	}
 
 	private void showOnePicOnTimeTable(LinearLayout layout, int imB1, int imB2,
@@ -310,7 +314,7 @@ public class TermostatActivity extends Activity {
 				np1.setMinValue(5);
 				np1.setValue((int) dayTemperature);
 				np2.setValue((int) (dayTemperature * 10 % 10));
-				
+
 				np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
 					public void onValueChange(NumberPicker picker, int oldVal,
@@ -328,7 +332,7 @@ public class TermostatActivity extends Activity {
 							tmpTemp = (int) tmpTemp + tmp;
 						}
 					}
-					
+
 				});
 
 				np2.setMaxValue(9);
@@ -338,7 +342,7 @@ public class TermostatActivity extends Activity {
 					float tmp = 0.0f;
 					tmpTemp = (int) tmpTemp + tmp;
 				}
-				
+
 				np2.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
 					public void onValueChange(NumberPicker picker, int oldVal,
@@ -346,7 +350,7 @@ public class TermostatActivity extends Activity {
 						float tmp = newVal * 0.1f;
 						tmpTemp = (int) tmpTemp + tmp;
 					}
-					
+
 				});
 
 				CheckBox cb = (CheckBox) findViewById(R.id.set_temperature_vacation_button);
@@ -386,7 +390,7 @@ public class TermostatActivity extends Activity {
 								currentView = 1;
 								initMain(0);
 							}
-							
+
 						});
 
 				final NumberPicker np1 = (NumberPicker) findViewById(R.id.temperature_big_setter);
@@ -395,7 +399,7 @@ public class TermostatActivity extends Activity {
 				np1.setMinValue(5);
 				np1.setValue((int) nightTemperature);
 				np2.setValue((int) (nightTemperature * 10 % 10));
-				
+
 				np1.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
 					public void onValueChange(NumberPicker picker, int oldVal,
@@ -413,7 +417,7 @@ public class TermostatActivity extends Activity {
 							tmpTemp = (int) tmpTemp + tmp;
 						}
 					}
-					
+
 				});
 
 				np2.setMaxValue(9);
@@ -423,7 +427,7 @@ public class TermostatActivity extends Activity {
 					float tmp = 0.0f;
 					tmpTemp = (int) tmpTemp + tmp;
 				}
-				
+
 				np2.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
 
 					public void onValueChange(NumberPicker picker, int oldVal,
@@ -431,7 +435,7 @@ public class TermostatActivity extends Activity {
 						float tmp = newVal * 0.1f;
 						tmpTemp = (int) tmpTemp + tmp;
 					}
-					
+
 				});
 
 				CheckBox cb = (CheckBox) findViewById(R.id.set_temperature_vacation_button);
@@ -455,22 +459,23 @@ public class TermostatActivity extends Activity {
 
 		for (int i = 0; i < days.size(); i++) {
 			days.get(i).setText(weekString[i]);
-			days.get(i).setOnClickListener(new DayButtonListener(i, weekString[i]));
+			days.get(i).setOnClickListener(
+					new DayButtonListener(i, weekString[i]));
 		}
 
 	}
-	
+
 	private void setGlangTemperature() {
 		TextView mainTemp = (TextView) findViewById(R.id.main_view_temperature);
 		mainTemp.setText("" + showTemp(currTemperature) + "°C");
 	}
-	
+
 	private void updateUI() {
 		Log.d("updateUI", "in updateUI()");
-		
+
 		checkCurrenMode();
-		
-		if(currentView == 0) { 
+
+		if (currentView == 0) {
 			setBigPic();
 			setGlangTemperature();
 		}
@@ -478,7 +483,7 @@ public class TermostatActivity extends Activity {
 
 	private void setBigPic() {
 		ImageButton changeCurrTempB;
-		
+
 		if (vacation) {
 			changeCurrTempB = (ImageButton) findViewById(R.id.glagneVacation);
 
@@ -625,7 +630,7 @@ public class TermostatActivity extends Activity {
 	private void setTabs(final int mode) {
 		TabHost tabHost = (TabHost) findViewById(R.id.tabhost);
 		tabHost.setup();
-		
+
 		spec1 = tabHost.newTabSpec("Termostat");
 		spec1.setContent(R.id.thermostat);
 		spec1.setIndicator("Termostat");
@@ -753,7 +758,6 @@ public class TermostatActivity extends Activity {
 
 		return false;
 	}
-	
 
 	private void boolSwitchersActivated(final int dNumber, final int day,
 			boolean flag) {
@@ -825,7 +829,6 @@ public class TermostatActivity extends Activity {
 
 	}
 
-	
 	class DaySwicher implements View.OnClickListener {
 		private boolean flag;
 		private int layoutId;
