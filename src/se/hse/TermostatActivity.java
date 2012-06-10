@@ -43,6 +43,7 @@ public class TermostatActivity extends Activity {
 	boolean night;
 	boolean vacation;
 	boolean tmpVac;
+	boolean temporaryMode;
 	int currDayNightLastTab = 0;
 	Date[][][] timetable = new Date[NUMBER_OF_DAYS][NUMBER_OF_MODS][NUMBER_OF_TIMES];
 	boolean[][][] timeAble = new boolean[NUMBER_OF_DAYS][NUMBER_OF_MODS][NUMBER_OF_TIMES];
@@ -138,7 +139,6 @@ public class TermostatActivity extends Activity {
 
 	private Runnable timerTask = new Runnable() {
 		public void run() {
-			checkCurrenMode();
 			updateUI();
 			mHandler.postDelayed(this, 1 * 1000);
 		}
@@ -149,7 +149,7 @@ public class TermostatActivity extends Activity {
 		return c.get(Calendar.DAY_OF_WEEK) - 1;
 	}
 
-	public List<Task> getListOfNextSwichers() {
+	protected List<Task> getListOfNextSwichers() {
 		Calendar c = Calendar.getInstance();
 		final int Day = getCurrentDay(); // получаем день
 
@@ -226,7 +226,7 @@ public class TermostatActivity extends Activity {
 			settingsEditor.putFloat("currTemperature", currTemperature);
 			settingsEditor.apply();
 		}
-		currTemperature = yy;
+		//currTemperature = yy;
 		yy++;
 	}
 
@@ -490,6 +490,7 @@ public class TermostatActivity extends Activity {
 		checkCurrenMode();
 
 		if (currentView == 0) {
+			
 			setBigPic();
 			setGlangTemperature();
 		}
@@ -550,12 +551,18 @@ public class TermostatActivity extends Activity {
 						.setOnClickListener(new Button.OnClickListener() {
 
 							public void onClick(View v) {
+								if (tmpTemp != currTemperature){
+									temporaryMode = (true != tmpVac);
+								} else {
+								    temporaryMode = false;
+								}
 								currTemperature = tmpTemp;
 								vacation = tmpVac;
 								settingsEditor.putFloat("currTemperature",
 										currTemperature);
 								settingsEditor.putBoolean("vacation", vacation);
 								settingsEditor.apply();
+								
 								setContentView(R.layout.main);
 								currentView = 0;
 								initMain(0);
@@ -642,7 +649,7 @@ public class TermostatActivity extends Activity {
 	}
 
 	private void setTabs(final int mode) {
-		TabHost tabHost = (TabHost) findViewById(R.id.tabhost);
+		/*TabHost*/ tabHost = (TabHost) findViewById(R.id.tabhost);
 		tabHost.setup();
 
 		spec1 = tabHost.newTabSpec("Main");
